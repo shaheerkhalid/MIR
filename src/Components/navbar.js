@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
       background: WHITE,
       color: BLACK,
   }
+  
 }));
 
 export default function PrimarySearchAppBar() {
