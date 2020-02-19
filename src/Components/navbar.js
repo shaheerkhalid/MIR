@@ -7,9 +7,16 @@ import Typography from '@material-ui/core/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import {BLACK , WHITE , RED } from '../Constants';
 import {List,ListItem} from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+
   grow: {
     flexGrow: 1,
   },
@@ -23,7 +30,7 @@ const useStyles = makeStyles(theme => ({
       background: WHITE,
       color: BLACK,
   }
-  
+
 }));
 
 export default function PrimarySearchAppBar() {
@@ -40,10 +47,18 @@ export default function PrimarySearchAppBar() {
           <Typography className={classes.title} variant="h4" noWrap style={{color: RED , fontWeight: 'bold'}}>
             MIRS
           </Typography>
-          <List style={flexContainer}>
+          <div className={classes.root}>
+            <Button>Contact Us</Button>
+            <Button>About Us</Button>
+            
+          </div>
+
+
+
+          {/* <List style={flexContainer}>
             <ListItem>Contact</ListItem>
             <ListItem>About</ListItem>
-          </List>
+          </List> */}
             {/* <Tabs aria-label="simple tabs example">
                 <Tab label="Post Instrument"/>
                 <Tab label="Contact"/>
@@ -51,6 +66,7 @@ export default function PrimarySearchAppBar() {
             </Tabs>  */}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+          <Button style={{alignItems: 'right', backgroundColor: RED, color: WHITE}}>Post Instrument</Button>
             <IconButton
               edge="end"
               aria-label="account of current user"
