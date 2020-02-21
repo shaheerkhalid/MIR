@@ -30,7 +30,8 @@ export default function Footer() {
             </Container>
             <Container maxWidth="xl" style={{backgroundColor: '#333333', padding: '20px 50px' , textAlign: 'center'}}>
                 <Typography style={{color: WHITE}}>
-                    MIR System - Copyrights
+                    Copyright © 2003 - 2019 On The Road (Pvt) Ltd. - All Rights Reserved.
+                    Reproduction of material from any MIR pages without permission is strictly prohibited.
                 </Typography>
             </Container>
         </React.Fragment>

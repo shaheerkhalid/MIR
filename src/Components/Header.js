@@ -9,7 +9,7 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import { WHITE } from '../Constants';
+import { RED } from '../Constants';
 
 export default function Header() {
     const useStyles = makeStyles(theme => ({
@@ -41,6 +41,9 @@ export default function Header() {
         },
         iconButton: {
             padding: 10,
+            '&:hover': {
+              color: RED,
+            }
         },
         divider: {
             height: 28,
