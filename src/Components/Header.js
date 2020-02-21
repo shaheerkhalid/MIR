@@ -23,18 +23,31 @@ export default function Header() {
             width: '100%',
         },
         container: {
-            marginTop: "49px",
-            backgroundImage: 'url(https://i.picsum.photos/id/599/1366/800.jpg)', 
-            height: 293,
+            backgroundImage: 'url(https://i.picsum.photos/id/599/1366/700.jpg)', 
+            height: 500,
             backgroundRepeat: 'no-repeat', 
             backgroundSize: '100%',
             textAlign: 'center',
             backgroundColor: 'black',
+            [theme.breakpoints.down("md")]: {
+              height: 400,
+            },
           [theme.breakpoints.down("sm")]: {
-            marginTop: "64px",
-            backgroundImage: 'url(https://i.picsum.photos/id/599/1366/600.jpg)',
-            height: 500,
-          }
+            height: 300,
+          },
+          [theme.breakpoints.down("xs")]: {
+            height: 250,
+          },
+        },
+        headertext: {
+            color : 'white',
+            fontSize : '50px',
+          [theme.breakpoints.down("md")]: {
+            fontSize : '40px',
+          },
+          [theme.breakpoints.down("sm")]: {
+            fontSize : '35px',
+          },
         },
         input: {
             marginLeft: theme.spacing(1),
@@ -52,8 +65,6 @@ export default function Header() {
         },
       }));
       const classes = useStyles();
-      
-
   return (
     <React.Fragment>
       <CssBaseline />
@@ -62,7 +73,7 @@ export default function Header() {
         <br></br>
         <Grid container spacing={3} justify="center" alignItems="center">
         <Grid item xs={12} sm={6}>
-            <Typography style={{color: 'white', fontSize: '8vh'}}>Discover Your Favourite Instruments</Typography>
+            <Typography className={classes.headertext}>Discover Your Favourite Instruments</Typography>
             <Paper component="form" className={classes.searchbar}>
                 <InputBase
                     className={classes.input}
