@@ -29,7 +29,8 @@ export default function Header() {
             backgroundRepeat: 'no-repeat', 
             backgroundSize: '100%',
             textAlign: 'center',
-          [theme.breakpoints.up("sm")]: {
+            backgroundColor: 'black',
+          [theme.breakpoints.down("sm")]: {
             marginTop: "64px",
             backgroundImage: 'url(https://i.picsum.photos/id/599/1366/600.jpg)',
             height: 500,
