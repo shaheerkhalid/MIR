@@ -6,12 +6,12 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 
 import Link from '@material-ui/core/Link';
-import {RED, WHITE, BLACK} from '../Constants';
+import {RED, WHITE} from '../Constants';
 
 
 
 
-export default function BNavbar() {
+export default function Navbar() {
     const useStyles = makeStyles(theme => ({
         
     }));

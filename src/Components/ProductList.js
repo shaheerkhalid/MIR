@@ -1,46 +1,48 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import {Carousel} from 'primereact/carousel';
+import {Card} from 'primereact/card';
+import {Button} from 'primereact/button';
+import {RED,WHITE} from '../Constants';
 
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles} from "@material-ui/core/styles";
-import Paper from '@material-ui/core/Paper';
-
-
-const useStyles = makeStyles(theme => ({
-    root: {
-      flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-    },
-  }));
+import data from '../Assets/MOCK_DATA.json';
 
 
 
-export default function ProductList(){
-        const classes = useStyles();
+
+
+function ProductCard(card_data){
+    const header = 
+    <div style={{position: 'relative'}}>
+        <img  alt="Card" src={'https://i.picsum.photos/id/1'+card_data.id+'/200/200.jpg'}/>
+        <label style={{
+            position: 'absolute',
+            top:'5px',
+            left:'5px',
+            backgroundColor:RED,
+            color:WHITE ,
+            fontWeight:'bold',
+            padding:'2px 10px',
+            }}>{card_data.price} /Day</label>
+    </div>
+        
+    const footer = <span>
+                    <Button label="Buy" icon="pi pi-check" style={{marginRight: '.25em'}}/>
+                 </span>;
     return(
-            // <ProductCard price='10' productName='shaheer' description='test' rating='5' url='#' buttonText='Buy' photos={['asdfsdf','asdfsdf']} />
+        <Card footer={footer} title={card_data.title} subTitle={card_data.description} header={header} style={{padding:'10px'}}>
             
-            <React.Fragment>
-      <CssBaseline />
-      <Container className={classes.container} maxWidth="xl" style={{ padding: '50px' }} >
-      <Grid container spacing={3}>
-      <Grid item xs={12} sm={6} md={4}>
-          <Paper className={classes.paper}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Paper className={classes.paper}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Paper className={classes.paper}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Paper>
-        </Grid>
-            
-      </Grid>
-      </Container>
-    </React.Fragment>
-        );
+        </Card>
+        
+    );
 }
+
+
+
+export default function ProductList() {
+    
+    return (
+        <div>
+            <Carousel value={data} itemTemplate={ProductCard} numVisible={3} numScroll={1} autoplayInterval={1000} circular={true}></Carousel>
+        </div>
+    );
+};

@@ -1,15 +1,18 @@
 import React from 'react';
 import Header from './Components/Header';
-import Navbar from './Components/BNavbar';
+import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
-import Product from './Components/ProductList';
+import Info from './Components/Info';
+import ProductList from './Components/ProductList';
+
 
 export default function Home() {
     return(
         <div>
             <Navbar/>
             <Header/>
-            <Product/>
+            <Info/>
+            <ProductList/>
             <Footer/>
 
         </div>    
