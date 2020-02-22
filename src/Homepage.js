@@ -4,6 +4,7 @@ import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import Info from './Components/Info';
 import ProductList from './Components/ProductList';
+import BrowseGrid from './Components/BrowseGrid';
 
 
 export default function Home() {
@@ -12,7 +13,9 @@ export default function Home() {
             <Navbar/>
             <Header/>
             <Info/>
+
             <ProductList/>
+            <BrowseGrid />
             <Footer/>
 
         </div>    
