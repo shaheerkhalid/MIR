@@ -6,6 +6,10 @@ import * as serviceWorker from './serviceWorker';
 import Home from './Homepage';
 import './index.css';
 
+import 'primereact/resources/themes/nova-light/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+
 
 ReactDOM.render(<Home />, document.getElementById('root'));
 
