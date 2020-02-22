@@ -6,11 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 
 import Link from '@material-ui/core/Link';
-<<<<<<< HEAD
 import {RED, WHITE} from '../Constants';
-=======
-import {RED, WHITE, BLACK} from '../Constants';
->>>>>>> eb7292df8652e12ac5be6a133a85275d4d09a1f8
+
 
 
 
