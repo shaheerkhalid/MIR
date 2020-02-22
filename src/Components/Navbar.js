@@ -1,67 +1,46 @@
-import React from 'react';
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Typography from '@material-ui/core/Typography';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import {BLACK , WHITE , RED } from '../Constants';
-import {List,ListItem} from '@material-ui/core';
+import Button from '@material-ui/core/Button'
+
+import Link from '@material-ui/core/Link';
+import {RED, WHITE, BLACK} from '../Constants';
 
 
-const useStyles = makeStyles(theme => ({
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  tabcolor: {
-    textColor: 'inherit',
-  },
-  navstyle: {
-      background: WHITE,
-      color: BLACK,
-  }
-}));
 
-export default function PrimarySearchAppBar() {
-  const classes = useStyles();
-  const flexContainer = {
-    display: 'flex',
-    flexDirection: 'row',
-    padding: 0,
-  };
-  return (
-    <div className={classes.grow}>
-      <AppBar className={classes.navstyle} position="fixed">
-        <Toolbar>
-          <Typography className={classes.title} variant="h4" noWrap style={{color: RED , fontWeight: 'bold'}}>
-            MIRS
-          </Typography>
-          <List style={flexContainer}>
-            <ListItem>Contact</ListItem>
-            <ListItem>About</ListItem>
-          </List>
-            {/* <Tabs aria-label="simple tabs example">
-                <Tab label="Post Instrument"/>
-                <Tab label="Contact"/>
-                <Tab label="About"/>
-            </Tabs>  */}
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+
+export default function Navbar() {
+    const useStyles = makeStyles(theme => ({
+        
+    }));
+    const classes = useStyles();
+    return(
+        <nav className="navbar navbar-expand-md navbar-light" style={{backgroundColor: WHITE,padding : '0px 10px'}}>
+            <Typography className={classes.title} variant="h4" noWrap style={{color: RED , fontWeight: 'bold'}}>
+                MIRS
+            </Typography>
+            {/* <span className="navbar-brand" href="#" style={{color: RED}}>Navbar w/ text</span> */}
+            <button  className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span   style={{fontSize:'15px'}} className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarText">
+                <ul className="navbar-nav mr-auto">
+                <li className="nav-item active">
+                    <Link className="nav-link" href="#">Home <span className="sr-only">(current)</span></Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" href="#">Features</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" href="#">Pricing</Link>
+                </li>
+                </ul>
+                <span className="navbar-text">
+                    <Button style={{backgroundColor: RED,color: WHITE,fontWeight: '700',padding: '5px 20px'}}>Post Ads</Button>
+                </span>
+            </div>
+        </nav>
+    );
 }
