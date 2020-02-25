@@ -4,7 +4,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
-import {WHITE,BLACK,RED} from '../Constants';
+import {WHITE,RED} from '../Constants';
 
 
 const useStyles = makeStyles(theme => ({
