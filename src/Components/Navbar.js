@@ -4,12 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
-
 import Link from '@material-ui/core/Link';
 import {RED, WHITE} from '../Constants';
-
-
-
 
 
 export default function Navbar() {
