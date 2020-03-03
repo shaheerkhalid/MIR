@@ -3,6 +3,8 @@ import {Carousel} from 'primereact/carousel';
 import {Card} from 'primereact/card';
 import {Button} from 'primereact/button';
 import {RED,WHITE} from '../../Constants';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
 import data from '../../Assets/MOCK_DATA.json';
 
 function ProductCard(card_data){
@@ -17,6 +19,7 @@ function ProductCard(card_data){
             color:WHITE ,
             fontWeight:'bold',
             padding:'2px 10px',
+            '&:hover': {opacity: '0.7'}
             }}>{card_data.price} /Day</label>
     </div>
 
@@ -24,7 +27,7 @@ function ProductCard(card_data){
                     <Button label="Buy" icon="pi pi-check" style={{marginRight: '.25em'}}/>
                  </span>;
     return(
-        <Card header={header} footer={footer} title={card_data.title} subTitle={card_data.description} style={{padding:'10px'}}>
+        <Card header={header} footer={footer} title={card_data.title} subTitle={card_data.description} style={{margin:'10px',borderRadius: '10px',overflow: 'hidden'}}>
             
         </Card>
         
@@ -33,6 +36,11 @@ function ProductCard(card_data){
 
 export default function ProductList() {
     const responsiveOptions = [
+        {
+            breakpoint: '1966px',
+            numVisible: 4,
+            numScroll: 1,
+        },
         {
             breakpoint: '1024px',
             numVisible: 3,
@@ -51,8 +59,12 @@ export default function ProductList() {
     ];
     
     return (
-        <div>
-            <Carousel value={data} itemTemplate={ProductCard} numVisible={4} numScroll={1} autoplayInterval={2000} circular={true} responsiveOptions={responsiveOptions}></Carousel>
-        </div>
+        <React.Fragment>
+          <CssBaseline />
+            <Container maxWidth="xl" style={{ }} >
+                <Carousel value={data} itemTemplate={ProductCard} autoplayInterval={2000} circular={true} responsiveOptions={responsiveOptions}></Carousel>
+            </Container>
+        </React.Fragment>
+            
     );
 };
