@@ -44,18 +44,20 @@ export function PanelListL() {
     <List className={classes.root} >
         <li className={classes.listSection}>
           <ul className={classes.ul}>
-            <Typography variant='h5'>Category</Typography>
-              <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' href="#">Profile Information</Link>
-                </ListItem>
-              <ListItem >
-                <Link className={classes.links} color='primary' underline='none' href="#">Listing</Link>
+            <ListItem >
+                <Link className={classes.links} color='primary' underline='none' href="#">ALL CATEGORIES</Link>
               </ListItem>
               <ListItem >
-                <Link className={classes.links} color='primary' underline='none' href="#">Transaction</Link>
+                <Link className={classes.links} color='primary' underline='none' href="#">GUITARS</Link>
               </ListItem>
               <ListItem >
-                <Link className={classes.links} color='primary' underline='none' href="#">Account</Link>
+                <Link className={classes.links} color='primary' underline='none' href="#">UKULELE</Link>
+              </ListItem>
+              <ListItem >
+                <Link className={classes.links} color='primary' underline='none' href="#">KEYBOARDS</Link>
+              </ListItem>
+              <ListItem >
+                <Link className={classes.links} color='primary' underline='none' href="#">MANDOLINS</Link>
               </ListItem>
           </ul>
         </li>
@@ -66,7 +68,7 @@ export function PanelListL() {
 export function PanelListS() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [tag, setTag] = React.useState('Profile Information');
+    const [tag, setTag] = React.useState('ALL CATEGORIES');
 
     const handleClick = () => {
         setOpen(!open);
@@ -74,22 +76,27 @@ export function PanelListS() {
 
     
     const handleTag1 = () => {
-        setTag('Profile Information');
+        setTag('ALL CATEGORIES');
         setOpen(!open);
     };
 
     const handleTag2 = () => {
-        setTag('Listing');
+        setTag('GUITARS');
         setOpen(!open);
     };
 
     const handleTag3 = () => {
-        setTag('Transaction');
+        setTag('UKULELE');
         setOpen(!open);
     };
 
     const handleTag4 = () => {
-        setTag('Account');
+      setTag('KEYBOARDS');
+      setOpen(!open);
+  };
+
+    const handleTag5 = () => {
+        setTag('MANDOLINS');
         setOpen(!open);
     };
 
@@ -105,18 +112,21 @@ export function PanelListS() {
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-                <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' href="#" onClick={handleTag1}>Profile Information</Link>
-                </ListItem>
-                <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' href="#" onClick={handleTag2}>Listing</Link>
-                </ListItem>
-                <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' href="#" onClick={handleTag3}>Transaction</Link>
-                </ListItem>
-                <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' href="#" onClick={handleTag4}>Account</Link>
-                </ListItem>
+          <ListItem >
+              <Link className={classes.links} color='primary' underline='none' href="#">ALL CATEGORIES</Link>
+            </ListItem>
+            <ListItem >
+              <Link className={classes.links} color='primary' underline='none' href="#">GUITARS</Link>
+            </ListItem>
+            <ListItem >
+              <Link className={classes.links} color='primary' underline='none' href="#">UKULELE</Link>
+            </ListItem>
+            <ListItem >
+              <Link className={classes.links} color='primary' underline='none' href="#">KEYBOARDS</Link>
+            </ListItem>
+            <ListItem >
+              <Link className={classes.links} color='primary' underline='none' href="#">MANDOLINS</Link>
+          </ListItem>
         </List>
       </Collapse>
     </List>
