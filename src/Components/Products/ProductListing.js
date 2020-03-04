@@ -3,14 +3,15 @@ import {makeStyles} from "@material-ui/core/styles";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import CategoryList1 from './CategoryList1';
+import {PanelListL,PanelListS} from './CategoryList';
 import Typography from '@material-ui/core/Typography';
 import { Link } from '@material-ui/core';
 import {DataView, DataViewLayoutOptions} from 'primereact/dataview';
 import data from '../../Assets/MOCK_DATA.json';
-import {Card} from 'primereact/card';
+import PCard from './GridCard';
 import {Button} from 'primereact/button';
 import {RED,WHITE} from '../../Constants';
+import "../../../node_modules/primeflex/primeflex.css";
 
 
 const useStyles = makeStyles(theme => ({
@@ -30,83 +31,71 @@ const useStyles = makeStyles(theme => ({
             display: 'none',
         },
     },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+    },
   }));
 
 
+function renderListItem(card_data) {
+  return (
+    <div className="p-col-12">
+    <div className="car-details" style={{
 
-
-  
-function ProductCard(card_data){
-  const header = 
-  <div style={{position: 'relative'}}>
-      <img  alt="Card" src={'https://i.picsum.photos/id/1'+card_data.id+'/200/200.jpg'}/>
-      <label style={{
-          position: 'absolute',
-          top:'5px',
-          left:'5px',
-          backgroundColor:RED,
-          color:WHITE ,
-          fontWeight:'bold',
-          padding:'2px 10px',
-          }}>{card_data.price} /Day</label>
-  </div>
-
-  const footer = <span>
-                  <Button label="Buy" icon="pi pi-check" style={{marginRight: '.25em'}}/>
-               </span>;
-  return(
-      <Card header={header} footer={footer} title={card_data.title} subTitle={card_data.description} style={{padding:'10px'}}>
-          
-      </Card>
-      
+    }}>
+      <div>
+            <img src={'https://i.picsum.photos/id/1'+card_data.id+'/200/200.jpg'}/>
+            <div className="p-grid">
+                <div className="p-col-12">Vin: <b>{card_data.price}</b></div>
+                
+            </div>
+        </div>
+        <Button icon="pi pi-search" ></Button>
+      </div>
+    </div>
   );
 }
 
-function itemTemplate(item,layout){
-//   if (layout === 'list') {
-//     return (
-//         <div className="p-grid">
-//             <div>{item.brand}</div>
-//         </div>
-//     );
-// }
-// if (layout === 'grid') {
-//     return (
-//         <div className="p-col-12 p-md-3">
-//             <div>{item.brand}</div>
-//         </div>
-//     );
-// }
 
-  return(<span>test</span>);
 
+function renderGridItem(card_data) {
+    return <PCard card_data={card_data}/>;
 }
 
+
+
+function itemTemplate(card_data,layout){
+
+  if (layout === 'list') {
+    return renderListItem(card_data);
+  }
+  if (layout === 'grid') {
+    return renderGridItem(card_data);
+  }
+}
 
 export default function ProductListing() {
 
     const classes = useStyles();
+    // const [layout, setlayout] = React.useState('grid');
     return(
         <React.Fragment>
           <CssBaseline />
-          <Container maxWidth="xl" style={{ padding: '50px' }} >
+          <Container maxWidth="xl" style={{ padding: '25px ' }} >
           <Grid container spacing={3}>
             <Grid className={classes.category1} item xs={12}>
-                    <CategoryList1/>
+                    <PanelListS/>
                     <hr></hr>
             </Grid>
-            <Grid className={classes.category2} item xs={2}>
-            <Typography variant='h5'>Categories</Typography>
-                    <Typography>
-                        <Link href="#">Link1</Link><br></br>
-                        <Link href="#">Link1</Link><br></br>
-                        <Link href="#">Link1</Link><br></br>
-                        <Link href="#">Link1</Link><br></br>
-                        <Link href="#">Link1</Link><br></br>
-                    </Typography>
+            <Grid className={classes.category2} item md={2}>
+                <PanelListL/>
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={12} md={10}>
               {/* <DataView value={this.state.cars} layout={this.state.layout} itemTemplate={this.itemTemplate} paginator={true} rows={10} first={this.state.first} onPage={(e) => this.setState({first: e.first})}></DataView> */}
+              {/* <DataViewLayoutOptions layout={layout} onChange={(e) => setlayout(e.value)} /> */}
+
               <DataView value={data} layout={'grid'} itemTemplate={itemTemplate}></DataView>
 
             </Grid>    
@@ -115,3 +104,13 @@ export default function ProductListing() {
         </React.Fragment>
     );
 }
+
+
+
+
+
+
+
+
+
+
