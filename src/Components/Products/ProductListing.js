@@ -6,6 +6,12 @@ import Grid from '@material-ui/core/Grid';
 import CategoryList1 from './CategoryList1';
 import Typography from '@material-ui/core/Typography';
 import { Link } from '@material-ui/core';
+import {DataView, DataViewLayoutOptions} from 'primereact/dataview';
+import data from '../../Assets/MOCK_DATA.json';
+import {Card} from 'primereact/card';
+import {Button} from 'primereact/button';
+import {RED,WHITE} from '../../Constants';
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -25,6 +31,56 @@ const useStyles = makeStyles(theme => ({
         },
     },
   }));
+
+
+
+
+  
+function ProductCard(card_data){
+  const header = 
+  <div style={{position: 'relative'}}>
+      <img  alt="Card" src={'https://i.picsum.photos/id/1'+card_data.id+'/200/200.jpg'}/>
+      <label style={{
+          position: 'absolute',
+          top:'5px',
+          left:'5px',
+          backgroundColor:RED,
+          color:WHITE ,
+          fontWeight:'bold',
+          padding:'2px 10px',
+          }}>{card_data.price} /Day</label>
+  </div>
+
+  const footer = <span>
+                  <Button label="Buy" icon="pi pi-check" style={{marginRight: '.25em'}}/>
+               </span>;
+  return(
+      <Card header={header} footer={footer} title={card_data.title} subTitle={card_data.description} style={{padding:'10px'}}>
+          
+      </Card>
+      
+  );
+}
+
+function itemTemplate(item,layout){
+//   if (layout === 'list') {
+//     return (
+//         <div className="p-grid">
+//             <div>{item.brand}</div>
+//         </div>
+//     );
+// }
+// if (layout === 'grid') {
+//     return (
+//         <div className="p-col-12 p-md-3">
+//             <div>{item.brand}</div>
+//         </div>
+//     );
+// }
+
+  return(<span>test</span>);
+
+}
 
 
 export default function ProductListing() {
@@ -50,7 +106,9 @@ export default function ProductListing() {
                     </Typography>
             </Grid>
             <Grid item xs={10}>
-                    hdsaghdg
+              {/* <DataView value={this.state.cars} layout={this.state.layout} itemTemplate={this.itemTemplate} paginator={true} rows={10} first={this.state.first} onPage={(e) => this.setState({first: e.first})}></DataView> */}
+              <DataView value={data} layout={'grid'} itemTemplate={itemTemplate}></DataView>
+
             </Grid>    
           </Grid>
           </Container>
