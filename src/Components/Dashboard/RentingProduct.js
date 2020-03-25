@@ -2,11 +2,11 @@ import React from 'react'
 
 
 
-export default function Account() {
+export default function RentingProducts() {
     return(
         <div>
             <br></br>
-            Accounts...
+            RentingProducts....
         </div>
     );
 }

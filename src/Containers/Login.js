@@ -11,6 +11,7 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
+import {RED} from "../Constants"
 import { makeStyles } from "@material-ui/core/styles";
 
 // state = { email: "", password: "" };
@@ -51,7 +52,7 @@ const useStyles = makeStyles(theme => ({
         height: "100vh"
     },
     image: {
-        backgroundImage: "url(https://source.unsplash.com/random)",
+        backgroundImage: "url(https://i.picsum.photos/id/1/5616/3744.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundColor:
             theme.palette.type === "dark"
@@ -68,7 +69,7 @@ const useStyles = makeStyles(theme => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main
+        backgroundColor: RED,
     },
     form: {
         width: "100%", // Fix IE 11 issue.

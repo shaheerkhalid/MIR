@@ -11,12 +11,10 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    backgroundColor: theme.palette.background.paper,
     position: 'relative',
     overflow: 'auto',
     maxHeight: 500,
     padding: '0px',
-    margin: '20px 0px',
   },
   listSection: {
     backgroundColor: 'inherit',
@@ -44,17 +42,23 @@ export function PanelListL() {
         <li className={classes.listSection}>
           <ul className={classes.ul}>
               <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' to="ProfileInfo">Profile Information</Link>
+                  <Link className={classes.links} color='primary' underline='none' to="/Admin">Profile Information</Link>
                 </ListItem>
               <ListItem >
-                <Link className={classes.links} color='primary' underline='none' to="Listing">Listing</Link>
+                <Link className={classes.links} color='primary' underline='none' to="/Admin/Listing">Products Listing</Link>
               </ListItem>
               <ListItem >
-                <Link className={classes.links} color='primary' underline='none' to="Transaction">Transaction</Link>
+                <Link className={classes.links} color='primary' underline='none' to="/Admin/RentingProduct">Renting Products</Link>
               </ListItem>
               <ListItem >
-                <Link className={classes.links} color='primary' underline='none' to="Account">Account</Link>
+                <Link className={classes.links} color='primary' underline='none' to="/Admin/History">Renting History</Link>
               </ListItem>
+              <ListItem >
+                <Link className={classes.links} color='primary' underline='none' to="/Admin/EnrolledCourse">Enrolled Course</Link>
+              </ListItem>
+              <ListItem >
+                <Link className={classes.links} color='primary' underline='none' to="/Admin/Account">Account</Link>
+           </ListItem>
           </ul>
         </li>
     </List>
@@ -70,24 +74,31 @@ export function PanelListS() {
         setOpen(!open);
     };
 
-    
     const handleTag1 = () => {
         setTag('Profile Information');
         setOpen(!open);
     };
 
     const handleTag2 = () => {
-        setTag('Listing');
+        setTag('Product Listing');
         setOpen(!open);
     };
 
     const handleTag3 = () => {
-        setTag('Transaction');
+        setTag('Renting Products');
         setOpen(!open);
     };
 
     const handleTag4 = () => {
         setTag('Account');
+        setOpen(!open);
+    };
+    const handleTag5 = () => {
+      setTag('Enrolled Course');
+      setOpen(!open);
+    };
+    const handleTag6 = () => {
+        setTag('Renting History');
         setOpen(!open);
     };
 
@@ -104,16 +115,22 @@ export function PanelListS() {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
                 <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' to="ProfileInfo" onClick={handleTag1}>Profile Information</Link>
+                  <Link className={classes.links} color='primary' underline='none' to="/Admin" onClick={handleTag1}>Profile Information</Link>
                 </ListItem>
                 <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' to="Listing" onClick={handleTag2}>Listing</Link>
+                  <Link className={classes.links} color='primary' underline='none' to="/Admin/Listing" onClick={handleTag2}>Product Listing</Link>
                 </ListItem>
                 <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' to="Transaction" onClick={handleTag3}>Transaction</Link>
+                <Link className={classes.links} color='primary' underline='none' to="/Admin/RentingProduct" onClick={handleTag3}>RentingProducts</Link>
                 </ListItem>
                 <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' to="Account" onClick={handleTag4}>Account</Link>
+                  <Link className={classes.links} color='primary' underline='none' to="/Admin/History" onClick={handleTag6}>Renting History</Link>
+                </ListItem>
+                <ListItem >
+                  <Link className={classes.links} color='primary' underline='none' to="/Admin/EnrolledCourse" onClick={handleTag5}>Enrolled Courses</Link>
+                </ListItem>
+                <ListItem >
+                  <Link className={classes.links} color='primary' underline='none' to="/Admin/Account"  onClick={handleTag4}>Account</Link>
                 </ListItem>
         </List>
       </Collapse>

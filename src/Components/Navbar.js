@@ -1,10 +1,9 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
-import Link from '@material-ui/core/Link';
+import {Link} from 'react-router-dom';
 import {RED, WHITE} from '../Constants';
 
 
@@ -25,13 +24,13 @@ export default function Navbar() {
             <div className="collapse navbar-collapse" id="navbarText">
                 <ul className="navbar-nav mr-auto">
                 <li className="nav-item active">
-                    <Link className="nav-link" href="#">Home <span className="sr-only">(current)</span></Link>
+                    <Link className="nav-link" to="/Home">Home <span className="sr-only">(current)</span></Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" href="#">Features</Link>
+                    <Link className="nav-link" to="/Admin">Dashboard</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" href="#">Pricing</Link>
+                    <Link className="nav-link" to="/Products">Products</Link>
                 </li>
                 </ul>
                 <span className="navbar-text">
