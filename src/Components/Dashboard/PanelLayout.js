@@ -41,19 +41,18 @@ export default function ProductListing() {
     let content = <ProfileInfo/>
     const classes = useStyles();
 
-
     console.log(match);
-    if(match==='/Admin'){
+    if(match==='/Dashboard'){
        content = <ProfileInfo/>
-    }else if(match==='/Admin/Listing'){
+    }else if(match==='/Dashboard/Listing'){
        content = <Listing/>
-    }else if(match==='/Admin/EnrolledCourse'){
+    }else if(match==='/Dashboard/EnrolledCourse'){
         content = <EnrolledCourse/>
-    }else if(match==='/Admin/History'){
+    }else if(match==='/Dashboard/History'){
         content = <History/>
-    }else if(match==='/Admin/RentingProduct'){
+    }else if(match==='/Dashboard/RentingProduct'){
         content = <RentingProducts/>
-    }else if(match==='/Admin/Account'){
+    }else if(match==='/Dashboard/Account'){
         content = <Account/>
     }
     

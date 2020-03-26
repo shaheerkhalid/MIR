@@ -21,7 +21,7 @@ function ProductCard(card_data){
             padding:'2px 10px',
             '&:hover': {opacity: '0.7'}
             }}>{card_data.price} /Day</label>
-    </div>
+    </div> ;
 
     const footer = <span>
                     <Button label="Buy" icon="pi pi-check" style={{marginRight: '.25em'}}/>
