@@ -23,7 +23,7 @@ export default function Header() {
             width: '100%',
         },
         container: {
-            backgroundImage: 'url(https://i.picsum.photos/id/599/1366/700.jpg)', 
+            backgroundImage: 'url(https://github.com/shaheerkhalid/MIR/blob/master/src/Components/Homepage/main.jpg)', 
             height: 500,
             backgroundRepeat: 'no-repeat', 
             backgroundSize: '100%',

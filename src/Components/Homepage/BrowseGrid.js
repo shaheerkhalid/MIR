@@ -24,12 +24,9 @@ const useStyles = makeStyles(theme => ({
       '&:hover': {
             opacity: '0.9',
             color: RED,
-            
       }
     },
   }));
-
-
 
 export default function BrowseGrid(){
         const classes = useStyles();

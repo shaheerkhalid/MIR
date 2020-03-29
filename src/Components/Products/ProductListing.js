@@ -4,7 +4,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import {PanelListL,PanelListS} from './CategoryList';
-
 import {DataView, DataViewLayoutOptions} from 'primereact/dataview';
 import data from '../../Assets/MOCK_DATA.json';
 import PCard from './GridCard';

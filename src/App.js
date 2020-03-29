@@ -11,6 +11,7 @@ import Products from './Containers/Products';
 import Userdashboard from './Containers/Userdashboard';
 import About from './Containers/About';
 import Contact from './Containers/Contact';
+import AddProduct from './Containers/AddProduct';
 
 export default function App(){
     return(
@@ -34,6 +35,9 @@ export default function App(){
                    </Route>
                    <Route path="/About" exact>
                          <About/>
+                   </Route>
+                   <Route path="/AddProduct" exact>
+                         <AddProduct/>
                    </Route>
                    <Route path="/Products" exact>
                          <Products/>

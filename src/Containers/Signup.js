@@ -63,11 +63,6 @@ import {RED} from "../Constants"
 
 // };
 
-
-
-
-
-
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">

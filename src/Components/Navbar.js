@@ -10,10 +10,7 @@ import {RED, WHITE} from '../Constants';
 
 export default function Navbar() {
     const useStyles = makeStyles(theme => ({
-    avatar: {
-        // marginRight: '10px',
-        // display: 'none',
-    },
+    
     }));
     const classes = useStyles();
     return(
@@ -42,7 +39,9 @@ export default function Navbar() {
                     </Link>
                 </span>
                 <span className="navbar-text">
-                    <Button style={{backgroundColor: RED,color: WHITE,fontWeight: '700',padding: '7px 20px'}}>Post Ads</Button>
+                    <Link className="nav-link" to="/AddProduct" style={{mrgin: '0px',padding: '0px'}}>
+                        <Button style={{backgroundColor: RED,color: WHITE,fontWeight: '700',padding: '7px 20px'}}>Post Ads</Button>
+                    </Link>
                 </span>
             </div>
         </nav>
