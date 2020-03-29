@@ -4,6 +4,9 @@ import Footer from '../Components/Footer';
 import ProductListing from '../Components/Products/ProductListing';
 
 export default function Home() {
+    React.useEffect(() => {
+        window.scrollTo(0, 0)
+    })
     return(
         <div>
             <Navbar/>

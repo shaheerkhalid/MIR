@@ -1,12 +1,10 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import {Link} from 'react-router-dom';
 import {RED, WHITE} from '../Constants';
-
 
 export default function Navbar() {
     const useStyles = makeStyles(theme => ({

@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   cardstyle: {
     borderRadius: '5px',
+    margin: '15px',
     '&:hover': {
       boxShadow: '0px 0px 10px 5px grey',
       opacity: '0.8'
@@ -44,9 +45,7 @@ export default function ProductCard({card_data}){
   
   
   return (
-      <div style={{ padding: '.5em' }} className="p-col-12 p-xs-12 p-sm-6 p-md-4 p-lg-3">
         <Card className={classes.cardstyle} header={header} footer={footer} title={card_data.title} subTitle={card_data.description} style={{padding:'10px'}}>
         </Card>   
-      </div>
   );
 }

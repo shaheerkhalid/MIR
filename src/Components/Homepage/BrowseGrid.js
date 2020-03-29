@@ -36,18 +36,18 @@ export default function BrowseGrid(){
               <Container className={classes.container} maxWidth="xl" style={{ padding: '50px' }} >
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
-                    <Link className={classes.button} underline='none' to="/Products">
-                      <Button className={classes.button} style={{backgroundImage: 'url(https://i.picsum.photos/id/502/1366/300.jpg)',}}>For Rent</Button>
+                    <Link className='nav-link' underline='none' to="/Products">
+                      <Button className={classes.button} style={{backgroundImage: 'url(http://getwallpapers.com/wallpaper/full/4/7/2/242715.jpg)',backgroundSize: '100%'}}>For Rent</Button>
                     </Link>
                   </Grid>
                   <Grid item xs={6}>
-                  <Link className={classes.button} underline='none' to="/Products">
-                      <Button className={classes.button} style={{backgroundImage: 'url(https://i.picsum.photos/id/503/1366/300.jpg)',}}>For Sale</Button>
+                  <Link className='nav-link' underline='none' to="/Products">
+                      <Button className={classes.button} style={{backgroundImage: 'url(https://fsb.zobj.net/crop.php?r=jwTkRrNS9p2QBVE6bFxjtMcIHf78RT3aw7AI0QRI26-wIn6EzYrgQCAy3j78v0CNBXUo_De2s4TGrxuoWg-caDrzSgPVSmAcs3N3AUngxVrwVuXtkbvp3O--douL9FNKaizav497IW5Q2IlP)',backgroundSize: '100%'}}>For Sale</Button>
                   </Link>
                   </Grid>
                   <Grid item xs={6}>
-                  <Link className={classes.button} underline='none' to="/Products">
-                      <Button className={classes.button} style={{backgroundImage: 'url(https://i.picsum.photos/id/504/1366/300.jpg)',}}>Courses</Button>
+                  <Link className='nav-link' underline='none' to="/Products">
+                      <Button className={classes.button} style={{backgroundImage: 'url(https://i.pinimg.com/originals/db/8b/45/db8b45f4ba723634a5d78af8c67c35bc.jpg)',backgroundSize: '100%'}}>Courses</Button>
                   </Link>
                   </Grid>    
                 </Grid>

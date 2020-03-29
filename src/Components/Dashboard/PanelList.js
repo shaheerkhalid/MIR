@@ -69,38 +69,17 @@ export function PanelListS() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [tag, setTag] = React.useState('Profile Information');
+    
 
     const handleClick = () => {
         setOpen(!open);
     };
 
-    const handleTag1 = () => {
-        setTag('Profile Information');
-        setOpen(!open);
-    };
-
-    const handleTag2 = () => {
-        setTag('Product Listing');
-        setOpen(!open);
-    };
-
-    const handleTag3 = () => {
-        setTag('Renting Products');
-        setOpen(!open);
-    };
-
-    const handleTag4 = () => {
-        setTag('Account');
-        setOpen(!open);
-    };
-    const handleTag5 = () => {
-      setTag('Enrolled Course');
+    const handleTag = e => {
+      setTag(e.target.name);
       setOpen(!open);
     };
-    const handleTag6 = () => {
-        setTag('Renting History');
-        setOpen(!open);
-    };
+
 
     return (
         <List
@@ -115,22 +94,22 @@ export function PanelListS() {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
                 <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' to="/Dashboard" onClick={handleTag1}>Profile Information</Link>
+                  <Link className={classes.links} name='Profile Information' color='primary' underline='none' to="/Dashboard" onClick={handleTag}>Profile Information</Link>
                 </ListItem>
                 <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' to="/Dashboard/Listing" onClick={handleTag2}>Product Listing</Link>
+                  <Link className={classes.links} name='Product Listing' color='primary' underline='none' to="/Dashboard/Listing" onClick={handleTag}>Product Listing</Link>
                 </ListItem>
                 <ListItem >
-                <Link className={classes.links} color='primary' underline='none' to="/Dashboard/RentingProduct" onClick={handleTag3}>RentingProducts</Link>
+                <Link className={classes.links} name='Renting Products' color='primary' underline='none' to="/Dashboard/RentingProduct" onClick={handleTag}>Renting Products</Link>
                 </ListItem>
                 <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' to="/Dashboard/History" onClick={handleTag6}>Renting History</Link>
+                  <Link className={classes.links} name='Renting History' color='primary' underline='none' to="/Dashboard/History" onClick={handleTag}>Renting History</Link>
                 </ListItem>
                 <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' to="/Dashboard/EnrolledCourse" onClick={handleTag5}>Enrolled Courses</Link>
+                  <Link className={classes.links} name='Enrolled Courses' color='primary' underline='none' to="/Dashboard/EnrolledCourse" onClick={handleTag}>Enrolled Courses</Link>
                 </ListItem>
                 <ListItem >
-                  <Link className={classes.links} color='primary' underline='none' to="/Dashboard/Account"  onClick={handleTag4}>Account</Link>
+                  <Link className={classes.links} name='Account' color='primary' underline='none' to="/Dashboard/Account"  onClick={handleTag}>Account</Link>
                 </ListItem>
         </List>
       </Collapse>
