@@ -1,12 +1,8 @@
 import React from "react";
-import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import {RED, WHITE} from "../../Constants";
@@ -29,6 +25,13 @@ const useStyles = makeStyles(theme => ({
 export default function AddProduct() {
     const classes = useStyles();
 
+    const [pic, setpic] = React.useState("");
+
+    const Pictures = e => {
+            var path = URL.createObjectURL(e.target.files[0]);
+            setpic(path);
+    }
+
     return (
         <Container component="main" maxWidth="md">
             <CssBaseline />
@@ -37,26 +40,42 @@ export default function AddProduct() {
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" style={{width: "100%"}}/>
+                            <TextField id="outlined-basic" label="Title" variant="outlined" style={{width: "100%"}}/>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" style={{width: "100%"}}/>
+                            <TextField id="outlined-basic" label="Description" variant="outlined" style={{width: "100%"}}/>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" style={{width: "100%"}}/>
+                            <TextField id="outlined-basic" label="Category" variant="outlined" style={{width: "100%"}}/>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" style={{width: "100%"}}/>
+                            <span>The pictures should be in a square format (1:1 ratio) </span>
+                            <input style={{display: 'none'}}
+                                accept="image/*"
+                                id="contained-button-file"
+                                // multiple
+                                type="file"
+                                onChange={Pictures}
+                            />
+                            <label htmlFor="contained-button-file">
+                                <Button variant="contained" component="span">
+                                    Upload Picture
+                                </Button>
+                            </label>
+                            <div>
+                                <img alt="" src={pic} height='100px' width='100px'/>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField prefix='Rs.'  id="outlined-basic" label="Price" variant="outlined" style={{width: "100%"}}/>
                         </Grid>
                     </Grid>
                     <br></br>
                         <Button style={{backgroundColor: RED,color: WHITE,fontSize: '18px' ,fontWeight: '700',padding: '10px',width: '200px'}}>Submit</Button>
+                        <br></br>
+                        <br></br>
                     <Grid container justify="flex-end">
-                        <Grid item>
-                            <Link href="#" variant="body2">
-                                Already have an account? Sign in
-                            </Link>
-                        </Grid>
+                        
                     </Grid>
                 </form>
             </div>

@@ -33,7 +33,7 @@ export default function Navbar() {
                 </ul>
                 <span className={classes.avatar} >
                     <Link className="nav-link" to="/Dashboard">
-                        <Avatar alt="Wajid" src="/static/images/avatar/1.jpg" />
+                        <Avatar alt="Wajid" src="" />
                     </Link>
                 </span>
                 <span className="navbar-text">

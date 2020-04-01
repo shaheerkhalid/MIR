@@ -17,8 +17,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProductCard({card_data}){
   const classes = useStyles();
-  const [value, setValue] = React.useState(card_data.id%6);
-
+  const [value, setValue] = React.useState(null);
+  setValue(card_data.id%6);
+  
   const header = 
   <div style={{position: 'relative'}}>
       <img  alt="Card" src={'https://i.picsum.photos/id/1'+card_data.id+'/200/200.jpg'}/>
