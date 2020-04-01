@@ -17,8 +17,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProductCard({card_data}){
   const classes = useStyles();
-  const [value, setValue] = React.useState(null);
-  setValue(card_data.id%6);
+  const [value, setValue] = React.useState(card_data.id%6);
   
   const header = 
   <div style={{position: 'relative'}}>

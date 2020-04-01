@@ -19,7 +19,7 @@ export default function App(){
            <Router>
                <Switch>
                    <Route path="/" exact>
-                        <Signup/>
+                        <Home/>
                    </Route>
                    <Route path="/Login" exact>
                         <Login/>
