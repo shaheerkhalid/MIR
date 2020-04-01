@@ -68,7 +68,6 @@ export function PanelListS() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [tag, setTag] = React.useState('ALL CATEGORIES');
-    setTag('ALL CATEGORIES');
     
     const handleClick = () => {
         setOpen(!open);

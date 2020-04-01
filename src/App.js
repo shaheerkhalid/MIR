@@ -19,13 +19,13 @@ export default function App(){
            <Router>
                <Switch>
                    <Route path="/" exact>
-                        <Signup/>
+                        <Home/>
                    </Route>
                    <Route path="/Login" exact>
                         <Login/>
                    </Route>
-                   <Route path="/Home" exact>
-                        <Home/>
+                   <Route path="/Signup" exact>
+                        <Signup/>
                    </Route>
                    <Route path="/Dashboard" exact>
                         <Userdashboard/>
