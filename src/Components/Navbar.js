@@ -13,7 +13,7 @@ export default function Navbar() {
     const classes = useStyles();
     return(
         <nav className="navbar navbar-expand-md navbar-light" style={{backgroundColor: WHITE,padding : '0px 10px 0px 0px'}}>
-            <Link className="nav-link" to="/Home">
+            <Link className="nav-link" to="/">
                 <Typography className={classes.title} variant="h4" noWrap style={{color: RED , fontWeight: 'bold'}}>
                     MIRS
                 </Typography>
