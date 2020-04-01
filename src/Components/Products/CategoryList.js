@@ -7,7 +7,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -69,37 +68,14 @@ export function PanelListS() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [tag, setTag] = React.useState('ALL CATEGORIES');
-
+    setTag('ALL CATEGORIES');
+    
     const handleClick = () => {
         setOpen(!open);
     };
 
     
-    const handleTag1 = () => {
-        setTag('ALL CATEGORIES');
-        setOpen(!open);
-    };
-
-    const handleTag2 = () => {
-        setTag('GUITARS');
-        setOpen(!open);
-    };
-
-    const handleTag3 = () => {
-        setTag('UKULELE');
-        setOpen(!open);
-    };
-
-    const handleTag4 = () => {
-      setTag('KEYBOARDS');
-      setOpen(!open);
-  };
-
-    const handleTag5 = () => {
-        setTag('MANDOLINS');
-        setOpen(!open);
-    };
-
+    
     return (
         <List
       component="nav"

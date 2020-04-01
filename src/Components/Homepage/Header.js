@@ -23,8 +23,8 @@ export default function Header() {
             width: '100%',
         },
         container: {
-            backgroundImage: 'url(https://i.picsum.photos/id/599/1366/700.jpg)', 
-            height: 500,
+            backgroundImage: 'url(http://getwallpapers.com/wallpaper/full/1/8/b/242505.jpg)', 
+            height: 550,
             backgroundRepeat: 'no-repeat', 
             backgroundSize: '100%',
             textAlign: 'center',
@@ -33,7 +33,7 @@ export default function Header() {
               height: 400,
             },
           [theme.breakpoints.down("sm")]: {
-            height: 300,
+            height: 350,
           },
           [theme.breakpoints.down("xs")]: {
             height: 250,
@@ -42,11 +42,14 @@ export default function Header() {
         headertext: {
             color : 'white',
             fontSize : '50px',
+            marginTop : '75px',
           [theme.breakpoints.down("md")]: {
             fontSize : '40px',
+            marginTop : '50px',
           },
           [theme.breakpoints.down("sm")]: {
             fontSize : '35px',
+            marginTop : '30px',
           },
         },
         input: {

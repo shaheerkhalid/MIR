@@ -1,16 +1,13 @@
 import React from 'react';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
-import ProductListing from '../Components/Products/ProductListing';
+import AddProduct1 from '../Components/AddProduct/AddProduct';
 
-export default function Home() {
-    React.useEffect(() => {
-        window.scrollTo(0, 0)
-    })
+export default function AddProduct() {
     return(
         <div>
             <Navbar/>
-            <ProductListing/>
+            <AddProduct1/>
             <Footer/>
         </div>    
     );

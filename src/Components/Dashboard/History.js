@@ -10,30 +10,29 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
 const columns = [
+  { id: 'user', label: 'User', minWidth: 150 },
   { id: 'title', label: 'Title', minWidth: 150 },
-  { id: 'created', label: 'Created', minWidth: 150 },
-  { id: 'updated', label: 'Updated', minWidth: 150 },
-  { id: 'category', label: 'Category', minWidth: 150 },
-  { id: 'status', label: 'Status', minWidth: 150 },
+  { id: 'rent', label: 'Rent', minWidth: 150 },
+  { id: 'days', label: 'Days', minWidth: 150 },
+  { id: 'price', label: 'Price', minWidth: 150 },
 ];
 
-function createData(title, created, updated, category) {
-  const status="true";
-  return { title, created, updated, category, status };
+function createData(user, title, rent, days) {
+  const price="1050.00";
+  return { user, title, rent, days, price };
 }
 
 const rows = [
-  createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-  createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-  createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-  createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-  createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-  createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-  createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-  createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-  createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-  createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-  createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
+  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
+  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
+  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
+  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
+  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
+  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
+  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
+  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
+  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
+  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
 ];
 
 const useStyles = makeStyles({
@@ -45,7 +44,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Listing() {
+export default function History() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);

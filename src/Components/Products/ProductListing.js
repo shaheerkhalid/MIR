@@ -4,13 +4,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import {PanelListL,PanelListS} from './CategoryList';
-
-import {DataView, DataViewLayoutOptions} from 'primereact/dataview';
+import {DataView} from 'primereact/dataview';
 import data from '../../Assets/MOCK_DATA.json';
 import PCard from './GridCard';
 import {Button} from 'primereact/button';
 import {Dropdown} from "primereact/dropdown";
-import {RED,WHITE} from '../../Constants';
+import {RED} from '../../Constants';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
@@ -41,7 +40,7 @@ const useStyles = makeStyles(theme => ({
       display: 'flex',
       alignItems: 'center',
       width: '100%',
-      marginTop: '10px',
+      marginBottom: '15px',
     },
     input: {
       marginLeft: theme.spacing(1),
@@ -148,8 +147,18 @@ export default function ProductListing() {
     return(
         <React.Fragment>
           <CssBaseline />
-          <Grid container spacing={3} justify="center" alignItems="center">
-            <Grid item xs={12} sm={6}>
+          <Container maxWidth="xl" style={{padding: '15px'}}>
+          <Grid container spacing={3}>
+            <Grid className={classes.category1} item xs={12}>
+                    <PanelListS/>
+                    <hr></hr>
+            </Grid>
+            <Grid className={classes.category2} item md={3}>
+                <PanelListL/>
+            </Grid>
+            <Grid item xs={12} md={9}>
+            <Grid container justify="center" alignItems="center">
+            <Grid item xs={12}>
               <Paper component="form" className={classes.searchbar}>
                     <InputBase
                         className={classes.input}
@@ -162,22 +171,17 @@ export default function ProductListing() {
                     </IconButton>
               </Paper>
             </Grid>
-          </Grid>
-          <Container maxWidth="xl" style={{ padding: '25px ' }} >
-          <Grid container spacing={3}>
-            <Grid className={classes.category1} item xs={12}>
-                    <PanelListS/>
-                    <hr></hr>
-            </Grid>
-            <Grid className={classes.category2} item md={2}>
-                <PanelListL/>
-            </Grid>
-            <Grid item xs={12} md={10}>
+            <Grid item xs={12}>
+              <Paper>
+                 
               {/* <DataView value={this.state.cars} layout={this.state.layout} itemTemplate={this.itemTemplate} paginator={true} rows={10} first={this.state.first} onPage={(e) => this.setState({first: e.first})}></DataView> */}
               {/* <DataViewLayoutOptions layout={layout} onChange={(e) => setlayout(e.value)} /> */}
 
-              <DataView value={data} layout={'grid'} itemTemplate={itemTemplate} header={header} paginator={true} rows={5}></DataView>
-
+              <DataView value={data} layout={'grid'} itemTemplate={itemTemplate} header={header} paginator={true} rows={8}></DataView>
+   
+              </Paper>
+            </Grid>
+          </Grid>
             </Grid>    
           </Grid>
           </Container>
