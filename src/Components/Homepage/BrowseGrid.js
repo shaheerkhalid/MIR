@@ -1,7 +1,7 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import {Grid , Typography} from '@material-ui/core';
 import {makeStyles} from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
@@ -26,6 +26,10 @@ const useStyles = makeStyles(theme => ({
             color: RED,
       }
     },
+    heading: {
+      textAlign: "center",
+      color: theme.palette.text.secondary,
+    }
   }));
 
 export default function BrowseGrid(){
@@ -34,7 +38,11 @@ export default function BrowseGrid(){
             <React.Fragment>
               <CssBaseline />
               <Container className={classes.container} maxWidth="xl" style={{ padding: '50px' }} >
-                <Grid container spacing={3}>
+                <Grid container>
+                <Grid item xs={12} className={classes.heading}>
+                        <Typography variant='h3'>Browse By Category!</Typography>
+                        <br></br>
+                </Grid>
                   <Grid item xs={12}>
                     <Link className='nav-link' underline='none' to="/Products">
                       <Button className={classes.button} style={{backgroundImage: 'url(http://getwallpapers.com/wallpaper/full/4/7/2/242715.jpg)',backgroundSize: '100%'}}>For Rent</Button>

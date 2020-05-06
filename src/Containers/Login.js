@@ -13,26 +13,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import {RED} from "../Constants"
 import { makeStyles } from "@material-ui/core/styles";
-
-// state = { email: "", password: "" };
-// changeHandler = e => {
-//     const name = e.target.name;
-//     const value = e.target.value;
-//     this.setState({ [name]: value });
-// };
-// submitHandler = async e => {
-//     e.preventDefault();
-//     try {
-//         const { data } = await axios.post("*post your url ", this.state);
-//         toast.success(data);
-//         setTimeout(() => {
-//             localStorage.setItem("token", data.access_token);
-//             window.location = "/";
-//         }, 1000);
-//     } catch (err) {
-//         toast.error("invalid login or password");
-//     }
-// };
+import {isLog, jsontoken, userid} from "../Actions";
+import {useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 function Copyright() {
     return (
@@ -82,7 +65,45 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignInSide() {
     const classes = useStyles();
-    // const { email, password } = this.state;
+    const dispatch = useDispatch();
+
+    const [email, setemail] = React.useState(null);
+    const [pass, setpass] = React.useState(null);
+
+    const handleEmail = e => {
+        setemail(e.target.value);
+    }
+
+    const handlePass = e => {
+        setpass(e.target.value);
+    }
+
+    const submitHandler = e => {
+        e.preventDefault();
+        const data ={
+            "email":email,
+            "password":pass
+        }
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        };
+
+        fetch('http://localhost:5000/Api/User/login', requestOptions)
+        .then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            if(response.success===1){
+                dispatch(jsontoken("Bearer "+response.token));
+                dispatch(isLog());
+                dispatch(userid(response.data));
+            }
+        });
+        
+            
+    }
+
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -106,8 +127,7 @@ export default function SignInSide() {
                     </Typography>
                     <form
                         className={classes.form}
-                        // onSubmit={this.submitHandler}
-                        // Validate
+                        onSubmit={submitHandler}
                     >
                         <TextField
                             variant="outlined"
@@ -119,7 +139,7 @@ export default function SignInSide() {
                             label="Email Address"
                             name="email"
                             // value={email}
-                            // onChange={this.changeHandler}
+                            onChange={handleEmail}
                             autoComplete="email"
                             autoFocus
                         />
@@ -133,7 +153,7 @@ export default function SignInSide() {
                             type="password"
                             id="password"
                             // value={password}
-                            // onChange={this.changeHandler}
+                            onChange={handlePass}
                             autoComplete="current-password"
                         />
                         <FormControlLabel
@@ -143,10 +163,10 @@ export default function SignInSide() {
                             label="Remember me"
                         />
                         <Button
-                            type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
+                            type ="submit"
                             className={classes.submit}
                         >
                             Sign In

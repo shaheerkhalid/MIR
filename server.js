@@ -1,22 +1,12 @@
-  var mysql = require('mysql')
-  var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'mirs'
-  })
-  connection.connect(function(err) {
-    if (err) {
-      console.error('error connecting: ' + err.stack);
-      return;
-    }
-  
-    console.log('connected as id ' + connection.threadId);
-  });
+require("dotenv").config();
+const express = require('express');
+const app = express();
+const userRouter = require("./Api/User/user.router")
 
-  connection.query('select * from category', function (error, results, fields) {
-    if (error) throw error;
-    console.log('The solution is: ', results[3]);
-  });
+app.use(express.json());
 
-  connection.end();
+app.use("/Api/User", userRouter);
+
+//PORT
+const port = process.env.APP_PORT || 3000; 
+app.listen(port, () => console.log(`Listening on port ${port}`));

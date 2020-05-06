@@ -11,12 +11,9 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    backgroundColor: theme.palette.background.paper,
     position: 'relative',
     overflow: 'auto',
-    maxHeight: 500,
     padding: '0px',
-    margin: '0px 0px',
   },
   listSection: {
     backgroundColor: 'inherit',
@@ -27,7 +24,18 @@ const useStyles = makeStyles(theme => ({
   },
   links: {
     opacity: '0.7',
-    fontSize: '15px',
+    fontSize: '16px',
+    fontWeight: '600',
+    '&:hover': {
+        opacity: '1',
+        textDecoration: 'none',
+      }
+  },
+  innerlinks: {
+    opacity: '0.7',
+    fontSize: '14px',
+    color: 'black',
+    fontWeight: '600',
     '&:hover': {
         opacity: '1',
         textDecoration: 'none',
@@ -35,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function PanelListL() {
+export function PanelListL(props) {
   const classes = useStyles();
 
   return (
@@ -43,31 +51,30 @@ export function PanelListL() {
     <List className={classes.root} >
         <li className={classes.listSection}>
           <ul className={classes.ul}>
-            <ListItem >
-                <Link className={classes.links} color='primary' underline='none' href="#">ALL CATEGORIES</Link>
-              </ListItem>
-              <ListItem >
-                <Link className={classes.links} color='primary' underline='none' href="#">GUITARS</Link>
-              </ListItem>
-              <ListItem >
-                <Link className={classes.links} color='primary' underline='none' href="#">UKULELE</Link>
-              </ListItem>
-              <ListItem >
-                <Link className={classes.links} color='primary' underline='none' href="#">KEYBOARDS</Link>
-              </ListItem>
-              <ListItem >
-                <Link className={classes.links} color='primary' underline='none' href="#">MANDOLINS</Link>
-              </ListItem>
+          <ListItem >
+                <Link className={classes.links} color='primary' underline='none' href="#">All Categories</Link>
+          </ListItem>
+          {props.catlist.map(cat => (
+                <ListItem
+                  key={cat.category_id}
+                  align={cat.align}
+                  style={{ minWidth: cat.minWidth }}
+                >
+                  <Link className={classes.innerlinks} color='primary' underline='none' href="#">
+                    {cat.cat_name}
+                  </Link>
+                </ListItem>
+            ))}
           </ul>
         </li>
     </List>
   );
 }
 
-export function PanelListS() {
+export function PanelListS(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [tag, setTag] = React.useState('ALL CATEGORIES');
+    const [tag, setTag] = React.useState('All Categories');
     
     const handleClick = () => {
         setOpen(!open);
@@ -86,22 +93,21 @@ export function PanelListS() {
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem >
-              <Link className={classes.links} color='primary' underline='none' href="#">ALL CATEGORIES</Link>
-            </ListItem>
-            <ListItem >
-              <Link className={classes.links} color='primary' underline='none' href="#">GUITARS</Link>
-            </ListItem>
-            <ListItem >
-              <Link className={classes.links} color='primary' underline='none' href="#">UKULELE</Link>
-            </ListItem>
-            <ListItem >
-              <Link className={classes.links} color='primary' underline='none' href="#">KEYBOARDS</Link>
-            </ListItem>
-            <ListItem >
-              <Link className={classes.links} color='primary' underline='none' href="#">MANDOLINS</Link>
+        <List component="div" disablePadding style={{maxHeight: "200px"}}>
+        <ListItem >
+                <Link className={classes.links} color='primary' underline='none' href="#">All Categories</Link>
           </ListItem>
+          {props.catlist.map(catlist => (
+                <ListItem
+                  key={catlist.category_id}
+                  align={catlist.align}
+                  style={{ minWidth: catlist.minWidth }}
+                >
+                  <Link className={classes.links} color='primary' underline='none' href="#">
+                    {catlist.cat_name}
+                  </Link>
+                </ListItem>
+            ))}
         </List>
       </Collapse>
     </List>

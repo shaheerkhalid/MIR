@@ -5,9 +5,9 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import {PanelListL,PanelListS} from './CategoryList';
 import {DataView} from 'primereact/dataview';
-import data from '../../Assets/MOCK_DATA.json';
 import PCard from './GridCard';
-import {Button} from 'primereact/button';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {Dropdown} from "primereact/dropdown";
 import {RED} from '../../Constants';
 import Paper from '@material-ui/core/Paper';
@@ -61,33 +61,16 @@ const useStyles = makeStyles(theme => ({
 
 function renderListItem(card_data) {
   return (
-    <div className="p-col-12">
-    <div className="car-details" style={{
-
-    }}>
-      <div>
-            <img src={'https://i.picsum.photos/id/1'+card_data.id+'/200/200.jpg'}alt="card"/>
-            <div className="p-grid">
-                <div className="p-col-12">Vin: <b>{card_data.price}</b></div>
-                
-            </div>
-        </div>
-        <Button icon="pi pi-search" ></Button>
-      </div>
-    </div>
+    <div></div>
   );
 }
-
-
 
 function renderGridItem(card_data) {
     return <PCard card_data={card_data}/>;
 }
 
 
-
 function itemTemplate(card_data,layout){
-
   if (layout === 'list') {
     return renderListItem(card_data);
   }
@@ -99,7 +82,6 @@ function itemTemplate(card_data,layout){
 
 function onSortChange(event) {
   const value = event.value;
-
   if (value.indexOf('!') === 0) {
       // this.setState({
       //     sortOrder: -1,
@@ -119,15 +101,14 @@ function onSortChange(event) {
 
 function renderHeader() {
   const sortOptions = [
-      {label: 'Newest First', value: '!year'},
-      {label: 'Oldest First', value: 'year'},
-      {label: 'Brand', value: 'brand'}
+      {label: 'For Sale', value: 'sale'},
+      {label: 'For Rent', value: 'rent'}
   ];
   // const [sortKey, setsortKey] = useState(null);
   return (
       <div className="p-grid">
           <div className="p-col-6" style={{textAlign: 'left'}}>
-              <Dropdown options={sortOptions} value={null} placeholder="Sort By" onChange={onSortChange} />
+              <Dropdown options={sortOptions} value={null} placeholder="View Instrument" onChange={onSortChange} />
           </div>
           <div className="p-col-6" style={{textAlign: 'right'}}>
               {/* <DataViewLayoutOptions layout={layout} onChange={(e) => this.setState({layout: e.value})} /> */}
@@ -136,29 +117,27 @@ function renderHeader() {
   );
 }
 
-
-
-
-
-export default function ProductListing() {
+export default function ProductListing(props) {
     const header = renderHeader();
     const classes = useStyles();
     // const [layout, setlayout] = React.useState('grid');
+
     return(
+      (props.prodlist!=="")?
         <React.Fragment>
           <CssBaseline />
           <Container maxWidth="xl" style={{padding: '15px'}}>
           <Grid container spacing={3}>
             <Grid className={classes.category1} item xs={12}>
-                    <PanelListS/>
+                    <PanelListS catlist={props.catlist}/>
                     <hr></hr>
             </Grid>
-            <Grid className={classes.category2} item md={3}>
-                <PanelListL/>
+            <Grid className={classes.category2} item md={2}>
+                <PanelListL catlist={props.catlist}/>
             </Grid>
-            <Grid item xs={12} md={9}>
+            <Grid item xs={12} md={10}>
             <Grid container justify="center" alignItems="center">
-            <Grid item xs={12}>
+            <Grid item xs={8}>
               <Paper component="form" className={classes.searchbar}>
                     <InputBase
                         className={classes.input}
@@ -173,11 +152,10 @@ export default function ProductListing() {
             </Grid>
             <Grid item xs={12}>
               <Paper>
-                 
               {/* <DataView value={this.state.cars} layout={this.state.layout} itemTemplate={this.itemTemplate} paginator={true} rows={10} first={this.state.first} onPage={(e) => this.setState({first: e.first})}></DataView> */}
               {/* <DataViewLayoutOptions layout={layout} onChange={(e) => setlayout(e.value)} /> */}
-
-              <DataView value={data} layout={'grid'} itemTemplate={itemTemplate} header={header} paginator={true} rows={8}></DataView>
+              {console.log(props.prodlist)}
+              <DataView value={props.prodlist} layout={'grid'} itemTemplate={itemTemplate} header={header} paginator={true} rows={7} totalRecords={14}></DataView>
    
               </Paper>
             </Grid>
@@ -185,7 +163,11 @@ export default function ProductListing() {
             </Grid>    
           </Grid>
           </Container>
-        </React.Fragment>
+        </React.Fragment>:<div>
+                    <Backdrop className={classes.backdrop} open>
+                        <CircularProgress color="primary" />
+                    </Backdrop>
+                </div>
     );
 }
 

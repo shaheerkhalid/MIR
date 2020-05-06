@@ -9,8 +9,26 @@ import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import App from './App';
+import {createStore} from 'redux';
+import allReducers from './Reducers';
+import { Provider } from 'react-redux';
+import {loadState ,saveState, unloadState} from './localStorage'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const persistedState = loadState();
+
+const Mystore = createStore(allReducers,persistedState);
+
+Mystore.subscribe(() => {
+    saveState(Mystore.getState());
+});
+
+
+ReactDOM.render(
+    <Provider store={Mystore}>
+        <App />
+    </Provider>, document.getElementById('root'));
+
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

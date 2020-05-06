@@ -10,58 +10,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import {RED} from "../Constants"
-// import Tooltip from "@material-ui/core/Tooltip";
-
-// state = {
-//     name: "",
-//     email: "",
-//     password: "",
-
-// };
-// handleChange = e => {
-//     const name = e.target.name;
-//     const value = e.target.value;
-//     this.setState({ [name]: value });
-// };
-// handleConfirmPassword = event => {
-//     this.setState({ confirmPassword: event.target.value });
-// };
-// function resetState() {
-//     const name = "",
-//         password = "",
-//         email = "",
-
-//     this.setState({ name, password, email, confirmPassword });
-// }
-// handleClick = async e => {
-//     e.preventDefault();
-//     if (
-//         (this.state.name &&
-//             this.state.password &&
-//             this.state.email) !== ""
-//     ) {
-
-//             try {
-//                 const { name, email, password } = this.state;
-//                 const requestData = { name, email, password };
-//                 const { data } = await axios.post(
-//                     "/api/create-user",
-//                     this.state
-//                 );
-//                 console.log("");
-//                 toast.success("Sign Up Successfull Login Now");
-//                 this.resetState();
-//                 window.location = "/login";
-//                 console.log(data);
-//             } catch (error) {
-//                 toast.error("User Already Exist");
-//             }
-//         }
-
-//         toast.error("kindly fill all fields");
-
-// };
+import {RED} from "../Constants";
+import {isLog, jsontoken, userid} from "../Actions";
+import {useDispatch} from 'react-redux';
 
 function Copyright() {
     return (
@@ -98,6 +49,67 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignUp() {
     const classes = useStyles();
+    const dispatch = useDispatch();
+
+    const [fname, setfname] = React.useState(null);
+    const [lname, setlname] = React.useState(null);
+    const [email, setemail] = React.useState(null);
+    const [pass, setpass] = React.useState(null);
+
+    const handleFname = e => {
+        setfname(e.target.value);
+    }
+
+    const handleLname = e => {
+        setlname(e.target.value);
+    }
+
+    const handleEmail = e => {
+        setemail(e.target.value);
+    }
+
+    const handlePass = e => {
+        setpass(e.target.value);
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const data ={
+            "fullname":fname+" "+lname,
+            "email":email,
+            "usertype":'rentee',
+            "password":pass,
+            "phone":'',
+            "address":'',
+            "gender":'Male',
+            "avatar":''
+        }
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        };
+
+        fetch('http://localhost:5000/Api/User', requestOptions)
+        .then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            if(response.success===1){
+                fetch('http://localhost:5000/Api/User/login', requestOptions)
+                .then(res => res.json())
+                .catch(error => console.error('Error:', error))
+                .then(response => {
+                    if(response.success===1){
+                        dispatch(jsontoken("Bearer "+response.token));
+                        dispatch(isLog());
+                        dispatch(userid(response.data));
+                    }
+                });
+            }
+        });
+    }
+
+    
 
     return (
         <Container component="main" maxWidth="xs">
@@ -109,7 +121,7 @@ export default function SignUp() {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -121,6 +133,7 @@ export default function SignUp() {
                                 id="firstName"
                                 label="First Name"
                                 autoFocus
+                                onChange={handleFname}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -132,6 +145,7 @@ export default function SignUp() {
                                 label="Last Name"
                                 name="lastName"
                                 autoComplete="lname"
+                                onChange={handleLname}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -144,6 +158,7 @@ export default function SignUp() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                onChange={handleEmail}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -154,16 +169,11 @@ export default function SignUp() {
                                 name="password"
                                 label="Password"
                                 pattern="^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{5,20}$"
-                                // onChange={this.handleChange}
+                                onChange={handlePass}
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
                             />
-                            {/* <Tooltip
-                                title={
-                                    "Password Must include a character number upper case alphabet Length should be greater than 4 "
-                                }
-                            ></Tooltip> */}
                         </Grid>
                         
                     </Grid>
