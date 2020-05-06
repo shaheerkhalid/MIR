@@ -15,8 +15,6 @@ import {RED} from "../Constants"
 import { makeStyles } from "@material-ui/core/styles";
 import {isLog, jsontoken, userid} from "../Actions";
 import {useDispatch} from 'react-redux';
-import {useSelector} from 'react-redux';
-
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">

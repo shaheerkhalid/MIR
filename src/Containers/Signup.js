@@ -77,7 +77,7 @@ export default function SignUp() {
         const data ={
             "fullname":fname+" "+lname,
             "email":email,
-            "usertype":'rentee',
+            "usertype":'normal',
             "password":pass,
             "phone":'',
             "address":'',
