@@ -5,6 +5,8 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles} from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -68,6 +70,13 @@ export default function Header() {
         },
       }));
       const classes = useStyles();
+      const [stype, setstype] = React.useState("Instrument");
+
+
+      const handleChange = e => {
+        setstype(e.target.value);
+      }
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -75,13 +84,22 @@ export default function Header() {
         <Typography component="div">
         <br></br>
         <Grid container spacing={3} justify="center" alignItems="center">
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={8} md={6}>
             <Typography className={classes.headertext}>Discover Your Favourite Instruments</Typography>
             <Paper component="form" className={classes.searchbar}>
+                <Select
+                  value={stype}
+                  onChange={handleChange}
+                  disableUnderline
+                  style={{width: "120px"}}
+                >
+                  <MenuItem value={"Instrument"}>Instrument</MenuItem>
+                  <MenuItem value={"Course"}>Course</MenuItem>
+                </Select>
+                <Divider className={classes.divider} orientation="vertical" />
                 <InputBase
                     className={classes.input}
-                    placeholder="Search Instrument"
-                    inputProps={{ 'aria-label': 'search google maps' }}
+                    placeholder="Search here..." 
                 />
                 <Divider className={classes.divider} orientation="vertical" />
                 <IconButton type="submit" className={classes.iconButton} aria-label="search">

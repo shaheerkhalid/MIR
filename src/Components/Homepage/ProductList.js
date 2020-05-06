@@ -4,6 +4,16 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import PCard from './ProductCard';
 import data from '../../Assets/MOCK_DATA.json';
+import {Grid , Typography} from '@material-ui/core';
+import { makeStyles} from "@material-ui/core/styles";
+
+
+const useStyles = makeStyles(theme => ({
+    heading: {
+      textAlign: "center",
+      color: theme.palette.text.secondary,
+    }
+  }));
 
 
 export default function ProductList() {
@@ -33,12 +43,17 @@ export default function ProductList() {
     function dataTemplate(card_data){
         return <PCard card_data={card_data}/>
     }
+    const classes = useStyles();
 
     return (
         <React.Fragment>
           <CssBaseline />
             <Container maxWidth="xl" style={{ }} >
-                <Carousel value={data} itemTemplate={dataTemplate} autoplayInterval={5000} circular={true} responsiveOptions={responsiveOptions}></Carousel>
+                <Grid item xs={12} className={classes.heading}>
+                        <Typography variant='h3'>You Say You Want a Revolution?</Typography>
+                        <br></br>
+                </Grid>
+                <Carousel value={data} itemTemplate={dataTemplate} autoplayInterval={3000} circular={true} responsiveOptions={responsiveOptions}></Carousel>
             </Container>
         </React.Fragment>
             

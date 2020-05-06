@@ -37,8 +37,6 @@ export default function ProfileInfo() {
         sethelpphone("Incorrect Phone follow given pattern 03**-*******");
       }
     }
-
-
     return(
         <form className={classes.root}>
           <br></br>
