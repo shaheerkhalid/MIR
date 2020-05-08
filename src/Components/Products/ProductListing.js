@@ -3,7 +3,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import {PanelListL,PanelListS} from './CategoryList';
+import {PanelListS} from './CategoryList';
 import {DataView} from 'primereact/dataview';
 import PCard from './GridCard';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -15,6 +15,10 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import {Link} from "react-router-dom";
+import {useSelector} from 'react-redux';
 
 
 const useStyles = makeStyles(theme => ({
@@ -56,6 +60,32 @@ const useStyles = makeStyles(theme => ({
         height: 28,
         margin: 4,
     },
+  listSection: {
+    backgroundColor: 'inherit',
+  },
+  ul: {
+    backgroundColor: 'inherit',
+    padding: 0,
+  },
+  links: {
+    opacity: '0.7',
+    fontSize: '16px',
+    fontWeight: '600',
+    '&:hover': {
+        opacity: '1',
+        textDecoration: 'none',
+      }
+  },
+  innerlinks: {
+    opacity: '0.7',
+    fontSize: '14px',
+    color: 'black',
+    fontWeight: '600',
+    '&:hover': {
+        opacity: '1',
+        textDecoration: 'none',
+      }
+  },
   }));
 
 
@@ -120,10 +150,16 @@ function renderHeader() {
 export default function ProductListing(props) {
     const header = renderHeader();
     const classes = useStyles();
+    const proddata = useSelector(state => state.prodlist);
+    const [prodlist,setprodlist] = React.useState(proddata);
+    // const filterprods=prodlist.filter(prod => prod.category_id===cat_id);
     // const [layout, setlayout] = React.useState('grid');
 
+
+
+
     return(
-      (props.prodlist!=="")?
+      (prodlist!=="")?
         <React.Fragment>
           <CssBaseline />
           <Container maxWidth="xl" style={{padding: '15px'}}>
@@ -133,7 +169,26 @@ export default function ProductListing(props) {
                     <hr></hr>
             </Grid>
             <Grid className={classes.category2} item md={2}>
-                <PanelListL catlist={props.catlist}/>
+            <List className={classes.root} >
+                <li className={classes.listSection}>
+                  <ul className={classes.ul}>
+                  <ListItem >
+                        <Link className={classes.links} color='primary' underline='none' onClick={()=>{setprodlist(proddata);}}>All Categories</Link>
+                  </ListItem>
+                  {props.catlist.map(cat => (
+                        <ListItem
+                          key={cat.category_id}
+                          align={cat.align}
+                          style={{ minWidth: cat.minWidth }}
+                        >
+                          <Link className={classes.innerlinks} onClick={()=>{setprodlist(proddata.filter(prod => prod.category_id===cat.category_id));}} color='primary' underline='none'>
+                            {cat.cat_name}
+                          </Link>
+                        </ListItem>
+                    ))}
+                  </ul>
+                </li>
+            </List>
             </Grid>
             <Grid item xs={12} md={10}>
             <Grid container justify="center" alignItems="center">
@@ -143,6 +198,7 @@ export default function ProductListing(props) {
                         className={classes.input}
                         placeholder="Search Instrument"
                         inputProps={{ 'aria-label': 'search google maps' }}
+                        onChange={(e)=>{setprodlist(proddata.filter(prod => {return prod.title.toLowerCase().includes(e.target.value.toLowerCase())}));}}
                     />
                     <Divider className={classes.divider} orientation="vertical" />
                     <IconButton type="submit" className={classes.iconButton} aria-label="search">
@@ -154,8 +210,8 @@ export default function ProductListing(props) {
               <Paper>
               {/* <DataView value={this.state.cars} layout={this.state.layout} itemTemplate={this.itemTemplate} paginator={true} rows={10} first={this.state.first} onPage={(e) => this.setState({first: e.first})}></DataView> */}
               {/* <DataViewLayoutOptions layout={layout} onChange={(e) => setlayout(e.value)} /> */}
-              {console.log(props.prodlist)}
-              <DataView value={props.prodlist} layout={'grid'} itemTemplate={itemTemplate} header={header} paginator={true} rows={7} totalRecords={14}></DataView>
+              {console.log(prodlist)}
+              <DataView value={prodlist} layout={'grid'} itemTemplate={itemTemplate} header={header} totalRecords={14}></DataView>
    
               </Paper>
             </Grid>
