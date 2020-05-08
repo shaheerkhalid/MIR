@@ -8,8 +8,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
 import bodyParser from 'body-parser';
+import {prodlist} from "../../Actions";
+
 
 const columns = [
   { id: 'title', label: 'Title', minWidth: 150 },
@@ -54,12 +56,14 @@ export default function Listing() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
+  const allproducts = useSelector(state => state.prodlist);
   const jsontoken = useSelector(state => state.jsontoken);
   const user = useSelector(state => state.userid);
-  const [data, setdata] = React.useState(null);
-  let rows=null;
-  
 
+  let rows = allproducts.filter(prod => user.user_id === prod.renter_id);
+  const dispatch = useDispatch();
+  console.log(allproducts);
+  
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -69,66 +73,10 @@ export default function Listing() {
     setPage(0);
   };
 
-
-  React.useEffect(()=>{
-    fetch(`http://localhost:5000/Api/Product/ByUserID/${user.user_id}`,  {
-                  method: 'GET',
-                  headers: { 'Content-Type': 'application/json' ,
-                              'Authorization': jsontoken
-                          }
-                    
-                      })
-              .then(res => res.json())
-              .catch(error => console.error('Error:', error))
-              .then(response => {
-                  if(response.success===1){
-                    console.log(response);
-                    rows=response.data;
-                    console.log(rows);
-                    setdata(response.data);
-                  }
-              });
-  },[user.user_id])
-
   function editHandler(productID){
-    console.log(productID);
     
   }
 
-  function statusHandler(productID){
-    fetch(`http://localhost:5000/Api/Product/ByUserID`,  {
-                  method: 'PATCH',
-                  headers: { 'Content-Type': 'application/json' ,
-                              'Authorization': jsontoken
-                          },
-                  body: JSON.stringify({"product_id":productID})
-                    
-                      })
-                
-              .then(res => res.json())
-              .catch(error => console.error('Error:', error))
-              .then(response => {
-                  if(response.success===1){
-                    fetch(`http://localhost:5000/Api/Product/ByUserID/${user.user_id}`,  {
-                      method: 'GET',
-                      headers: { 'Content-Type': 'application/json' ,
-                                  'Authorization': jsontoken
-                              }
-                        
-                          })
-                  .then(res => res.json())
-                  .catch(error => console.error('Error:', error))
-                  .then(response => {
-                      if(response.success===1){
-                        console.log(response.data);
-                        rows=response.data;
-                      }
-                  });     
-                  }
-              });
-
-    
-  } 
 
   return (
     (rows !== null)?
@@ -172,7 +120,37 @@ export default function Listing() {
                   <TableCell key="action" align="300">
                         {/* {column.format && typeof value === 'number' ? column.format(value) : value} */}
                         <button onClick={editHandler(row.product_id)}>Edit</button>
-                        <button onClick={statusHandler(row.product_id)}> Inactive</button>
+                        <button onClick={()=>{
+                          fetch(`http://localhost:5000/Api/Product/ByUserID`,  {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' ,
+                                        'Authorization': jsontoken
+                                    },
+                            body: JSON.stringify({"product_id":row.product_id})
+                              
+                                })
+                          
+                        .then(res => res.json())
+                        .catch(error => console.error('Error:', error))
+                        .then(response => {
+                            if(response.success===1){
+                              fetch('http://localhost:5000/Api/Product',  {
+                                method: 'GET',
+                                headers: { 'Content-Type': 'application/json' ,
+                                            'Authorization': jsontoken
+                                        }
+                                    })
+                            .then(res => res.json())
+                            .catch(error => console.error('Error:', error))
+                            .then(response => {
+                                if(response.success===1){
+                                    dispatch(prodlist(response.data));
+                                }
+                            });
+                            }
+                        });
+          
+                        }}> Delete</button>
                         
                       </TableCell>
                 </TableRow>
