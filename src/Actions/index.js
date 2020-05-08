@@ -26,3 +26,10 @@ export const userid = (id) => {
         payload: id
     };
 };
+
+export const prodlist = (data) => {
+    return {
+        type: 'PRODUCTS',
+        payload: data
+    };
+};

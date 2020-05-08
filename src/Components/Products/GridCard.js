@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProductCard({card_data}){
   const classes = useStyles();
-  const [value, setValue] = React.useState(card_data.product_id%6);
+  const [value, setValue] = React.useState(0);
   
   const dispatch = useDispatch();
 
@@ -30,7 +30,9 @@ export default function ProductCard({card_data}){
 
   const header = 
   <div style={{position: 'relative'}}>
-      <img  alt="Card" src={card_data.picture_file_name}/>
+    <div style={{width: '100%',height: '200px',overflow: 'hidden'}}>
+      <img  alt="Card" src={card_data.picture_file_name} width="100%"/>
+    </div>
       <label style={{
           position: 'absolute',
           top:'5px',
@@ -49,7 +51,7 @@ export default function ProductCard({card_data}){
 
   const footer = <span>
                 <Link to='/ProductView'>
-                  <Button label="Rent" icon="pi pi-check" onClick={handleRent} style={{marginRight: '.25em'}}/>
+                  <Button label={(card_data.product_type==="rent")?"Rent":"Buy"} icon="pi pi-check" onClick={handleRent} style={{marginRight: '.25em'}}/>
                 </Link>
                </span>;
   

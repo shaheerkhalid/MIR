@@ -78,6 +78,7 @@ export default function AddProduct(props) {
             "brandid":brandid,
             "title":title,
             "description":description,
+            "product_type":selectedValue,
             "dateadded":new Date(),
             "priceperday":Dprice,
             "actualprice":Aprice,

@@ -52,7 +52,7 @@ export function PanelListL(props) {
         <li className={classes.listSection}>
           <ul className={classes.ul}>
           <ListItem >
-                <Link className={classes.links} color='primary' underline='none' href="#">All Categories</Link>
+                <Link className={classes.links} color='primary' underline='none' href="/Products">All Categories</Link>
           </ListItem>
           {props.catlist.map(cat => (
                 <ListItem
@@ -60,7 +60,7 @@ export function PanelListL(props) {
                   align={cat.align}
                   style={{ minWidth: cat.minWidth }}
                 >
-                  <Link className={classes.innerlinks} color='primary' underline='none' href="#">
+                  <Link className={classes.innerlinks} color='primary' underline='none' href={"/Products?id="+cat.category_id}>
                     {cat.cat_name}
                   </Link>
                 </ListItem>

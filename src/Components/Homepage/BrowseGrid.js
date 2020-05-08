@@ -44,12 +44,12 @@ export default function BrowseGrid(){
                         <br></br>
                 </Grid>
                   <Grid item xs={12}>
-                    <Link className='nav-link' underline='none' to="/Products">
+                    <Link className='nav-link' underline='none' to="/Products?ptype=rent">
                       <Button className={classes.button} style={{backgroundImage: 'url(http://getwallpapers.com/wallpaper/full/4/7/2/242715.jpg)',backgroundSize: '100%'}}>For Rent</Button>
                     </Link>
                   </Grid>
                   <Grid item xs={6}>
-                  <Link className='nav-link' underline='none' to="/Products">
+                  <Link className='nav-link' underline='none' to="/Products?ptype=sale">
                       <Button className={classes.button} style={{backgroundImage: 'url(https://fsb.zobj.net/crop.php?r=jwTkRrNS9p2QBVE6bFxjtMcIHf78RT3aw7AI0QRI26-wIn6EzYrgQCAy3j78v0CNBXUo_De2s4TGrxuoWg-caDrzSgPVSmAcs3N3AUngxVrwVuXtkbvp3O--douL9FNKaizav497IW5Q2IlP)',backgroundSize: '100%'}}>For Sale</Button>
                   </Link>
                   </Grid>
