@@ -84,7 +84,7 @@ export default function ProfileInfo() {
                       if(response.success===1){ 
                         console.log(response)
                         setOpen(true);
-                          fetch(`http://localhost:5000/Api/User/:${userid.user_id}`,{
+                          fetch(`http://localhost:5000/Api/User/${userID.user_id}`,{
                           method: 'GET',
                           headers: { 'Content-Type': 'application/json',
                                       'Authorization': jsontoken,
@@ -100,7 +100,7 @@ export default function ProfileInfo() {
                       });
                       }
                   });
-             }              
+             }           
           });
       }else{
         const data ={
@@ -123,8 +123,7 @@ export default function ProfileInfo() {
           .then(response => {
               if(response.success===1){ 
                 console.log(response)
-                setOpen(true);
-                  fetch(`http://localhost:5000/Api/User/:${userid.user_id}`,{
+                  fetch(`http://localhost:5000/Api/User/${userID.user_id}`,{
                   method: 'GET',
                   headers: { 'Content-Type': 'application/json',
                               'Authorization': jsontoken,
@@ -134,7 +133,8 @@ export default function ProfileInfo() {
                   .catch(error => console.error('Error:', error))
                   .then(response => {
                     if(response.success===1){ 
-                      console.log(response.data)
+                      console.log(response.data);
+                      setOpen(true);
                       dispatch(userid(response.data));
                   }
               });

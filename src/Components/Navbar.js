@@ -47,6 +47,7 @@ export default function Navbar() {
                 </ul>
                 {isLogged ? 
                 <div className="dropdown" style={{marginRight: '10px'}}>
+                    {console.log(userdata.avatar)}
                     <Avatar alt={userdata.full_name} src={(userdata.avatar)?(userdata.avatar):"/image.jpg"} id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"/>
                     <div className="dropdown-menu" style={{position:'realtive', left: '-20px', top: '50px'}} aria-labelledby="dropdownMenuLink">
                         <Link className="dropdown-item" to="/Dashboard">Dashboard</Link>
