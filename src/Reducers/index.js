@@ -3,6 +3,8 @@ import proddataReducer from './Productdata';
 import jsontokenReducer from './jsonToken';
 import useridReducer from './user_id';
 import prodListReducer from './prodList';
+import cartReducer from './cart';
+import requestReducer from './Request';
 import { combineReducers } from 'redux';
 
 const allReducers = combineReducers({
@@ -11,6 +13,8 @@ const allReducers = combineReducers({
     jsontoken: jsontokenReducer,
     userid: useridReducer,
     prodlist: prodListReducer,
+    cartdata: cartReducer,
+    requestdata: requestReducer
 });
 
 export default allReducers;

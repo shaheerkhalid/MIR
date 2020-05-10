@@ -31,7 +31,8 @@ export default function ProfileInfo() {
   
     const [fname, setfname] = React.useState(userID.full_name.split(" ")[0]);
     const [lname, setlname] = React.useState(userID.full_name.split(" ")[1]);
-    const [helpphone, sethelpphone] = React.useState("");
+    console.log(userID);
+    const [helpphone, sethelpphone] = React.useState(userID.phone);
     const [email, setemail] = React.useState(userID.email);
     const [address, setaddress] = React.useState(userID.address);
     const [phnbr, setphnbr] = React.useState(userID.phone);
@@ -82,6 +83,21 @@ export default function ProfileInfo() {
                   .then(response => {
                       if(response.success===1){ 
                         console.log(response)
+                        setOpen(true);
+                          fetch(`http://localhost:5000/Api/User/:${userid.user_id}`,{
+                          method: 'GET',
+                          headers: { 'Content-Type': 'application/json',
+                                      'Authorization': jsontoken,
+                                  },
+                              })
+                      .then(res => res.json())
+                      .catch(error => console.error('Error:', error))
+                      .then(response => {
+                          if(response.success===1){ 
+                            console.log(response.data)
+                            dispatch(userid(response.data));
+                          }
+                      });
                       }
                   });
              }              
@@ -107,23 +123,25 @@ export default function ProfileInfo() {
           .then(response => {
               if(response.success===1){ 
                 console.log(response)
+                setOpen(true);
+                  fetch(`http://localhost:5000/Api/User/:${userid.user_id}`,{
+                  method: 'GET',
+                  headers: { 'Content-Type': 'application/json',
+                              'Authorization': jsontoken,
+                          },
+                      })
+                  .then(res => res.json())
+                  .catch(error => console.error('Error:', error))
+                  .then(response => {
+                    if(response.success===1){ 
+                      console.log(response.data)
+                      dispatch(userid(response.data));
+                  }
+              });
               }
           });
       }
-      setOpen(true);
-        fetch(`http://localhost:5000/Api/User/:${userid.user_id}`,{
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json',
-                    'Authorization': jsontoken,
-                },
-            })
-    .then(res => res.json())
-    .catch(error => console.error('Error:', error))
-    .then(response => {
-        if(response.success===1){ 
-          dispatch(userid(response.data));
-        }
-    });
+      
     };
 
     const handleClose = (event, reason) => {

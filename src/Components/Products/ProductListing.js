@@ -210,7 +210,6 @@ export default function ProductListing(props) {
               <Paper>
               {/* <DataView value={this.state.cars} layout={this.state.layout} itemTemplate={this.itemTemplate} paginator={true} rows={10} first={this.state.first} onPage={(e) => this.setState({first: e.first})}></DataView> */}
               {/* <DataViewLayoutOptions layout={layout} onChange={(e) => setlayout(e.value)} /> */}
-              {console.log(prodlist)}
               <DataView value={prodlist} layout={'grid'} itemTemplate={itemTemplate} header={header} totalRecords={14}></DataView>
    
               </Paper>

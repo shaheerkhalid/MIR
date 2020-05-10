@@ -41,7 +41,7 @@ export default function ProductCard({card_data}){
           color:WHITE ,
           fontWeight:'bold',
           padding:'2px 10px',
-          }}>{card_data.price_per_day} /Day</label>
+          }}>Rs. {card_data.price_per_day} /Day</label>
           <Rating
           name="read-only"
           value={value}
@@ -58,7 +58,7 @@ export default function ProductCard({card_data}){
   
   return (
       <div style={{ padding: '.5em' }} className="p-col-12 p-xs-12 p-sm-6 p-md-4 p-lg-3">
-        <Card className={classes.cardstyle} header={header} footer={footer} title={card_data.title} subTitle={card_data.actual_price} style={{padding:'10px'}}>
+        <Card className={classes.cardstyle} header={header} footer={footer} title={card_data.title} subTitle={"Net Worth: Rs. "+card_data.actual_price} style={{padding:'10px'}}>
         </Card>   
       </div>
   );
