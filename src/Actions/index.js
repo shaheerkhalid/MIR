@@ -33,3 +33,11 @@ export const prodlist = (data) => {
         payload: data
     };
 };
+
+
+export const editProd = (data) => {
+    return {
+        type: 'EDITPRODUCT',
+        payload: data
+    };
+};

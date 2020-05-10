@@ -10,7 +10,9 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import {useSelector,useDispatch} from 'react-redux';
 import bodyParser from 'body-parser';
-import {prodlist} from "../../Actions";
+import {prodlist,editProd} from "../../Actions";
+import {Link} from 'react-router-dom';
+
 
 
 const columns = [
@@ -59,10 +61,11 @@ export default function Listing() {
   const allproducts = useSelector(state => state.prodlist);
   const jsontoken = useSelector(state => state.jsontoken);
   const user = useSelector(state => state.userid);
+  // const edit = useSelector(state => state.editprod);
 
   let rows = allproducts.filter(prod => user.user_id === prod.renter_id);
+  
   const dispatch = useDispatch();
-  console.log(allproducts);
   
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -119,7 +122,12 @@ export default function Listing() {
                   })}
                   <TableCell key="action" align="300">
                         {/* {column.format && typeof value === 'number' ? column.format(value) : value} */}
-                        <button onClick={editHandler(row.product_id)}>Edit</button>
+                        <Link to="/AddProduct" ><button onClick={()=>{
+
+                            dispatch(editProd(rows.filter(prod => prod.product_id === row.product_id)[0]))
+                            
+                            
+                        }}>Edit</button></Link>
                         <button onClick={()=>{
                           fetch(`http://localhost:5000/Api/Product/ByUserID`,  {
                             method: 'PATCH',
