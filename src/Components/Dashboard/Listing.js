@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
+import Button from "@material-ui/core/Button";
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -122,13 +123,13 @@ export default function Listing() {
                   })}
                   <TableCell key="action" align="300">
                         {/* {column.format && typeof value === 'number' ? column.format(value) : value} */}
-                        <Link to="/AddProduct" ><button onClick={()=>{
+                        <Link to="/AddProduct" ><Button color="primary" variant="contained" onClick={()=>{
 
                             dispatch(editProd(rows.filter(prod => prod.product_id === row.product_id)[0]))
                             
                             
-                        }}>Edit</button></Link>
-                        <button onClick={()=>{
+                        }}>Edit</Button>  </Link>
+                        <Button color="secondary" variant="contained" onClick={()=>{
                           fetch(`http://localhost:5000/Api/Product/ByUserID`,  {
                             method: 'PATCH',
                             headers: { 'Content-Type': 'application/json' ,
@@ -158,7 +159,7 @@ export default function Listing() {
                             }
                         });
           
-                        }}> Delete</button>
+                        }}> Delete</Button>
                         
                       </TableCell>
                 </TableRow>

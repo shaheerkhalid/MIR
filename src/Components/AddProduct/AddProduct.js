@@ -14,7 +14,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { Link } from 'react-router-dom';
 import {useSelector,useDispatch} from 'react-redux';
-import { editProd } from "../../Actions";
+import { editProd,prodlist } from "../../Actions";
 
 
 const useStyles = makeStyles(theme => ({
@@ -113,9 +113,59 @@ export default function AddProduct(props) {
                 .catch(error => console.error('Error:', error))
                 .then(response => {
                     if(response.success===1){
+                        prodid=edit.productid;
+                        var form = document.getElementById("myform");
+                        Array.from(files).forEach(f => {
+                            var formData = new FormData(form);
+                            formData.append('product', f);
+                                fetch('http://localhost:5000/upload',{
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(res => res.json())
+                            .catch(error => console.error('Error:', error))
+                            .then(response => {
+                                if(response.success===1){
+                                    const picdata={
+                                        "prodid" : prodid,
+                                        "picname" : response.product_url,
+                                        "ismain" : ismain
+                                    }
+                                    fetch('http://localhost:5000/Api/Product/UpdatePicture',  {
+                                        method: 'PATCH',
+                                        headers: { 'Content-Type': 'application/json',
+                                                    'Authorization': jsontoken,
+                                                },
+                                                body: JSON.stringify(picdata)
+                                            })
+                                    .then(res => res.json())
+                                    .catch(error => console.error('Error:', error))
+                                    .then(response => {
+                                            if(response.success===1){
+                                                fetch('http://localhost:5000/Api/Product',  {
+                                                    method: 'GET',
+                                                    headers: { 'Content-Type': 'application/json' ,
+                                                                'Authorization': jsontoken
+                                                            }
+                                                        })
+                                                .then(res => res.json())
+                                                .catch(error => console.error('Error:', error))
+                                                .then(response => {
+                                                    if(response.success===1){
+                                                        dispatch(prodlist(response.data));
+                                                    }
+                                                });
+                                                dispatch(editProd(""));
+                                            }
+                                    })
+                                    ismain=0;
+                                }
+                            });
+                        });
+                        document.getElementById("addform").reset();
+                        setOpen(true);
                     }
                 });
-                dispatch(editProd(""));
             }else{
             fetch('http://localhost:5000/Api/Product',  {
                 method: 'POST',
