@@ -13,7 +13,9 @@ import Radio from '@material-ui/core/Radio';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { Link } from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
+import { editProd,prodlist } from "../../Actions";
+
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -40,18 +42,22 @@ function Alert(props) {
 
 export default function AddProduct(props) {
     const classes = useStyles();
+    const editData = useSelector(state => state.editprod);
+    
     const [pic, setpic] = React.useState("");
     const [files, setfiles] = React.useState("");
-    const [title, settitle] = React.useState("");
-    const [description, setdescription] = React.useState("");
-    const [catid, setcatid] = React.useState(1);
-    const [brandid, setbrandid] = React.useState(1);
-    const [Aprice, setAprice] = React.useState("");
-    const [Dprice, setDprice] = React.useState("");
-    const [selectedValue, setSelectedValue] = React.useState('rent');
+    const [title, settitle] = React.useState((editData)?editData.title:"");
+    const [description, setdescription] = React.useState((editData)?editData.description:"");
+    const [catid, setcatid] = React.useState((editData)?editData.category_id:1);
+    const [brandid, setbrandid] = React.useState((editData)?editData.brand_id:1);
+    const [Aprice, setAprice] = React.useState((editData)?editData.actual_price:"");
+    const [Dprice, setDprice] = React.useState((editData)?editData.price_per_day:"");
+    const [selectedValue, setSelectedValue] = React.useState((editData)?editData.product_type:"rent");
     const [open, setOpen] = React.useState(false);
     const jsontoken = useSelector(state => state.jsontoken);
     const userid = useSelector(state => state.userid);
+    const dispatch = useDispatch();
+    
 
     const Pictures = e => {
             var path=[];
@@ -83,6 +89,84 @@ export default function AddProduct(props) {
             "priceperday":Dprice,
             "actualprice":Aprice,
         };
+            if(editData){
+                const edit ={
+                    "productid":editData.product_id,
+                    "renterid":userid.user_id,
+                    "catid":catid,
+                    "brandid":brandid,
+                    "title":title,
+                    "description":description,
+                    "product_type":selectedValue,
+                    "dateadded":new Date(),
+                    "priceperday":Dprice,
+                    "actualprice":Aprice,
+                };
+                fetch('http://localhost:5000/Api/Product/UpdateProduct',  {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json',
+                            'Authorization': jsontoken,
+                        },
+                        body: JSON.stringify(edit)
+                    })
+                .then(res => res.json())
+                .catch(error => console.error('Error:', error))
+                .then(response => {
+                    if(response.success===1){
+                        prodid=edit.productid;
+                        var form = document.getElementById("myform");
+                        Array.from(files).forEach(f => {
+                            var formData = new FormData(form);
+                            formData.append('product', f);
+                                fetch('http://localhost:5000/upload',{
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(res => res.json())
+                            .catch(error => console.error('Error:', error))
+                            .then(response => {
+                                if(response.success===1){
+                                    const picdata={
+                                        "prodid" : prodid,
+                                        "picname" : response.product_url,
+                                        "ismain" : ismain
+                                    }
+                                    fetch('http://localhost:5000/Api/Product/UpdatePicture',  {
+                                        method: 'PATCH',
+                                        headers: { 'Content-Type': 'application/json',
+                                                    'Authorization': jsontoken,
+                                                },
+                                                body: JSON.stringify(picdata)
+                                            })
+                                    .then(res => res.json())
+                                    .catch(error => console.error('Error:', error))
+                                    .then(response => {
+                                            if(response.success===1){
+                                                fetch('http://localhost:5000/Api/Product',  {
+                                                    method: 'GET',
+                                                    headers: { 'Content-Type': 'application/json' ,
+                                                                'Authorization': jsontoken
+                                                            }
+                                                        })
+                                                .then(res => res.json())
+                                                .catch(error => console.error('Error:', error))
+                                                .then(response => {
+                                                    if(response.success===1){
+                                                        dispatch(prodlist(response.data));
+                                                    }
+                                                });
+                                                dispatch(editProd(""));
+                                            }
+                                    })
+                                    ismain=0;
+                                }
+                            });
+                        });
+                        document.getElementById("addform").reset();
+                        setOpen(true);
+                    }
+                });
+            }else{
             fetch('http://localhost:5000/Api/Product',  {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json',
@@ -132,6 +216,7 @@ export default function AddProduct(props) {
 
                 }
             });
+            }
     }
 
     return (
@@ -158,7 +243,7 @@ export default function AddProduct(props) {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField id="outlined-basic" label="Title" variant="outlined" onChange={(e) => {settitle(e.target.value)}} style={{width: "100%"}}/>
+                            <TextField id="outlined-basic" label="Title" variant="outlined" value={title} onChange={(e) => {settitle(e.target.value)}} style={{width: "100%"}}/>
                         </Grid>
                         <Grid item xs={6}>
                         <FormControl variant="outlined" className={classes.formControl} style={{width: "100%"}}>
@@ -201,14 +286,14 @@ export default function AddProduct(props) {
                         </FormControl>
                         </Grid>
                         <Grid item xs={6}>
-                            <TextField type="number" min="1" step="any" id="outlined-basic" label="Price of Instrument" placeholder="00.00" variant="outlined" onChange={(e) => {setAprice(e.target.value)}} style={{width: "100%"}}/>
+                            <TextField type="number" min="1" step="any" id="outlined-basic" label="Price of Instrument" placeholder="00.00" variant="outlined" value={Aprice} onChange={(e) => {setAprice(e.target.value)}} style={{width: "100%"}}/>
                         </Grid>
                         <Grid item xs={6}>
-                        {(selectedValue==='rent')?<TextField type="number" min="1" step="any" id="outlined-basic" label="Price Per Day" placeholder="00.00" variant="outlined" onChange={(e) => {setDprice(e.target.value)}} style={{width: "100%"}}/>:""}
+                        {(selectedValue==='rent')?<TextField type="number" min="1" step="any" id="outlined-basic" label="Price Per Day" placeholder="00.00" variant="outlined" value={Dprice} onChange={(e) => {setDprice(e.target.value)}} style={{width: "100%"}}/>:""}
                             
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField id="outlined-textarea" label="Description" multiline variant="outlined" rows="4" onChange={(e) => {setdescription(e.target.value)}} style={{width: "100%"}}/>
+                            <TextField id="outlined-textarea" label="Description" multiline variant="outlined" rows="4" value={description} onChange={(e) => {setdescription(e.target.value)}} style={{width: "100%"}}/>
                         </Grid>
                         <Grid item xs={12}>
                             <span>The pictures should be in a square format (1:1 ratio) </span>
