@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,6 +16,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DisplayImages(props) {
   const classes = useStyles();
+  const jsontoken = useSelector(state => state.jsontoken);
+  const [pics, setpics] = React.useState([]);
+  
+  React.useEffect(()=>{
+    fetch(`http://localhost:5000/Api/Product/Picture/${props.proddata.product_id}`,  {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' ,
+                                'Authorization': jsontoken
+                            }
+                    })
+                .then(res => res.json())
+                .catch(error => console.error('Error:', error))
+                .then(response => {
+                  if(response.success===1){
+                        setpics(response.data);
+                  }
+    });
+  },[]);
 
   return (
     <div className={classes.root}>
@@ -24,26 +43,13 @@ export default function DisplayImages(props) {
               <img alt="" src={props.proddata.picture_file_name} width="100%"/>
           </Paper>
         </Grid>
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>
-            <img alt="" src={'https://i.picsum.photos/id/1'+props.proddata.id+'/200/200.jpg'} width="100%"/>
-          </Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>
-            <img alt="" src={'https://i.picsum.photos/id/1'+props.proddata.id+'/200/200.jpg'} width="100%"/>
-          </Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>
-            <img alt="" src={'https://i.picsum.photos/id/1'+props.proddata.id+'/200/200.jpg'} width="100%"/>
-          </Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>
-            <img alt="" src={'https://i.picsum.photos/id/1'+props.proddata.id+'/200/200.jpg'} width="100%"/>
-          </Paper>
-        </Grid>
+        {pics.map(pic => (
+              <Grid item xs={3}>
+                <Paper className={classes.paper}>
+                  <img alt="" src={pic.picture_file_name} width="100%"/>
+                </Paper>
+              </Grid>
+        ))}
       </Grid>
     </div>
   );

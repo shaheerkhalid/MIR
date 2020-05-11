@@ -40,8 +40,6 @@ export default function ProductListing() {
     const match = useRouteMatch().path;
     let content = <ProfileInfo/>
     const classes = useStyles();
-
-    console.log(match);
     if(match==='/Dashboard'){
        content = <ProfileInfo/>
     }else if(match==='/Dashboard/Listing'){

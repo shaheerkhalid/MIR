@@ -14,7 +14,7 @@ import About from './Containers/About';
 import Contact from './Containers/Contact';
 import AddProduct from './Containers/AddProduct';
 import ProductView from './Containers/ProductView';
-import Cart from './Containers/Cart';
+import Payment from './Containers/Payment';
 import {useSelector} from 'react-redux';
 
 export default function App(){
@@ -37,8 +37,8 @@ export default function App(){
                    <Route path="/Dashboard" exact>
                         {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
-                   <Route path="/Cart" exact>
-                        <Cart/>
+                   <Route path="/Payment" exact>
+                        <Payment/>
                    </Route>
                    <Route path="/Contact" exact>
                         <Contact/>
