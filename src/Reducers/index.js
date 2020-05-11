@@ -18,11 +18,9 @@ const allReducers = combineReducers({
     jsontoken: jsontokenReducer,
     userid: useridReducer,
     prodlist: prodListReducer,
-
     cartdata: cartReducer,
     requestdata: requestReducer,
     searchdata: searchReducer,
-
     editprod: editProductReducer, 
 
 });
