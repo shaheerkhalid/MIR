@@ -3,6 +3,7 @@ import proddataReducer from './Productdata';
 import jsontokenReducer from './jsonToken';
 import useridReducer from './user_id';
 import prodListReducer from './prodList';
+import editProductReducer from './editProduct'
 import { combineReducers } from 'redux';
 
 const allReducers = combineReducers({
@@ -11,6 +12,7 @@ const allReducers = combineReducers({
     jsontoken: jsontokenReducer,
     userid: useridReducer,
     prodlist: prodListReducer,
+    editprod: editProductReducer, 
 });
 
 export default allReducers;
