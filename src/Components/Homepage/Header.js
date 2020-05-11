@@ -11,7 +11,10 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import {Link} from "react-router-dom";
 import { RED } from '../../Constants';
+import {searchvalue} from '../../Actions';
+import {useDispatch} from 'react-redux';
 
 export default function Header() {
     const useStyles = makeStyles(theme => ({
@@ -69,12 +72,20 @@ export default function Header() {
             margin: 4,
         },
       }));
+
       const classes = useStyles();
       const [stype, setstype] = React.useState("Instrument");
-
+      const [svalue, setsvalue] = React.useState("");
+      const dispatch = useDispatch();
 
       const handleChange = e => {
         setstype(e.target.value);
+      }
+
+      const handleSubmit = e => {
+        e.preventDefault();
+        dispatch(searchvalue(svalue));
+        document.getElementById("srch").click();
       }
 
   return (
@@ -86,7 +97,7 @@ export default function Header() {
         <Grid container spacing={3} justify="center" alignItems="center">
         <Grid item xs={12} sm={8} md={6}>
             <Typography className={classes.headertext}>Discover Your Favourite Instruments</Typography>
-            <Paper component="form" className={classes.searchbar}>
+            <Paper component="form" onSubmit={handleSubmit} className={classes.searchbar}>
                 <Select
                   value={stype}
                   onChange={handleChange}
@@ -99,9 +110,12 @@ export default function Header() {
                 <Divider className={classes.divider} orientation="vertical" />
                 <InputBase
                     className={classes.input}
-                    placeholder="Search here..." 
+                    value={svalue}
+                    placeholder="Search here..."
+                    onChange={(e) => {setsvalue(e.target.value)}} 
                 />
                 <Divider className={classes.divider} orientation="vertical" />
+                <Link id="srch" to="/Products"></Link>
                 <IconButton type="submit" className={classes.iconButton} aria-label="search">
                     <SearchIcon />
                 </IconButton>

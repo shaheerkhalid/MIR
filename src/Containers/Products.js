@@ -50,7 +50,6 @@ export default function Products() {
                         dispatch(prodlist(response.data));
                     }
                 });
-        // }
     }, [jsontoken,dispatch]);
 
     return(

@@ -18,7 +18,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import {Link} from "react-router-dom";
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
+import {searchvalue} from '../../Actions';
 
 
 const useStyles = makeStyles(theme => ({
@@ -152,11 +153,20 @@ export default function ProductListing(props) {
     const classes = useStyles();
     const proddata = useSelector(state => state.prodlist);
     const [prodlist,setprodlist] = React.useState(proddata);
+    const searchdata = useSelector(state => state.searchdata);
+    const [svalue,setsvalue] = React.useState(searchdata);
+    const dispatch = useDispatch();
+    const search = window.location.search;
     // const filterprods=prodlist.filter(prod => prod.category_id===cat_id);
     // const [layout, setlayout] = React.useState('grid');
-
-
-
+    React.useEffect(()=>{
+      if(search.split("=")[1]==="rent" || search.split("=")[1]==="sale"){
+        setprodlist(proddata.filter(prod => prod.product_type===search.split("=")[1]));
+      }else if(searchdata){
+        setprodlist(proddata.filter(prod => {return prod.title.toLowerCase().includes(searchdata.toLowerCase())}));
+        dispatch(searchvalue(""));
+      }
+    },[]);
 
     return(
       (prodlist!=="")?
@@ -198,7 +208,10 @@ export default function ProductListing(props) {
                         className={classes.input}
                         placeholder="Search Instrument"
                         inputProps={{ 'aria-label': 'search google maps' }}
-                        onChange={(e)=>{setprodlist(proddata.filter(prod => {return prod.title.toLowerCase().includes(e.target.value.toLowerCase())}));}}
+                        value={svalue}
+                        onChange={(e)=>{
+                          setsvalue(e.target.value);
+                          setprodlist(proddata.filter(prod => {return prod.title.toLowerCase().includes(e.target.value.toLowerCase())}));}}
                     />
                     <Divider className={classes.divider} orientation="vertical" />
                     <IconButton type="submit" className={classes.iconButton} aria-label="search">
@@ -210,7 +223,6 @@ export default function ProductListing(props) {
               <Paper>
               {/* <DataView value={this.state.cars} layout={this.state.layout} itemTemplate={this.itemTemplate} paginator={true} rows={10} first={this.state.first} onPage={(e) => this.setState({first: e.first})}></DataView> */}
               {/* <DataViewLayoutOptions layout={layout} onChange={(e) => setlayout(e.value)} /> */}
-              {console.log(prodlist)}
               <DataView value={prodlist} layout={'grid'} itemTemplate={itemTemplate} header={header} totalRecords={14}></DataView>
    
               </Paper>

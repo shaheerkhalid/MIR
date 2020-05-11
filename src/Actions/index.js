@@ -20,6 +20,14 @@ export const jsontoken = (token) => {
     };
 };
 
+export const prodlist = (data) => {
+    return {
+        type: 'PRODUCT',
+        payload: data
+    };
+};
+
+
 export const userid = (id) => {
     return {
         type: 'USER_ID',
@@ -27,9 +35,29 @@ export const userid = (id) => {
     };
 };
 
-export const prodlist = (data) => {
+export const addtocart = (data) => {
     return {
-        type: 'PRODUCTS',
+        type: 'ADDTOCART',
+        payload: data
+    };
+};
+
+export const deletefromcart = () => {
+    return {
+        type: 'DELETEFROMCART'
+    };
+};
+
+export const addtorequest = (data) => {
+    return {
+        type: 'ADDTOREQUEST',
+        payload: data
+    };
+};
+
+export const searchvalue = (data) => {
+    return {
+        type: 'SEARCH',
         payload: data
     };
 };
