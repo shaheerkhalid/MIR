@@ -142,6 +142,7 @@ export default function AddProduct(props) {
                                     .catch(error => console.error('Error:', error))
                                     .then(response => {
                                             if(response.success===1){
+                                                console.log(response);
                                                 fetch('http://localhost:5000/Api/Product',  {
                                                     method: 'GET',
                                                     headers: { 'Content-Type': 'application/json' ,
@@ -152,6 +153,8 @@ export default function AddProduct(props) {
                                                 .catch(error => console.error('Error:', error))
                                                 .then(response => {
                                                     if(response.success===1){
+                                                        console.log(response);
+                                                        
                                                         dispatch(prodlist(response.data));
                                                     }
                                                 });
