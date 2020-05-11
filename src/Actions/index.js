@@ -22,7 +22,7 @@ export const jsontoken = (token) => {
 
 export const prodlist = (data) => {
     return {
-        type: 'PRODUCT',
+        type: 'PRODUCTS',
         payload: data
     };
 };
