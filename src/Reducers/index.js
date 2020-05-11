@@ -5,6 +5,7 @@ import useridReducer from './user_id';
 import prodListReducer from './prodList';
 import cartReducer from './cart';
 import requestReducer from './Request';
+import searchReducer from './search';
 import { combineReducers } from 'redux';
 
 const allReducers = combineReducers({
@@ -14,7 +15,8 @@ const allReducers = combineReducers({
     userid: useridReducer,
     prodlist: prodListReducer,
     cartdata: cartReducer,
-    requestdata: requestReducer
+    requestdata: requestReducer,
+    searchdata: searchReducer
 });
 
 export default allReducers;

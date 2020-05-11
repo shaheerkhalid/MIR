@@ -54,3 +54,10 @@ export const addtorequest = (data) => {
         payload: data
     };
 };
+
+export const searchvalue = (data) => {
+    return {
+        type: 'SEARCH',
+        payload: data
+    };
+};
