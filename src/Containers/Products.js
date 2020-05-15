@@ -53,7 +53,7 @@ export default function Products() {
     }, [jsontoken,dispatch]);
 
     return(
-        (catlist!==""&&prodlist!=="")?
+        (catlist!=="" && prodlist!=="")?
         <div>
             <Navbar/>
             <ProductListing catlist={catlist}/>

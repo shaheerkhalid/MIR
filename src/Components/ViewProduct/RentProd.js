@@ -16,26 +16,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddtoCart(props) {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const userdata = useSelector(state => state.userid);
-
-
-  const handleAddCart = () => {
-    dispatch(addtocart(props.proddata));
-  }
-
-
   return (
     <div className={classes.root}>
       <Grid container spacing={2} justify="center" >
                 <Grid item xs={10}>
-                    <Typography variant="h5">{props.proddata.title}</Typography>
-                    <Typography variant="h6">Price per Day: Rs. {props.proddata.price_per_day}</Typography>
+                    <Typography variant="h5">Renter Name: <span style={{fontSize: '16px'}}>{props.renterdata.full_name}</span> <Link to="/ProfileView" style={{fontSize:'12px'}}>See Profile</Link></Typography>
+                    <Typography variant="h5">Title: <span style={{fontSize: '16px'}}>{props.proddata.title}</span></Typography> 
+                    <Typography variant="h6">Price Per Day: <span style={{fontSize: '15px'}}>Rs {props.proddata.price_per_day}/Day</span></Typography>
                     <Typography variant="h6">Description:</Typography>
-                    <Typography >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                    {props.proddata.description}    
-                    </Typography>
-                    <Typography variant="h6">Net Worth: Rs. {props.proddata.actual_price}</Typography>
+                    <span >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                      {props.proddata.description}    
+                    </span>
+                    <Typography variant="h6">Net Worth: <span style={{fontSize: '15px'}}>Rs {props.proddata.actual_price}</span></Typography>
                     <Typography variant="h6">Rating: &nbsp;
                     <Rating
                         name="read-only"
@@ -45,8 +37,8 @@ export default function AddtoCart(props) {
                     </Typography>
                 </Grid>
                 <Grid item xs={6} style={{marginTop: '10px'}}>
-                <Link to={(userdata.address==="")?'/Dashboard':'/Payment'}>
-                    <Button onClick={handleAddCart} style={{backgroundColor: RED,color: WHITE, width: '100%',fontWeight: '700',padding: '15px 20px'}}>{(props.proddata.product_type==="rent")?"Rent Instrument":"Buy Instrument"}</Button>
+                <Link to="/Payment" underline='none'>
+                    <Button underline='none' style={{backgroundColor: RED,color: WHITE, width: '100%',fontWeight: '700',padding: '15px 20px'}}>{(props.proddata.product_type==="rent")?"Rent Instrument":"Buy Instrument"}</Button>
                 </Link>
                 </Grid>
       </Grid>

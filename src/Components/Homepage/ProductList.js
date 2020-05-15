@@ -6,7 +6,7 @@ import PCard from './ProductCard';
 import data from '../../Assets/MOCK_DATA.json';
 import {Grid , Typography} from '@material-ui/core';
 import { makeStyles} from "@material-ui/core/styles";
-
+import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
     heading: {
@@ -45,6 +45,9 @@ export default function ProductList() {
     }
     const classes = useStyles();
 
+    const proddata = useSelector(state => state.prodlist);
+    const prodlist = proddata.slice(0,10);
+
     return (
         <React.Fragment>
           <CssBaseline />
@@ -53,7 +56,7 @@ export default function ProductList() {
                         <Typography variant='h3'>You Say You Want a Revolution?</Typography>
                         <br></br>
                 </Grid>
-                <Carousel value={data} itemTemplate={dataTemplate} autoplayInterval={3000} circular={true} responsiveOptions={responsiveOptions}></Carousel>
+                <Carousel value={prodlist} itemTemplate={dataTemplate} autoplayInterval={3000} circular={true} responsiveOptions={responsiveOptions}></Carousel>
             </Container>
         </React.Fragment>
             

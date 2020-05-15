@@ -41,7 +41,7 @@ export default function ProductCard({card_data}){
           color:WHITE ,
           fontWeight:'bold',
           padding:'2px 10px',
-          }}>Rs. {card_data.price_per_day} /Day</label>
+          }}>Rs. {(card_data.product_type==="rent")?card_data.price_per_day +"/Day":card_data.actual_price}</label>
           <Rating
           name="read-only"
           value={value}

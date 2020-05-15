@@ -6,7 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 import {Link} from 'react-router-dom';
 import {RED, WHITE} from '../Constants';
 import {useSelector, useDispatch} from 'react-redux';
-import {isLog} from "../Actions";
+import {isLog, jsontoken} from "../Actions";
 
 export default function Navbar() {
     const useStyles = makeStyles(theme => ({
@@ -36,13 +36,13 @@ export default function Navbar() {
             <div className="collapse navbar-collapse" id="navbarText">
                 <ul className="navbar-nav mr-auto">
                 <li className="nav-item">
+                    <Link className="nav-link" to="/About">About</Link>
+                </li>
+                <li className="nav-item">
                     <Link className="nav-link" to="/Products">Instruments</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/Contact">Contact</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="/About">About</Link>
+                    <Link className="nav-link" to="/Contact">Contact Us</Link>
                 </li>
                 </ul>
                 {isLogged ? 
@@ -50,7 +50,10 @@ export default function Navbar() {
                     <Avatar alt={userdata.full_name} src={(userdata.avatar)?(userdata.avatar):"/image.jpg"} id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"/>
                     <div className="dropdown-menu" style={{position:'realtive', left: '-20px', top: '50px'}} aria-labelledby="dropdownMenuLink">
                         <Link className="dropdown-item" to="/Dashboard">Dashboard</Link>
-                        <Link className="dropdown-item" to="" onClick={() => {dispatch(isLog())}}>Log Out</Link>
+                        <Link className="dropdown-item" to="" onClick={() => {
+                            dispatch(isLog());
+                            dispatch(jsontoken(""));
+                            }}>Log Out</Link>
                     </div>
                 </div>
                 :
