@@ -14,6 +14,7 @@ import About from './Containers/About';
 import Contact from './Containers/Contact';
 import AddProduct from './Containers/AddProduct';
 import ProductView from './Containers/ProductView';
+import ProfileView from './Containers/ProfileView';
 import Payment from './Containers/Payment';
 import {useSelector} from 'react-redux';
 
@@ -37,8 +38,11 @@ export default function App(){
                    <Route path="/Dashboard" exact>
                         {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
+                   <Route path="/Dashboard/EditProfile" exact>
+                        {isLogged ? <Userdashboard/>: <Redirect to="/" />}
+                   </Route>
                    <Route path="/Payment" exact>
-                        <Payment/>
+                         {isLogged ? <Payment/>: <Redirect to="/Login" />}
                    </Route>
                    <Route path="/Contact" exact>
                         <Contact/>
@@ -55,20 +59,23 @@ export default function App(){
                    <Route path="/ProductView" exact>
                          <ProductView/>
                    </Route>
+                   <Route path="/ProfileView" exact>
+                         <ProfileView/>
+                   </Route>
                    <Route path="/Dashboard/Listing" exact>
-                         <Userdashboard/>
+                        {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
                    <Route path="/Dashboard/RentingProduct" exact>
-                         <Userdashboard/>
+                        {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
                    <Route path="/Dashboard/History" exact>
-                         <Userdashboard/>
+                        {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
                    <Route path="/Dashboard/EnrolledCourse" exact>
-                         <Userdashboard/>
+                        {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
                    <Route path="/Dashboard/Account" exact>
-                         <Userdashboard/>
+                        {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
                </Switch>
            </Router>

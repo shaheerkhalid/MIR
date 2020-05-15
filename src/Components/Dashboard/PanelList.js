@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import {WHITE} from '../../Constants';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,22 +16,37 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     maxHeight: 500,
     padding: '0px',
+    margin: '0px',
   },
   listSection: {
     backgroundColor: 'inherit',
+    margin: 0,
+    padding: 0,
   },
   ul: {
     backgroundColor: 'inherit',
+    margin: 0,
     padding: 0,
   },
   links: {
     opacity: '0.7',
     fontSize: '16px',
     fontWeight: '600',
+    height: '42px',
+    width: '100%',
+    margin: 0,
+    padding: '10px 20px',
+    verticalAlign: 'middle',
+    borderTop: '1px solid lightgrey',
     '&:hover': {
         opacity: '1',
         textDecoration: 'none',
+        backgroundColor: WHITE,
       }
+  },
+  listitem: {
+    margin: 0,
+    padding: 0,
   },
 }));
 
@@ -41,22 +57,22 @@ export function PanelListL() {
     <List className={classes.root} >
         <li className={classes.listSection}>
           <ul className={classes.ul}>
-              <ListItem >
+              <ListItem className={classes.listitem}>
                   <Link className={classes.links} color='primary' underline='none' to="/Dashboard">Profile Information</Link>
-                </ListItem>
-              <ListItem >
+              </ListItem>
+              <ListItem className={classes.listitem}>
                 <Link className={classes.links} color='primary' underline='none' to="/Dashboard/Listing">Products Listing</Link>
               </ListItem>
-              <ListItem >
+              <ListItem className={classes.listitem}>
                 <Link className={classes.links} color='primary' underline='none' to="/Dashboard/RentingProduct">Renting Products</Link>
               </ListItem>
-              <ListItem >
+              <ListItem className={classes.listitem}>
                 <Link className={classes.links} color='primary' underline='none' to="/Dashboard/History">Renting History</Link>
               </ListItem>
-              <ListItem >
+              <ListItem className={classes.listitem}>
                 <Link className={classes.links} color='primary' underline='none' to="/Dashboard/EnrolledCourse">Enrolled Course</Link>
               </ListItem>
-              <ListItem >
+              <ListItem className={classes.listitem}>
                 <Link className={classes.links} color='primary' underline='none' to="/Dashboard/Account">Account</Link>
            </ListItem>
           </ul>

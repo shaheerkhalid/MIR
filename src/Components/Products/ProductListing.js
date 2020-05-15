@@ -7,6 +7,7 @@ import {PanelListS} from './CategoryList';
 import {DataView} from 'primereact/dataview';
 import PCard from './GridCard';
 import Backdrop from '@material-ui/core/Backdrop';
+import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {Dropdown} from "primereact/dropdown";
 import {RED} from '../../Constants';
@@ -130,26 +131,7 @@ function onSortChange(event) {
 }
 
 
-function renderHeader() {
-  const sortOptions = [
-      {label: 'For Sale', value: 'sale'},
-      {label: 'For Rent', value: 'rent'}
-  ];
-  // const [sortKey, setsortKey] = useState(null);
-  return (
-      <div className="p-grid">
-          <div className="p-col-6" style={{textAlign: 'left'}}>
-              <Dropdown options={sortOptions} value={null} placeholder="View Instrument" onChange={onSortChange} />
-          </div>
-          <div className="p-col-6" style={{textAlign: 'right'}}>
-              {/* <DataViewLayoutOptions layout={layout} onChange={(e) => this.setState({layout: e.value})} /> */}
-          </div>
-      </div>
-  );
-}
-
 export default function ProductListing(props) {
-    const header = renderHeader();
     const classes = useStyles();
     const proddata = useSelector(state => state.prodlist);
     const [prodlist,setprodlist] = React.useState(proddata);
@@ -159,6 +141,20 @@ export default function ProductListing(props) {
     const search = window.location.search;
     // const filterprods=prodlist.filter(prod => prod.category_id===cat_id);
     // const [layout, setlayout] = React.useState('grid');
+    function renderHeader() {
+    
+      return (
+          <div className="p-grid">
+              <div className="p-col-6" style={{textAlign: 'left'}}>
+                  <Typography variant='h5' style={{color: 'grey' }}>INSTRUMENTS</Typography>
+              </div>
+          </div>
+      );
+    }  
+
+    const header = renderHeader();
+    
+    
     React.useEffect(()=>{
       if(search.split("=")[1]==="rent" || search.split("=")[1]==="sale"){
         setprodlist(proddata.filter(prod => prod.product_type===search.split("=")[1]));
@@ -167,6 +163,7 @@ export default function ProductListing(props) {
         dispatch(searchvalue(""));
       }
     },[]);
+
 
     return(
       (prodlist!=="")?
@@ -203,7 +200,7 @@ export default function ProductListing(props) {
             <Grid item xs={12} md={10}>
             <Grid container justify="center" alignItems="center">
             <Grid item xs={8}>
-              <Paper component="form" className={classes.searchbar}>
+              <Paper component="form" onSubmit={(e)=>{e.preventDefault()}} className={classes.searchbar}>
                     <InputBase
                         className={classes.input}
                         placeholder="Search Instrument"
@@ -223,7 +220,7 @@ export default function ProductListing(props) {
               <Paper>
               {/* <DataView value={this.state.cars} layout={this.state.layout} itemTemplate={this.itemTemplate} paginator={true} rows={10} first={this.state.first} onPage={(e) => this.setState({first: e.first})}></DataView> */}
               {/* <DataViewLayoutOptions layout={layout} onChange={(e) => setlayout(e.value)} /> */}
-              <DataView value={prodlist} layout={'grid'} itemTemplate={itemTemplate} header={header} totalRecords={14}></DataView>
+              <DataView value={prodlist} layout={'grid'} itemTemplate={itemTemplate} header={header} ></DataView>
    
               </Paper>
             </Grid>

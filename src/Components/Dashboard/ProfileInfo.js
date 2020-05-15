@@ -31,8 +31,7 @@ export default function ProfileInfo() {
   
     const [fname, setfname] = React.useState(userID.full_name.split(" ")[0]);
     const [lname, setlname] = React.useState(userID.full_name.split(" ")[1]);
-    console.log(userID);
-    const [helpphone, sethelpphone] = React.useState(userID.phone);
+    const [helpphone, sethelpphone] = React.useState("");
     const [email, setemail] = React.useState(userID.email);
     const [address, setaddress] = React.useState(userID.address);
     const [phnbr, setphnbr] = React.useState(userID.phone);
@@ -70,6 +69,7 @@ export default function ProfileInfo() {
                   "phone":phnbr,
                   "avatar":response.avatar_url,
                   "address":address,
+                  "about":about,
               };
                   fetch('http://localhost:5000/Api/User',{
                       method: 'PATCH',
@@ -213,9 +213,9 @@ export default function ProfileInfo() {
             <Button type="submit" style={{backgroundColor: RED,color: WHITE,fontSize: '18px' ,fontWeight: '700',padding: '10px',width: '200px'}}>Submit</Button>
         </form>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                        <Alert onClose={handleClose} severity="success">
-                       Profile Info Updated!
-                        </Alert>
+                <Alert onClose={handleClose} severity="success">
+                  Profile Info Updated!
+                </Alert>
         </Snackbar>
       </div>
     );

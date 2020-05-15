@@ -74,22 +74,11 @@ export default function AddProduct(props) {
         setOpen(false);
       };
 
-    const handleSubmit = e => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        let prodid="";
-        let ismain=1;
-        const data ={
-            "renterid":userid.user_id,
-            "catid":catid,
-            "brandid":brandid,
-            "title":title,
-            "description":description,
-            "product_type":selectedValue,
-            "dateadded":new Date(),
-            "priceperday":Dprice,
-            "actualprice":Aprice,
-        };
             if(editData){
+                let prodid="";
+                let ismain=1;
                 const edit ={
                     "productid":editData.product_id,
                     "renterid":userid.user_id,
@@ -143,33 +132,31 @@ export default function AddProduct(props) {
                                     .then(response => {
                                             if(response.success===1){
                                                 console.log(response);
-                                                fetch('http://localhost:5000/Api/Product',  {
-                                                    method: 'GET',
-                                                    headers: { 'Content-Type': 'application/json' ,
-                                                                'Authorization': jsontoken
-                                                            }
-                                                        })
-                                                .then(res => res.json())
-                                                .catch(error => console.error('Error:', error))
-                                                .then(response => {
-                                                    if(response.success===1){
-                                                        console.log(response);
-                                                        
-                                                        dispatch(prodlist(response.data));
-                                                    }
-                                                });
-                                                dispatch(editProd(""));
                                             }
-                                    })
+                                            dispatch(editProd(""));
+                                    });
                                     ismain=0;
                                 }
                             });
                         });
-                        document.getElementById("addform").reset();
-                        setOpen(true);
                     }
+                    document.getElementById("addform").reset();
+                    setOpen(true);
                 });
             }else{
+                let prodid="";
+                let ismain=1;
+                const data ={
+                    "renterid":userid.user_id,
+                    "catid":catid,
+                    "brandid":brandid,
+                    "title":title,
+                    "description":description,
+                    "product_type":selectedValue,
+                    "dateadded":new Date(),
+                    "priceperday":Dprice,
+                    "actualprice":Aprice,
+                };
             fetch('http://localhost:5000/Api/Product',  {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json',
@@ -209,15 +196,36 @@ export default function AddProduct(props) {
                                 .then(res => res.json())
                                 .catch(error => console.error('Error:', error))
                                 .then(response => {
+                                        fetch('http://localhost:5000/Api/Product',  {
+                                            method: 'GET',
+                                            headers: { 'Content-Type': 'application/json' ,
+                                                        'Authorization': jsontoken
+                                                    }
+                                                })
+                                        .then(res => res.json())
+                                        .catch(error => console.error('Error:', error))
+                                        .then(response => {
+                                            if(response.success===1){
+                                                dispatch(prodlist(response.data));
+                                            }
+                                        });
                                 })
                                 ismain=0;
                             }
                         });
                     });
-                    document.getElementById("addform").reset();
-                    setOpen(true);
-
                 }
+                document.getElementById("addform").reset();
+                setpic("");
+                setfiles("");
+                settitle("");
+                setdescription("");
+                setcatid(1);
+                setbrandid(1);
+                setAprice("");
+                setDprice("");
+                setSelectedValue("rent");
+                setOpen(true);
             });
             }
     }
@@ -325,9 +333,9 @@ export default function AddProduct(props) {
                     </Grid>
                     <br></br>
                     <Button type="submit" style={{backgroundColor: RED,color: WHITE,fontSize: '18px' ,fontWeight: '700',padding: '10px',width: '200px'}}>Submit</Button>
+                    {(editData)? <Button onClick={()=>{dispatch(editProd(""));}} style={{backgroundColor: WHITE,fontSize: '18px' ,fontWeight: '700',padding: '10px',width: '200px'}}>Cancel</Button>:""}
                         <br></br>
                         <br></br>
-                    <Link to="/Products" id="sub"></Link>
                     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                         <Alert onClose={handleClose} severity="success">
                         This is a success message!

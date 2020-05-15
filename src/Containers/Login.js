@@ -5,7 +5,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
+import {Link} from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -19,7 +19,7 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {"Copyright © "}
-            <Link color="inherit" href="https://material-ui.com/">
+            <Link color="inherit" to="/">
                 MIRS
             </Link>{" "}
             {new Date().getFullYear()}
@@ -67,6 +67,7 @@ export default function SignInSide() {
 
     const [email, setemail] = React.useState(null);
     const [pass, setpass] = React.useState(null);
+    const [helptext, sethelptext] = React.useState("");
 
     const handleEmail = e => {
         setemail(e.target.value);
@@ -96,6 +97,9 @@ export default function SignInSide() {
                 dispatch(jsontoken("Bearer "+response.token));
                 dispatch(isLog());
                 dispatch(userid(response.data));
+                sethelptext("");
+            }else{
+                sethelptext(response.message);
             }
         });
         
@@ -153,12 +157,7 @@ export default function SignInSide() {
                             // value={password}
                             onChange={handlePass}
                             autoComplete="current-password"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox value="remember" color="primary" />
-                            }
-                            label="Remember me"
+                            helperText={helptext}
                         />
                         <Button
                             fullWidth
@@ -171,12 +170,12 @@ export default function SignInSide() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="#" variant="body2">
+                                <Link to="" variant="body2">
                                     Forgot password?
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link to="/Signup" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>

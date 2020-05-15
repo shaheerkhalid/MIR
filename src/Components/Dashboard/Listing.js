@@ -17,39 +17,21 @@ import {Link} from 'react-router-dom';
 
 
 const columns = [
-  { id: 'title', label: 'Title', minWidth: 150 },
-  { id: 'product_type', label: 'Type', minWidth: 150 },
+  { id: 'title', label: 'Title', minWidth: 200 },
+  { id: 'product_type', label: 'Type', minWidth: 100 },
   { id: 'date_added', label: 'Date', minWidth: 150 },
-  { id: 'price_per_day', label: 'Price', minWidth: 150 },
-  { id: 'status', label: 'Status', minWidth: 150 },
+  { id: 'price_per_day', label: 'Price', minWidth: 100 },
+  { id: 'status', label: 'Status', minWidth: 100 },
 ];
 
 
-
-// function createData(title, type, data, price, status) {
-//   return { title, type, data, price, status };
-// }
-
-// const rows = [
-//   createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-//   createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-//   createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-//   createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-//   createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-//   createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-//   createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-//   createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-//   createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-//   createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-//   createData('Guitar Y30', '10/02/2020', '10/02/2020', 'Guitar'),
-// ];
 
 const useStyles = makeStyles({
   root: {
     width: '100%',
   },
   container: {
-    maxHeight: 500,
+    minHeight: 500,
   },
 });
 
@@ -77,10 +59,6 @@ export default function Listing() {
     setPage(0);
   };
 
-  function editHandler(productID){
-    
-  }
-
 
   return (
     (rows !== null)?
@@ -102,8 +80,7 @@ export default function Listing() {
               ))}
                 <TableCell
                   key="action"
-                  // align="300"
-                  style={{ minWidth: 300 }}
+                  style={{ minWidth: 180 }}
                 >
                   Actions
                 </TableCell>
@@ -123,13 +100,13 @@ export default function Listing() {
                   })}
                   <TableCell key="action" align="300">
                         {/* {column.format && typeof value === 'number' ? column.format(value) : value} */}
-                        <Link to="/AddProduct" ><Button color="primary" variant="contained" onClick={()=>{
+                        <Link to="/AddProduct" ><Button size="small"  color="primary" variant="contained" onClick={()=>{
 
                             dispatch(editProd(rows.filter(prod => prod.product_id === row.product_id)[0]))
                             
                             
                         }}>Edit</Button>  </Link>
-                        <Button color="secondary" variant="contained" onClick={()=>{
+                        <Button size="small" color="secondary" variant="contained" onClick={()=>{
                           fetch(`http://localhost:5000/Api/Product/ByUserID`,  {
                             method: 'PATCH',
                             headers: { 'Content-Type': 'application/json' ,
