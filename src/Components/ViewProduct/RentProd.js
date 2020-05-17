@@ -22,12 +22,13 @@ export default function AddtoCart(props) {
                 <Grid item xs={10}>
                     <Typography variant="h5">Renter Name: <span style={{fontSize: '16px'}}>{props.renterdata.full_name}</span> <Link to="/ProfileView" style={{fontSize:'12px'}}>See Profile</Link></Typography>
                     <Typography variant="h5">Title: <span style={{fontSize: '16px'}}>{props.proddata.title}</span></Typography> 
-                    <Typography variant="h6">Price Per Day: <span style={{fontSize: '15px'}}>Rs {props.proddata.price_per_day}/Day</span></Typography>
+                    {(props.proddata.product_type==="rent")?<Typography variant="h6">Price Per Day: <span style={{fontSize: '15px'}}>Rs {props.proddata.price_per_day}/Day</span></Typography>:""}
                     <Typography variant="h6">Description:</Typography>
                     <span >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
                       {props.proddata.description}    
                     </span>
-                    <Typography variant="h6">Net Worth: <span style={{fontSize: '15px'}}>Rs {props.proddata.actual_price}</span></Typography>
+                    {(props.proddata.product_type==="rent")?<Typography variant="h6">Net Worth: <span style={{fontSize: '15px'}}>Rs {props.proddata.actual_price}</span></Typography>:
+                    <Typography variant="h6">Price: <span style={{fontSize: '15px'}}>Rs {props.proddata.actual_price}</span></Typography>}
                     <Typography variant="h6">Rating: &nbsp;
                     <Rating
                         name="read-only"
