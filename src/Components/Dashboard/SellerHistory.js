@@ -8,31 +8,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import {useSelector} from 'react-redux';
 
 const columns = [
-  { id: 'user', label: 'User', minWidth: 150 },
-  { id: 'title', label: 'Title', minWidth: 150 },
-  { id: 'rent', label: 'Rent', minWidth: 150 },
-  { id: 'days', label: 'Days', minWidth: 150 },
-  { id: 'price', label: 'Price', minWidth: 150 },
-];
-
-function createData(user, title, rent, days) {
-  const price="1050.00";
-  return { user, title, rent, days, price };
-}
-
-const rows = [
-  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
-  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
-  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
-  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
-  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
-  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
-  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
-  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
-  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
-  createData('Wajid', 'Guitar Y30', '10/02/2020', '5'),
+  { id: 'title', label: 'Title', minWidth: 150},
+  { id: 'full_name', label: 'Seller Name', minWidth: 150 },
+  { id: 'sell_date', label: 'Sell From', minWidth: 150 },
+  { id: 'actual_price', label: 'Price (Rs)', minWidth: 150 },
 ];
 
 const useStyles = makeStyles({
@@ -40,15 +22,19 @@ const useStyles = makeStyles({
     width: '100%',
   },
   container: {
-    maxHeight: 500,
+    minHeight: 500,
   },
 });
 
-export default function EnrolledCourse() {
+
+export default function BuyerHistory() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
+  const [rows, setrows] = React.useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
-
+  const jsontoken = useSelector(state => state.jsontoken);
+  const user = useSelector(state => state.userid);
+  
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -58,7 +44,24 @@ export default function EnrolledCourse() {
     setPage(0);
   };
 
+  React.useEffect(()=>{
+    fetch(`http://localhost:5000/Api/Product/SellHistory/${user.user_id}`,  {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json',
+                    'Authorization': jsontoken
+                }
+            })
+    .then(res => res.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+        if(response.success===1){
+            setrows(response.data);
+        }
+    });
+  },[]);
+
   return (
+    (rows !== "")?
     <div>
       <br></br>
     <Paper className={classes.root}>
@@ -105,6 +108,6 @@ export default function EnrolledCourse() {
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
     </Paper>
-    </div>
+    </div>:<div></div>
   );
 }

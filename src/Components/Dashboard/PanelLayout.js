@@ -10,9 +10,10 @@ import {PanelListL ,PanelListS} from './PanelList';
 import ProfileInfo from './ProfileInfo';
 import ProfileInformation from './ProfileInformation';
 import Listing from './Listing';
-import EnrolledCourse from './EnrolledCourse';
-import History from './History';
-import RentingProducts from './RentingProduct';
+import SellerHistory from './SellerHistory';
+import RenteeHistory from './RenteeHistory';
+import RenterHistory from './RenterHistory';
+import BuyerHistory from './BuyerHistory';
 import Account from './Account';
 import {RED, WHITE} from '../../Constants';
 
@@ -41,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProductListing() {
     const match = useRouteMatch().path;
-    let content = <ProfileInfo/>
+    let content = <ProfileInformation/>
     const classes = useStyles();
     if(match==='/Dashboard'){
        content = <ProfileInformation/>
@@ -49,12 +50,14 @@ export default function ProductListing() {
         content = <ProfileInfo/>
     }else if(match==='/Dashboard/Listing'){
        content = <Listing/>
-    }else if(match==='/Dashboard/EnrolledCourse'){
-        content = <EnrolledCourse/>
-    }else if(match==='/Dashboard/History'){
-        content = <History/>
-    }else if(match==='/Dashboard/RentingProduct'){
-        content = <RentingProducts/>
+    }else if(match==='/Dashboard/SellerHistory'){
+        content = <SellerHistory/>
+    }else if(match==='/Dashboard/BuyerHistory'){
+        content = <BuyerHistory/>
+    }else if(match==='/Dashboard/RenteeHistory'){
+        content = <RenteeHistory/>
+    }else if(match==='/Dashboard/RenterHistory'){
+        content = <RenterHistory/>
     }else if(match==='/Dashboard/Account'){
         content = <Account/>
     }
@@ -73,7 +76,7 @@ export default function ProductListing() {
                 </div>
                 <PanelListL/>
             </Grid>
-            <Grid item xs={12} md={9} style={{minHeight: '572px',padding: '0px 50px'}}>
+            <Grid item xs={12} md={9} style={{minHeight: '572px',padding: '0px 20px'}}>
                         {content}
             </Grid>    
             </Grid>

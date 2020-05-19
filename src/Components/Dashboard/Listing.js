@@ -14,11 +14,11 @@ import {prodlist,editProd} from "../../Actions";
 import {Link} from 'react-router-dom';
 
 const columns = [
-  { id: 'title', label: 'Title', minWidth: 200 },
+  { id: 'title', label: 'Title', minWidth: 150},
   { id: 'product_type', label: 'Type', minWidth: 100 },
   { id: 'date_added', label: 'Date', minWidth: 150 },
-  { id: 'price_per_day', label: 'Price', minWidth: 100 },
-  { id: 'status', label: 'Status', minWidth: 100 },
+  { id: 'actual_price', label: 'Net Price (Rs)', minWidth: 100 },
+  { id: 'price_per_day', label: 'Price/Day (Rs)', minWidth: 100 },
 ];
 
 const useStyles = makeStyles({
@@ -105,8 +105,10 @@ export default function Listing() {
                             headers: { 'Content-Type': 'application/json' ,
                                         'Authorization': jsontoken
                                     },
-                            body: JSON.stringify({"product_id":row.product_id})
-                              
+                            body: JSON.stringify({
+                              "status":0,
+                              "productid":row.product_id
+                            })  
                                 })
                           
                         .then(res => res.json())

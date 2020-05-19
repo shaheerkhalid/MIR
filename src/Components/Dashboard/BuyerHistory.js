@@ -2,23 +2,19 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
-import Button from "@material-ui/core/Button";
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import {useSelector,useDispatch} from 'react-redux';
-import {prodlist,editProd} from "../../Actions";
-import {Link} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 
 const columns = [
-  { id: 'title', label: 'Instrument Name', minWidth: 200 },
-  { id: 'full_name', label: 'Rentee Name', minWidth: 200 },
-  { id: 'rent_from', label: 'Rent From', minWidth: 150 },
-  { id: 'days', label: 'Days', minWidth: 150 },
-  { id: 'price_per_day', label: 'Amount', minWidth: 150 },
+  { id: 'title', label: 'Title', minWidth: 150},
+  { id: 'full_name', label: 'Seller Name', minWidth: 150 },
+  { id: 'sell_date', label: 'Sell From', minWidth: 150 },
+  { id: 'actual_price', label: 'Price (Rs)', minWidth: 150 },
 ];
 
 const useStyles = makeStyles({
@@ -31,8 +27,7 @@ const useStyles = makeStyles({
 });
 
 
-
-export default function RentingProducts() {
+export default function BuyerHistory() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rows, setrows] = React.useState("");
@@ -40,25 +35,6 @@ export default function RentingProducts() {
   const jsontoken = useSelector(state => state.jsontoken);
   const user = useSelector(state => state.userid);
   
-  const dispatch = useDispatch();
-  
-  React.useEffect(()=>{
-        fetch(`http://localhost:5000/Api/Product/OnRentProducts/${user.user_id}`,  {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json',
-                        'Authorization': jsontoken
-                    }
-                })
-        .then(res => res.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => {
-            if(response.success===1){
-                setrows(response.data);
-            }
-        });
-},[]);
-
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -68,6 +44,21 @@ export default function RentingProducts() {
     setPage(0);
   };
 
+  React.useEffect(()=>{
+    fetch(`http://localhost:5000/Api/Product/BuyHistory/${user.user_id}`,  {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json',
+                    'Authorization': jsontoken
+                }
+            })
+    .then(res => res.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+        if(response.success===1){
+            setrows(response.data);
+        }
+    });
+  },[]);
 
   return (
     (rows !== "")?
