@@ -110,6 +110,7 @@ export default function ProfileInfo() {
           "phone":phnbr,
           "avatar":avatar,
           "address":address,
+          "about":about,
       };
           fetch('http://localhost:5000/Api/User',{
               method: 'PATCH',

@@ -46,7 +46,7 @@ export default function ProductView() {
     (renterdata!=="")?
     <div className={classes.root}>
       <Grid className={classes.container} container justify="center" >
-        <Grid item xs={12} sm={10}>
+        <Grid item xs={12} md={10}>
             <Grid container spacing={3} >
                 <Grid item xs={12}>
                     <Paper elevation={0} style={{width: '100%',padding: '20px',backgroundColor:WHITE}}><Typography variant='h5' style={{color: 'grey'}}>Product View</Typography></Paper>

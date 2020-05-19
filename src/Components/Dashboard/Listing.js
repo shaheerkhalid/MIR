@@ -97,7 +97,7 @@ export default function Listing() {
                         {/* {column.format && typeof value === 'number' ? column.format(value) : value} */}
                         <Link id="editlink" to="/AddProduct" ></Link>
                         <Button size="small"  color="primary" variant="contained" onClick={()=>{
-                            dispatch(editProd(rows.filter(prod => prod.product_id === row.product_id)[0]))
+                            dispatch(editProd(rows.filter(prod => prod.product_id === row.product_id)[0]));
                             document.getElementById('editlink').click();
                         }}>Edit</Button> <Button size="small" color="secondary" variant="contained" onClick={()=>{
                           fetch(`http://localhost:5000/Api/Product/ByUserID`,  {

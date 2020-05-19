@@ -51,7 +51,7 @@ export default function ProductList() {
     return (
         <React.Fragment>
           <CssBaseline />
-            <Container maxWidth="xl" style={{ }} >
+            <Container maxWidth="xl" style={{}} >
                 <Grid item xs={12} className={classes.heading}>
                         <Typography variant='h3'>You Say You Want a Revolution?</Typography>
                         <br></br>
