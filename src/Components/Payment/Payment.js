@@ -16,6 +16,8 @@ import {prodlist, proddata} from "../../Actions";
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import { getElementError } from "@testing-library/react";
+import Stripecheckout from 'react-stripe-checkout';
+import bodyParser from "body-parser";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -61,9 +63,11 @@ export default function AddProduct(props) {
     const [helpaddress, sethelpaddress] = React.useState("");
 
     const [open, setOpen] = React.useState(false);
+    const [filled, setFilled] = React.useState(false);
     const jsontoken = useSelector(state => state.jsontoken);
     const userid = useSelector(state => state.userid);
     const productdata = useSelector(state => state.proddata);
+    const REACT_APP_KEY = 'pk_test_bRO4OuFREqnyEMhkj49RKOZr00nUr3TiNj';
 
 
     function phValid(){
@@ -164,7 +168,7 @@ export default function AddProduct(props) {
                         setdays(1);
                         dispatch(proddata(""));
                       }
-          });
+          }); 
         }else{
           const data = {
             "buyerid": userid.user_id,
@@ -190,7 +194,10 @@ export default function AddProduct(props) {
                             headers: { 'Content-Type': 'application/json' ,
                                         'Authorization': jsontoken
                                     },
-                            body: JSON.stringify({"product_id":productdata.product_id})
+                            body: JSON.stringify({
+                              "status":0,
+                              "productid":productdata.product_id
+                            })
                               
                                 })
                           
@@ -224,6 +231,143 @@ export default function AddProduct(props) {
       }
     }
 
+    const makePayment = token => {
+      const body = {
+        token,
+        instrument: productdata
+      }
+      
+      const headers = {
+        "Content-Type": "application/json"
+      }
+
+      return fetch(`http://localhost:5000/charge`,{
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body)
+      }).then(response => {
+        console.log(response)
+        if(productdata.product_type==="rent"){
+          const data = {
+            "renteeid": userid.user_id,
+            "prodid": productdata.product_id,
+            "onrent": 1,
+            "paymentmethod": selectedValue,
+            "address": address,
+            "contact": phnbr,
+            "from": new Date(),
+            "days": days
+          }
+          fetch('http://localhost:5000/Api/Product/RentRecord',  {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' ,
+                                  'Authorization': jsontoken
+                              },
+                      body: JSON.stringify(data)
+                          })
+                  .then(res => res.json())
+                  .catch(error => console.error('Error:', error))
+                  .then(response => {
+                      if(response.success===1){
+                        fetch(`http://localhost:5000/Api/Product/ByUserID`,  {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' ,
+                                        'Authorization': jsontoken
+                                    },
+                            body: JSON.stringify({"product_id":productdata.product_id})
+                              
+                            })
+                          
+                        .then(res => res.json())
+                        .catch(error => console.error('Error:', error))
+                        .then(response => {
+                            if(response.success===1){
+                              fetch('http://localhost:5000/Api/Product',  {
+                                method: 'GET',
+                                headers: { 'Content-Type': 'application/json' ,
+                                            'Authorization': jsontoken
+                                        }
+                                    })
+                            .then(res => res.json())
+                            .catch(error => console.error('Error:', error))
+                            .then(response => {
+                                if(response.success===1){
+                                    dispatch(prodlist(response.data));
+                                }
+                            });
+                            }
+                        });
+                        setOpen(true);
+                        setaddress("");
+                        setphnbr("");
+                        setdays(1);
+                        dispatch(proddata(""));
+                      }
+          }); 
+        }else{
+          const data = {
+            "buyerid": userid.user_id,
+            "prodid": productdata.product_id,
+            "paymentmethod": selectedValue,
+            "address": address,
+            "contact": phnbr,
+            "selldate": new Date(),
+          }
+          fetch('http://localhost:5000/Api/Product/SellRecord',  {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' ,
+                                  'Authorization': jsontoken
+                              },
+                      body: JSON.stringify(data)
+                          })
+                  .then(res => res.json())
+                  .catch(error => console.error('Error:', error))
+                  .then(response => {
+                      if(response.success===1){
+                        fetch(`http://localhost:5000/Api/Product/ByUserID`,  {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' ,
+                                        'Authorization': jsontoken
+                                    },
+                            body: JSON.stringify({
+                              "status":0,
+                              "productid":productdata.product_id
+                            })
+                              
+                                })
+                          
+                        .then(res => res.json())
+                        .catch(error => console.error('Error:', error))
+                        .then(response => {
+                            if(response.success===1){
+                              fetch('http://localhost:5000/Api/Product',  {
+                                method: 'GET',
+                                headers: { 'Content-Type': 'application/json' ,
+                                            'Authorization': jsontoken
+                                        }
+                                    })
+                            .then(res => res.json())
+                            .catch(error => console.error('Error:', error))
+                            .then(response => {
+                                if(response.success===1){
+                                    dispatch(prodlist(response.data));
+                                }
+                            });
+                            }
+                        });  
+                        setOpen(true);
+                        setaddress("");
+                        setphnbr("");
+                        setdays(1);
+                        dispatch(proddata(""));
+                      }
+          });
+        }
+        
+      }).catch(err => console.log(err))
+
+    }
+
     return (
         <Container component="main" maxWidth="md">
             <CssBaseline />
@@ -231,49 +375,8 @@ export default function AddProduct(props) {
                 <form onSubmit={handleSubmit} className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Typography>Choose a payment method</Typography>
-                            By Credit Card: <Radio
-                                checked={selectedValue === 'CC'}
-                                onChange={(e) => {setSelectedValue(e.target.value)}}
-                                value="CC"
-                                name="radio-button-demo"
-                            /><br></br>
-                            {(selectedValue==='CC')?
-                              <Grid container spacing={2}>  
-                                <Grid item xs={7}>
-                                  <TextField type="text" id="outlined-basic" label="Card Number" variant="outlined" style={{width: "100%"}}/>
-                                </Grid>
-                                <Grid item xs={7}>
-                                  <TextField type="text" id="outlined-basic" label="Name" variant="outlined" style={{width: "100%"}}/>
-                                </Grid>
-                                <Grid item xs={7}>
-                                  <TextField type="text" id="outlined-basic" label="Card Number" variant="outlined" style={{width: "100%"}}/>
-                                </Grid>
-                                  <Grid item xs={7}>
-                                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <KeyboardDatePicker
-                                            autoOk
-                                            variant="inline" 
-                                            inputVariant="outlined"
-                                            label="Expire Date"
-                                            format="MM/yyyy"
-                                            value={ExpireDate}
-                                            InputAdornmentProps={{ position: "end" }}
-                                            onChange={date => handleExpireDateChange(date)}
-                                        />
-                                  </MuiPickersUtilsProvider>
-                                </Grid>
-                              </Grid>
-                              :""}
-                            
-                            Cash on Delivery: <Radio
-                                checked={selectedValue === 'COD'}
-                                onChange={(e) => {setSelectedValue(e.target.value)}}
-                                value="COD"
-                                name="radio-button-demo"
-                            />
-                            <Grid item xs={7}>
-                            <TextField error={erraddress} id="outlined-basic" label="Shipment Address" variant="outlined" value={address} style={{width: '100%'}} onChange={(e)=>{
+                        <Grid item xs={7}>
+                            <TextField error={erraddress} autoFocus id="outlined-basic" label="Shipment Address" variant="outlined" value={address} style={{width: '100%'}} onChange={(e)=>{
                               setaddress(e.target.value)
                             }} onBlur={addressValid} helperText={helpaddress}/>
                             <br></br>
@@ -286,32 +389,72 @@ export default function AddProduct(props) {
                               <br></br>
                             <br></br>
                             </Grid>
-                      {(productdata.product_type==="rent")?
-                        <Grid item xs={7}>
-                          <TextField type="number" min="1" max="10" id="outlined-basic" label="How many days" variant="outlined" value={days} onChange={e =>{
-                              if(e.target.value>10){
-                                setdays(10);
-                              }else if(e.target.value<1){
-                                setdays(1);
-                              }else{
-                                setdays(e.target.value);
-                              }
-                            }} style={{width: "100%"}} />
-                        </Grid>
-                      :""}
+                              {(productdata.product_type==="rent")?
+                                <Grid item xs={7}>
+                                  <TextField type="number" min="1" max="10" id="outlined-basic" label="How many days" variant="outlined" value={days} onChange={e =>{
+                                      if(e.target.value>10){
+                                        setdays(10);
+                                      }else if(e.target.value<1){
+                                        setdays(1);
+                                      }else{
+                                        setdays(e.target.value);
+                                      }
+                                    }} style={{width: "100%"}} />
+                                </Grid>
+                              :""}
+                          <br></br>
+                            <Typography>Choose a payment method</Typography>
+                            By Credit Card: <Radio
+                                checked={selectedValue === 'CC'}
+                                onChange={(e) => {setSelectedValue(e.target.value)}}
+                                value="CC"
+                                name="radio-button-demo"
+                            /><br></br>
+                            Cash on Delivery: <Radio
+                                checked={selectedValue === 'COD'}
+                                onChange={(e) => {setSelectedValue(e.target.value)}}
+                                value="COD"
+                                name="radio-button-demo"
+                              
+                            />
+                            {(selectedValue==='CC')?
+                              <Grid container spacing={2}>  
+                                <Grid item xs={7}>
+                                  <Stripecheckout
+                                    stripeKey={REACT_APP_KEY}
+                                    token={makePayment}
+                                    name="Pay with Card"
+                                    currency="PKR"
+                                    locale='pk'
+                                    amount={((days*productdata.price_per_day)+500)*100}
+                                    disabled={(address==="" || erraddress || phnbr==="" || err )}
+                                    
+                                  >
+                                    <Button style={{backgroundColor: RED,color: WHITE,fontSize: '18px' ,fontWeight: '700',padding: '10px',width: '200px'}}>Pay with Card</Button>  
+                                  </Stripecheckout>
+                                </Grid>  
+                              </Grid>
+                              :""}
+                              
+                            {(selectedValue==='COD')?
+                              <Grid container spacing={2}>  
+                                <Grid item xs={7}>
+                                <Button type="submit" style={{backgroundColor: RED,color: WHITE,fontSize: '18px' ,fontWeight: '700',padding: '10px',width: '200px'}}>Checkout</Button>
+                                {(productdata.product_type==="rent")? <Typography style={{float: 'right'}} variant='h6'>Total Bill: Rs <span>{(days*productdata.price_per_day)+500}</span></Typography>:<Typography style={{float: 'right'}} variant='h6'>Total Bill: Rs <span>{(days*productdata.actual_price)+500}</span></Typography>}
+                                </Grid>  
+                              </Grid>
+                              :""}
+                             <br></br>   
                         </Grid>
                     </Grid>
-                    <br></br>
-                    <Button type="submit" style={{backgroundColor: RED,color: WHITE,fontSize: '18px' ,fontWeight: '700',padding: '10px',width: '200px'}}>Checkout</Button>
-                          {(productdata.product_type==="rent")?<span>Total Bill: Rs {(days*productdata.price_per_day)+500}</span>:<span>Total Bill: Rs {(days*productdata.actual_price)+500}</span>}
-                        <br></br>
-                        <br></br>
-                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                        <Alert onClose={handleClose} severity="success">
-                            Request Send to User
-                        </Alert>
-                    </Snackbar>
-                    <Link id="prod" to="/Products"></Link>
+                              <br></br>
+                              <br></br>
+                          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} >
+                              <Alert onClose={handleClose} severity="success">
+                                  Product {(productdata.product_type==='rent')?"Rent out":"Buy"} successfully
+                              </Alert>
+                          </Snackbar>
+                          <Link id="prod" to="/Products"></Link>
                 </form>
             </div>
         </Container>
