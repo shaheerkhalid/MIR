@@ -139,7 +139,10 @@ export default function AddProduct(props) {
                             headers: { 'Content-Type': 'application/json' ,
                                         'Authorization': jsontoken
                                     },
-                            body: JSON.stringify({"product_id":productdata.product_id})
+                            body: JSON.stringify({
+                              "status":0,
+                              "productid":productdata.product_id
+                            })
                               
                             })
                           
@@ -274,7 +277,10 @@ export default function AddProduct(props) {
                             headers: { 'Content-Type': 'application/json' ,
                                         'Authorization': jsontoken
                                     },
-                            body: JSON.stringify({"product_id":productdata.product_id})
+                            body: JSON.stringify({
+                              "status":0,
+                              "productid":productdata.product_id
+                            })
                               
                             })
                           
