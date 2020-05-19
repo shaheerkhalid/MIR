@@ -24,19 +24,6 @@ export default function Products() {
     
     React.useEffect(() => {
         window.scrollTo(0, 0);
-             fetch('http://localhost:5000/Api/Category',  {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' ,
-                                'Authorization': jsontoken
-                            }
-                        })
-                .then(res => res.json())
-                .catch(error => console.error('Error:', error))
-                .then(response => {
-                    if(response.success===1){
-                        setcatlist(response.data);
-                    }
-                });
                 fetch('http://localhost:5000/Api/Product',  {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' ,
@@ -48,6 +35,19 @@ export default function Products() {
                 .then(response => {
                     if(response.success===1){
                         dispatch(prodlist(response.data));
+                        fetch('http://localhost:5000/Api/Category',  {
+                            method: 'GET',
+                            headers: { 'Content-Type': 'application/json' ,
+                                        'Authorization': jsontoken
+                                    }
+                                })
+                        .then(res => res.json())
+                        .catch(error => console.error('Error:', error))
+                        .then(response => {
+                            if(response.success===1){
+                                setcatlist(response.data);
+                            }
+                        });
                     }
                 });
     }, [jsontoken,dispatch]);
