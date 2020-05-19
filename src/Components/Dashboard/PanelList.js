@@ -64,13 +64,16 @@ export function PanelListL() {
                 <Link className={classes.links} color='primary' underline='none' to="/Dashboard/Listing">Products Listing</Link>
               </ListItem>
               <ListItem className={classes.listitem}>
-                <Link className={classes.links} color='primary' underline='none' to="/Dashboard/RentingProduct">Renting Products</Link>
+                <Link className={classes.links} color='primary' underline='none' to="/Dashboard/RenterHistory">Renter History</Link>
               </ListItem>
               <ListItem className={classes.listitem}>
-                <Link className={classes.links} color='primary' underline='none' to="/Dashboard/History">Renting History</Link>
+                <Link className={classes.links} color='primary' underline='none' to="/Dashboard/RenteeHistory">Rentee History</Link>
               </ListItem>
               <ListItem className={classes.listitem}>
-                <Link className={classes.links} color='primary' underline='none' to="/Dashboard/EnrolledCourse">Enrolled Course</Link>
+                <Link className={classes.links} color='primary' underline='none' to="/Dashboard/SellerHistory">Seller History</Link>
+              </ListItem>
+              <ListItem className={classes.listitem}>
+                <Link className={classes.links} color='primary' underline='none' to="/Dashboard/BuyerHistory">Buyer History</Link>
               </ListItem>
               <ListItem className={classes.listitem}>
                 <Link className={classes.links} color='primary' underline='none' to="/Dashboard/Account">Account</Link>
@@ -116,13 +119,16 @@ export function PanelListS() {
                   <Link className={classes.links} name='Product Listing' color='primary' underline='none' to="/Dashboard/Listing" onClick={handleTag}>Product Listing</Link>
                 </ListItem>
                 <ListItem >
-                <Link className={classes.links} name='Renting Products' color='primary' underline='none' to="/Dashboard/RentingProduct" onClick={handleTag}>Renting Products</Link>
+                <Link className={classes.links} name='Renter History' color='primary' underline='none' to="/Dashboard/RenterHistory" onClick={handleTag}>Renter History</Link>
                 </ListItem>
                 <ListItem >
-                  <Link className={classes.links} name='Renting History' color='primary' underline='none' to="/Dashboard/History" onClick={handleTag}>Renting History</Link>
+                  <Link className={classes.links} name='Rentee History' color='primary' underline='none' to="/Dashboard/RenteeHistory" onClick={handleTag}>Rentee History</Link>
                 </ListItem>
                 <ListItem >
-                  <Link className={classes.links} name='Enrolled Courses' color='primary' underline='none' to="/Dashboard/EnrolledCourse" onClick={handleTag}>Enrolled Courses</Link>
+                  <Link className={classes.links} name='Seller History' color='primary' underline='none' to="/Dashboard/SellerHistory" onClick={handleTag}>Seller History</Link>
+                </ListItem>
+                <ListItem >
+                  <Link className={classes.links} name='Buyer History' color='primary' underline='none' to="/Dashboard/SellerHistory" onClick={handleTag}>Buyer History</Link>
                 </ListItem>
                 <ListItem >
                   <Link className={classes.links} name='Account' color='primary' underline='none' to="/Dashboard/Account"  onClick={handleTag}>Account</Link>

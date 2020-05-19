@@ -65,13 +65,16 @@ export default function App(){
                    <Route path="/Dashboard/Listing" exact>
                         {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
-                   <Route path="/Dashboard/RentingProduct" exact>
+                   <Route path="/Dashboard/RenterHistory" exact>
                         {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
-                   <Route path="/Dashboard/History" exact>
+                   <Route path="/Dashboard/RenteeHistory" exact>
                         {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
-                   <Route path="/Dashboard/EnrolledCourse" exact>
+                   <Route path="/Dashboard/SellerHistory" exact>
+                        {isLogged ? <Userdashboard/>: <Redirect to="/" />}
+                   </Route>
+                   <Route path="/Dashboard/BuyerHistory" exact>
                         {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
                    <Route path="/Dashboard/Account" exact>

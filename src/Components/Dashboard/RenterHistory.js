@@ -94,20 +94,7 @@ export default function History() {
   const user = useSelector(state => state.userid);
 
   React.useEffect(()=>{
-    fetch(`http://localhost:5000/Api/Product/ProductsRenteeHistory/${user.user_id}`,  {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json',
-                    'Authorization': jsontoken
-                }
-            })
-    .then(res => res.json())
-    .catch(error => console.error('Error:', error))
-    .then(response => {
-        if(response.success===1){
-            setrows1(response.data);
-        }
-    });
-    fetch(`http://localhost:5000/Api/Product/OnRentProductsRentee/${user.user_id}`,  {
+    fetch(`http://localhost:5000/Api/Product/OnRentProducts/${user.user_id}`,  {
         method: 'GET',
         headers: { 'Content-Type': 'application/json',
                     'Authorization': jsontoken
@@ -118,6 +105,19 @@ export default function History() {
     .then(response => {
         if(response.success===1){
             setrows(response.data);
+        }
+    });
+    fetch(`http://localhost:5000/Api/Product/ProductsHistory/${user.user_id}`,  {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json',
+                    'Authorization': jsontoken
+                }
+            })
+    .then(res => res.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+        if(response.success===1){
+            setrows1(response.data);
         }
     });
 },[]);
@@ -185,12 +185,6 @@ export default function History() {
                         {column.label}
                       </TableCell>
                     ))}
-                    <TableCell
-                      key="action"
-                      style={{ minWidth: 150 }}
-                    >
-                      Actions
-                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -205,11 +199,6 @@ export default function History() {
                             </TableCell>
                           );
                         })}
-                        <TableCell key="action" align="300">
-                        {/* {column.format && typeof value === 'number' ? column.format(value) : value} */}
-                        <Button size="small"  color="primary" variant="contained" onClick={()=>{
-                        }}>Return</Button>
-                        </TableCell>
                       </TableRow>
                     );
                   })}
