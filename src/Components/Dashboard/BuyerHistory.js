@@ -13,7 +13,7 @@ import {useSelector} from 'react-redux';
 const columns = [
   { id: 'title', label: 'Title', minWidth: 150},
   { id: 'full_name', label: 'Seller Name', minWidth: 150 },
-  { id: 'sell_date', label: 'Sell From', minWidth: 150 },
+  { id: 'sell_date', label: 'Buy Date', minWidth: 150 },
   { id: 'actual_price', label: 'Price (Rs)', minWidth: 150 },
 ];
 

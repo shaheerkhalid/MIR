@@ -45,13 +45,29 @@ export default function AddProduct(props) {
     const editData = useSelector(state => state.editprod);
     
     const [pic, setpic] = React.useState("");
+    const [helppic,sethelppic] = React.useState("");
+
     const [files, setfiles] = React.useState("");
+    
     const [title, settitle] = React.useState((editData)?editData.title:"");
+    const [titleerr,settitleerr] = React.useState(false);
+    const [helptitle,sethelptitle] = React.useState("");
+
     const [description, setdescription] = React.useState((editData)?editData.description:"");
+    const [errdescription,seterrdescription] = React.useState(false);
+    const [helpdescription,sethelpdescription] = React.useState("");
+
     const [catid, setcatid] = React.useState((editData)?editData.category_id:1);
     const [brandid, setbrandid] = React.useState((editData)?editData.brand_id:1);
+
     const [Aprice, setAprice] = React.useState((editData)?editData.actual_price:"");
+    const [Apriceerr,setApriceerr] = React.useState(false);
+    const [helpAprice,sethelpAprice] = React.useState("");
+
     const [Dprice, setDprice] = React.useState((editData)?editData.price_per_day:"");
+    const [Dpriceerr,setDpriceerr] = React.useState(false);
+    const [helpDprice,sethelpDprice] = React.useState("");
+
     const [selectedValue, setSelectedValue] = React.useState((editData)?editData.product_type:"rent");
     const [open, setOpen] = React.useState(false);
     const jsontoken = useSelector(state => state.jsontoken);
@@ -59,11 +75,32 @@ export default function AddProduct(props) {
     const dispatch = useDispatch();
     
 
+    React.useEffect(()=>{
+        if(editData){
+            fetch(`http://localhost:5000/Api/Product/Picture/${editData.product_id}`,{
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json',
+                            'Authorization': jsontoken,
+                        }
+                    })
+                .then(res => res.json())
+                .catch(error => console.error('Error:', error))
+                .then(response => {
+                    if(response.success===1){
+                        var path=[];
+                        Array.from(response.data).forEach(data => {path.push(data.picture_file_name)});
+                        setpic(path);
+                    }
+                });
+        }
+    },[])
+
     const Pictures = e => {
             var path=[];
             Array.from(e.target.files).forEach(f => {path.push(URL.createObjectURL(f))});
             setpic(path);
             setfiles(e.target.files);
+            sethelppic("");
     }
     
       const handleClose = (event, reason) => {
@@ -74,8 +111,68 @@ export default function AddProduct(props) {
         setOpen(false);
       };
 
+    function titleValid(){
+        var re = new RegExp("^[a-zA-Z\\d\\-_\\s]{3,30}$");
+        if(re.test(title)){
+          console.log("valid");
+          settitleerr(false);
+           sethelptitle("");
+        }else{
+          console.log("Invalid");
+          settitleerr(true);
+           sethelptitle("title only contains alphabets and numbers");
+        }
+    }
+    
+    function ApriceValid(){
+        var re = new RegExp("^\\d+(.\\d{1,2})?$");
+        if(re.test(Aprice)){
+          console.log("valid");
+          setApriceerr(false);
+           sethelpAprice("");
+        }else{
+          console.log("Invalid");
+          setApriceerr(true);
+           sethelpAprice("Price format 0.00");
+        }
+      }
+
+      function DpriceValid(){
+        var re = new RegExp("^\\d+(.\\d{1,2})?$");
+        if(re.test(Aprice)){
+          console.log("valid");
+          setDpriceerr(false);
+           sethelpDprice("");
+        }else{
+          console.log("Invalid");
+          setDpriceerr(true);
+           sethelpDprice("Price format 0.00");
+        }
+      }
+      
+      function descriptionValid(){
+        var re = new RegExp("^.{30,}$");
+        if(re.test(description)){
+          console.log("valid");
+          seterrdescription(false);
+          sethelpdescription("");
+        }else{
+          console.log("Invalid");
+          seterrdescription(true);
+          sethelpdescription("Must more than 30 characters");
+        }
+      }
+    
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        if(pic==="" || title==="" || titleerr || Aprice==="" || Apriceerr || description==="" || errdescription){
+            if(pic===""){
+                sethelppic("Choose at least one picture");
+            }else{
+                sethelppic("");
+            }
+        }else{
             if(editData){
                 let prodid="";
                 let ismain=1;
@@ -228,6 +325,7 @@ export default function AddProduct(props) {
                 setOpen(true);
             });
             }
+        }
     }
 
     return (
@@ -235,7 +333,6 @@ export default function AddProduct(props) {
             <CssBaseline />
             <div className={classes.paper}>
             <form id="myform" >
-
             </form>
                 <form id="addform" onSubmit={handleSubmit} className={classes.form} noValidate>
                     <Grid container spacing={2}>
@@ -254,7 +351,7 @@ export default function AddProduct(props) {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField id="outlined-basic" label="Title" variant="outlined" value={title} onChange={(e) => {settitle(e.target.value)}} style={{width: "100%"}}/>
+                            <TextField autoFocus error={titleerr} helperText={helptitle} id="outlined-basic" label="Title" variant="outlined" value={title} onChange={(e) => {settitle(e.target.value)}} onBlur={titleValid} style={{width: "100%"}}/>
                         </Grid>
                         <Grid item xs={6}>
                         <FormControl variant="outlined" className={classes.formControl} style={{width: "100%"}}>
@@ -297,18 +394,18 @@ export default function AddProduct(props) {
                         </FormControl>
                         </Grid>
                         <Grid item xs={6}>
-                            <TextField type="number" min="1" step="any" id="outlined-basic" label="Price of Instrument" placeholder="00.00" variant="outlined" value={Aprice} onChange={(e) => {setAprice(e.target.value)}} style={{width: "100%"}}/>
+                            <TextField error={Apriceerr} helperText={helpAprice} type="number" min="1" step="any" id="outlined-basic" label="Price of Instrument" placeholder="00.00" variant="outlined" value={Aprice} onChange={(e) => {setAprice(e.target.value)}} onBlur={ApriceValid} style={{width: "100%"}}/>
                         </Grid>
                         <Grid item xs={6}>
-                        {(selectedValue==='rent')?<TextField type="number" min="1" step="any" id="outlined-basic" label="Price Per Day" placeholder="00.00" variant="outlined" value={Dprice} onChange={(e) => {setDprice(e.target.value)}} style={{width: "100%"}}/>:""}
+                        {(selectedValue==='rent')?<TextField error={Dpriceerr} helperText={helpDprice} type="number" min="1" step="any" id="outlined-basic" label="Price Per Day" placeholder="00.00" variant="outlined" value={Dprice} onChange={(e) => {setDprice(e.target.value)}} onBlur={DpriceValid} style={{width: "100%"}}/>:""}
                             
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField id="outlined-textarea" label="Description" multiline variant="outlined" rows="4" value={description} onChange={(e) => {setdescription(e.target.value)}} style={{width: "100%"}}/>
+                            <TextField error={errdescription} helperText={helpdescription} id="outlined-textarea" label="Description" multiline variant="outlined" rows="4" value={description} onChange={(e) => {setdescription(e.target.value)}}  onBlur={descriptionValid} style={{width: "100%"}}/>
                         </Grid>
                         <Grid item xs={12}>
                             <span>The pictures should be in a square format (1:1 ratio) </span>
-                            <input style={{display: 'none'}}
+                            <TextField style={{display: 'none'}}
                                 multiple
                                 accept="image/*"
                                 id="contained-button-file"
@@ -318,7 +415,7 @@ export default function AddProduct(props) {
                             <label htmlFor="contained-button-file">
                                 <Button variant="contained" component="span">
                                     Upload Picture
-                                </Button>
+                                </Button> <span style={{color: 'red'}}>{helppic}</span>
                             </label>
                             <div>
                                 <Grid container>
@@ -332,13 +429,25 @@ export default function AddProduct(props) {
                         </Grid>
                     </Grid>
                     <br></br>
-                    <Button type="submit" style={{backgroundColor: RED,color: WHITE,fontSize: '18px' ,fontWeight: '700',padding: '10px',width: '200px'}}>Submit</Button>
-                    {(editData)? <Button onClick={()=>{dispatch(editProd(""));}} style={{backgroundColor: WHITE,fontSize: '18px' ,fontWeight: '700',padding: '10px',width: '200px'}}>Cancel</Button>:""}
+                    <Button type="submit" style={{backgroundColor: RED,color: WHITE,fontSize: '18px' ,fontWeight: '700',padding: '10px',width: '200px'}}>Submit</Button> {
+                        (editData)? <Button onClick={()=>{
+                                dispatch(editProd(""));
+                                setpic("");
+                                setfiles("");
+                                settitle("");
+                                setdescription("");
+                                setcatid(1);
+                                setbrandid(1);
+                                setAprice("");
+                                setDprice("");
+                                setSelectedValue("rent");
+                            }
+                        } style={{backgroundColor: WHITE,fontSize: '18px' ,fontWeight: '700',padding: '10px',width: '200px'}}>Cancel</Button>:""}
                         <br></br>
                         <br></br>
                     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                         <Alert onClose={handleClose} severity="success">
-                        This is a success message!
+                            Product Added Successfully
                         </Alert>
                     </Snackbar>
                 </form>
