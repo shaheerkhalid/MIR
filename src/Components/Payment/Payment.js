@@ -237,14 +237,15 @@ export default function AddProduct(props) {
     const makePayment = token => {
       const body = {
         token,
-        instrument: productdata
+        instrument: productdata,
+        amount: ((days*productdata.price_per_day)+500)
       }
       
       const headers = {
         "Content-Type": "application/json"
       }
 
-      return fetch(`http://localhost:5000/charge`,{
+      return fetch(`http://localhost:5000/payment`,{
         method: 'POST',
         headers,
         body: JSON.stringify(body)
@@ -432,7 +433,7 @@ export default function AddProduct(props) {
                                     name="Pay with Card"
                                     currency="PKR"
                                     locale='pk'
-                                    amount={((days*productdata.price_per_day)+500)*100}
+                                    amount={(productdata.product_type==="rent")?((days*productdata.price_per_day)+500)*100:((days*productdata.actual_price)+500)*100}
                                     disabled={(address==="" || erraddress || phnbr==="" || err )}
                                     
                                   >
