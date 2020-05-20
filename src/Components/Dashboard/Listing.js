@@ -25,9 +25,6 @@ const useStyles = makeStyles({
   root: {
     width: '100%',
   },
-  container: {
-    minHeight: 500,
-  },
 });
 
 

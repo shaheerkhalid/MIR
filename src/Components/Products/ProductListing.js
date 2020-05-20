@@ -18,6 +18,10 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import {Link} from "react-router-dom";
 import {useSelector,useDispatch} from 'react-redux';
 import {searchvalue} from '../../Actions';
@@ -26,11 +30,18 @@ import {searchvalue} from '../../Actions';
 const useStyles = makeStyles(theme => ({
     root: {
       flexGrow: 1,
+      width: '100%',
+      position: 'relative',
+      overflow: 'auto',
+      padding: '0px',
     },
     category1: {
         display: 'none',
+        
+        maxHeight: '300px',
         [theme.breakpoints.down("sm")]: {
             display: 'block',
+            maxHeight: '300px',
         },
     },
     category2: {
@@ -164,6 +175,12 @@ export default function ProductListing(props) {
       }
     },[]);
 
+    const [open, setOpen] = React.useState(false);
+    const [tag, setTag] = React.useState('All Categories');
+    
+    const handleClick = () => {
+        setOpen(!open);
+    };
 
     return(
       (prodlist!=="")?
@@ -172,7 +189,40 @@ export default function ProductListing(props) {
           <Container maxWidth="xl" style={{padding: '15px'}}>
           <Grid container spacing={3}>
             <Grid className={classes.category1} item xs={12}>
-                    <PanelListS catlist={props.catlist}/>
+            <List
+                component="nav"
+                aria-labelledby="nested-list-subheader"
+                className={classes.root}
+              >
+                <ListItem button onClick={handleClick}>
+                  <ListItemText primary={tag} />
+                  {open ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding style={{maxHeight: "200px"}}>
+                  <ListItem >
+                          <Link className={classes.links} color='primary' underline='none' onClick={()=>{
+                              setprodlist(proddata);
+                              setOpen(!open);
+                            }}>All Categories</Link>
+                    </ListItem>
+                    {props.catlist.map(catlist => (
+                          <ListItem
+                            key={catlist.category_id}
+                            align={catlist.align}
+                            style={{ minWidth: catlist.minWidth }}
+                          >
+                            <Link className={classes.links} color='primary' underline='none' onClick={()=>{
+                                setprodlist(proddata.filter(prod => prod.category_id===catlist.category_id));
+                                setOpen(!open);
+                              }}>
+                              {catlist.cat_name}
+                            </Link>
+                          </ListItem>
+                      ))}
+                  </List>
+                </Collapse>
+              </List>
                     <hr></hr>
             </Grid>
             <Grid className={classes.category2} item md={2}>

@@ -30,7 +30,7 @@ export default function ProductCard({card_data}){
 
   const header = 
   <div style={{position: 'relative'}}>
-    <div style={{width: '100%',height: '200px',overflow: 'hidden'}}>
+    <div style={{width: '100%'}}>
       <img  alt="Card" src={card_data.picture_file_name} width="100%"/>
     </div>
       <label style={{

@@ -21,9 +21,6 @@ const useStyles = makeStyles({
   root: {
     width: '100%',
   },
-  container: {
-    minHeight: 500,
-  },
 });
 
 
@@ -108,6 +105,6 @@ export default function BuyerHistory() {
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
     </Paper>
-    </div>:<div></div>
+    </div>:<div>No Record Found</div>
   );
 }

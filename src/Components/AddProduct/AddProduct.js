@@ -405,7 +405,7 @@ export default function AddProduct(props) {
                         </Grid>
                         <Grid item xs={12}>
                             <span>The pictures should be in a square format (1:1 ratio) </span>
-                            <TextField style={{display: 'none'}}
+                            <input style={{display: 'none'}}
                                 multiple
                                 accept="image/*"
                                 id="contained-button-file"
