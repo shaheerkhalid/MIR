@@ -69,3 +69,10 @@ export const editProd = (data) => {
         payload: data
     };
 };
+
+export const instructor = (data) => {
+    return {
+        type: 'INSTRUCTOR',
+        payload: data
+    };
+};

@@ -17,6 +17,13 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import {useSelector,useDispatch} from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Rating from '@material-ui/lab/Rating';
 
 const columns = [
   { id: 'title', label: 'Title', minWidth: 150 },
@@ -92,6 +99,25 @@ export default function History() {
   const [value, setValue] = React.useState(0);
   const jsontoken = useSelector(state => state.jsontoken);
   const user = useSelector(state => state.userid);
+
+  const [productId, setProductId] = React.useState();
+  const [renterId, setRenterId] = React.useState();
+
+  const [renterRating, setRenterRating] = React.useState(0);
+  const [renterReview, setRenterReivew] = React.useState("");
+  const [productRating, setProductRating] = React.useState(0);
+  const [productReview, setProductReivew] = React.useState("");
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
   React.useEffect(()=>{
     fetch(`http://localhost:5000/Api/Product/ProductsRenteeHistory/${user.user_id}`,  {
@@ -208,65 +234,11 @@ export default function History() {
                         <TableCell key="action" align="300">
                         {/* {column.format && typeof value === 'number' ? column.format(value) : value} */}
                         <Button size="small"  color="primary" variant="contained" onClick={()=>{
-                          fetch(`http://localhost:5000/Api/Product/UpdateRentRecord`,  {
-                            method: 'PATCH',
-                            headers: { 'Content-Type': 'application/json' ,
-                                        'Authorization': jsontoken
-                                    },
-                            body: JSON.stringify({"product_id":row.product_id})
-                              
-                                })
-                          
-                        .then(res => res.json())
-                        .catch(error => console.error('Error:', error))
-                        .then(response => {
-                            if(response.success===1){
-                              fetch(`http://localhost:5000/Api/Product/ByUserID`,  {
-                                method: 'PATCH',
-                                headers: { 'Content-Type': 'application/json' ,
-                                            'Authorization': jsontoken
-                                        },
-                                body: JSON.stringify({
-                                  "status":1,
-                                  "productid":row.product_id
-                                })  
-                                   })
-                                .then(res => res.json())
-                                .catch(error => console.error('Error:', error))
-                                .then(response => {
-                                    if(response.success===1){
-
-                                    }
-                                });
-                                fetch(`http://localhost:5000/Api/Product/ProductsRenteeHistory/${user.user_id}`,  {
-                                  method: 'GET',
-                                  headers: { 'Content-Type': 'application/json',
-                                              'Authorization': jsontoken
-                                          }
-                                        })
-                                .then(res => res.json())
-                                .catch(error => console.error('Error:', error))
-                                .then(response => {
-                                    if(response.success===1){
-                                        setrows1(response.data);
-                                    }
-                                });
-                                fetch(`http://localhost:5000/Api/Product/OnRentProductsRentee/${user.user_id}`,  {
-                                    method: 'GET',
-                                    headers: { 'Content-Type': 'application/json',
-                                                'Authorization': jsontoken
-                                            }
-                                        })
-                                .then(res => res.json())
-                                .catch(error => console.error('Error:', error))
-                                .then(response => {
-                                    if(response.success===1){
-                                        setrows(response.data);
-                                    }
-                                });
-                            }
-                        });
-                        }}>Return</Button>
+                          setProductId(row.product_id);
+                          setRenterId(row.user_id);
+                          handleClickOpen();
+                        }
+                        }>Return</Button>
                         </TableCell>
                       </TableRow>
                     );
@@ -333,6 +305,160 @@ export default function History() {
             </Paper>:<div>No History Found</div>}
         </TabPanel>
       </SwipeableViews>
+    </div>
+    <div>
+      <Dialog open={open} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Review and Rate User Profile and Instrument</DialogTitle>
+        <DialogContent>
+        <Typography>Select Renter's Rating</Typography>
+          <Rating
+            value={renterRating}
+            onChange={(event, newValue) => {
+              setRenterRating(newValue);
+            }}
+          />
+          <br></br>
+          <TextField
+            variant="outlined"
+            label="Enter Renter's Review"
+            type="text"
+            value={renterReview}
+            onChange={(e)=>{
+              setRenterReivew(e.target.value);
+            }}
+            fullWidth
+          />
+          <Typography>Select Product Rating</Typography>
+          <Rating
+            value={productRating}
+            onChange={(event, newValue) => {
+              setProductRating(newValue);
+            }}
+          />
+          <br></br>
+          <TextField
+            variant="outlined"
+            label="Enter Product Review"
+            type="text"
+            value={productReview}
+            onChange={(e)=>{
+              setProductReivew(e.target.value);
+            }}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={()=>{
+              fetch(`http://localhost:5000/Api/Product/UpdateRentRecord`,  {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' ,
+                            'Authorization': jsontoken
+                        },
+                body: JSON.stringify({"product_id":productId})
+                  
+                    })
+              
+            .then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                if(response.success===1){
+                  fetch(`http://localhost:5000/Api/Product/ByUserID`,  {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' ,
+                                'Authorization': jsontoken
+                            },
+                    body: JSON.stringify({
+                      "status":1,
+                      "productid":productId
+                    })  
+                       })
+                    .then(res => res.json())
+                    .catch(error => console.error('Error:', error))
+                    .then(response => {
+                        if(response.success===1){
+
+                        }
+                    });
+                    fetch(`http://localhost:5000/Api/Product/ProductsRenteeHistory/${user.user_id}`,  {
+                      method: 'GET',
+                      headers: { 'Content-Type': 'application/json',
+                                  'Authorization': jsontoken
+                              }
+                            })
+                    .then(res => res.json())
+                    .catch(error => console.error('Error:', error))
+                    .then(response => {
+                        if(response.success===1){
+                            setrows1(response.data);
+                        }
+                    });
+                    fetch(`http://localhost:5000/Api/Product/OnRentProductsRentee/${user.user_id}`,  {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json',
+                                    'Authorization': jsontoken
+                                }
+                            })
+                    .then(res => res.json())
+                    .catch(error => console.error('Error:', error))
+                    .then(response => {
+                        if(response.success===1){
+                            setrows(response.data);
+                        }
+                    });
+                    fetch(`http://localhost:5000/Api/Product/ProductReview`,  {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' ,
+                                'Authorization': jsontoken
+                            },
+                    body: JSON.stringify({
+                      "renteeid":user.user_id,
+                      "renterid":renterId,
+                      "productid":productId,
+                      "rating":productRating,
+                      "comment":productReview,
+                      "dateadded": new Date(),
+                    })  
+                       })
+                    .then(res => res.json())
+                    .catch(error => console.error('Error:', error))
+                    .then(response => {
+                        if(response.success===1){
+                          fetch(`http://localhost:5000/Api/User/ProfileReview`,  {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' ,
+                                        'Authorization': jsontoken
+                                    },
+                            body: JSON.stringify({
+                              "userid":renterId,
+                              "reviewerid":user.user_id,
+                              "rating":productRating,
+                              "comment":productReview,
+                              "dateadded": new Date(),
+                            })  
+                              })
+                            .then(res => res.json())
+                            .catch(error => console.error('Error:', error))
+                            .then(response => {
+                                if(response.success===1){
+                                    setProductRating(0);
+                                    setProductReivew("");
+                                    setRenterRating(0);
+                                    setRenterReivew("");
+                                    handleClose();
+                                }
+                            });  
+                        }
+                    });
+                }
+            });
+            }} color="primary">
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
     </div>
   );

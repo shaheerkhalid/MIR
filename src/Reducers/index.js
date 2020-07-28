@@ -8,7 +8,9 @@ import cartReducer from './cart';
 import requestReducer from './Request';
 import searchReducer from './search';
 
-import editProductReducer from './editProduct'
+import editProductReducer from './editProduct';
+
+import instructorReducer from './instructor';
 
 import { combineReducers } from 'redux';
 
@@ -22,7 +24,8 @@ const allReducers = combineReducers({
     requestdata: requestReducer,
     searchdata: searchReducer,
     editprod: editProductReducer, 
-
+    instructor: instructorReducer,
+    
 });
 
 export default allReducers;

@@ -16,6 +16,7 @@ import AddProduct from './Containers/AddProduct';
 import ProductView from './Containers/ProductView';
 import ProfileView from './Containers/ProfileView';
 import Payment from './Containers/Payment';
+import AddInstructor from './Containers/AddInstructor';
 import {useSelector} from 'react-redux';
 
 export default function App(){
@@ -79,6 +80,9 @@ export default function App(){
                    </Route>
                    <Route path="/Dashboard/Account" exact>
                         {isLogged ? <Userdashboard/>: <Redirect to="/" />}
+                   </Route>
+                   <Route path="/AddInstructor" exact>
+                        <AddInstructor/>
                    </Route>
                </Switch>
            </Router>

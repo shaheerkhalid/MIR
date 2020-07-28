@@ -41,11 +41,14 @@ export default function Navbar() {
                 <li className="nav-item">
                     <Link className="nav-link" to="/Products">Instruments</Link>
                 </li>
+                {isLogged&&<li className="nav-item">
+                    <Link className="nav-link" to="/AddInstructor">Become an Instructor</Link>
+                </li>}
                 <li className="nav-item">
                     <Link className="nav-link" to="/Contact">Contact Us</Link>
                 </li>
                 </ul>
-                {isLogged ? 
+                {isLogged ?
                 <div className="dropdown" style={{marginRight: '10px'}}>
                     <Avatar alt={userdata.full_name} src={(userdata.avatar)?(userdata.avatar):"/image.jpg"} id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"/>
                     <div className="dropdown-menu" style={{position:'realtive', left: '-20px', top: '50px'}} aria-labelledby="dropdownMenuLink">
