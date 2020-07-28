@@ -18,6 +18,7 @@ import ProfileView from './Containers/ProfileView';
 import Payment from './Containers/Payment';
 import AddInstructor from './Containers/AddInstructor';
 import {useSelector} from 'react-redux';
+import CreateCourse from './Containers/CreateCourse';
 
 export default function App(){
 
@@ -53,6 +54,9 @@ export default function App(){
                    </Route>
                    <Route path="/AddProduct" exact>
                         {isLogged ? <AddProduct/>: <Redirect to="/Login" />}
+                   </Route>
+                   <Route path="/CreateCourse" exact>
+                        <CreateCourse/>
                    </Route>
                    <Route path="/Products" exact>
                          <Products/>

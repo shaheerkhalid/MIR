@@ -41,7 +41,7 @@ export default function Navbar() {
                 <li className="nav-item">
                     <Link className="nav-link" to="/Products">Instruments</Link>
                 </li>
-                {isLogged&&<li className="nav-item">
+                {(isLogged&&userdata.user_type!=="instructor")&&<li className="nav-item">
                     <Link className="nav-link" to="/AddInstructor">Become an Instructor</Link>
                 </li>}
                 <li className="nav-item">
@@ -51,7 +51,7 @@ export default function Navbar() {
                 {isLogged ?
                 <div className="dropdown" style={{marginRight: '10px'}}>
                     <Avatar alt={userdata.full_name} src={(userdata.avatar)?(userdata.avatar):"/image.jpg"} id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"/>
-                    <div className="dropdown-menu" style={{position:'realtive', left: '-20px', top: '50px'}} aria-labelledby="dropdownMenuLink">
+                    <div className="dropdown-menu" style={{position:'realtive', left: '-50px', top: '50px'}} aria-labelledby="dropdownMenuLink">
                         <Link className="dropdown-item" to="/Dashboard">Dashboard</Link>
                         <Link className="dropdown-item" to="" onClick={() => {
                             dispatch(isLog());
@@ -73,11 +73,20 @@ export default function Navbar() {
                     </span>
                 </span>
                 }
-                <span className="navbar-text">
-                    <Link className="nav-link" to="/AddProduct" style={{mrgin: '0px',padding: '0px'}}>
+                
+                {(isLogged&&userdata.user_type==="instructor")?<span className="navbar-text">
+                <div className="dropdown" style={{marginRight: '10px'}}>
+                    <Button style={{backgroundColor: RED,color: WHITE,fontWeight: '700',padding: '7px 30px'}} id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Post +</Button>
+                    <div className="dropdown-menu" style={{position:'realtive', left: '-50px', top: '50px'}} aria-labelledby="dropdownMenuLink">
+                        <Link className="dropdown-item" to="/AddProduct">Post Ads</Link>
+                        <Link className="dropdown-item" to="/CreateCourse">Create Course</Link>
+                    </div>
+                </div>
+                </span>:<span className="navbar-text">
+                    <Link className="nav-link" to="/AddProduct" style={{mrgin: '0px',padding: '0px', margin: '0px 10px'}}>
                         <Button style={{backgroundColor: RED,color: WHITE,fontWeight: '700',padding: '7px 20px'}}>Post Ads</Button>
                     </Link>
-                </span>
+                </span>}
             </div>
         </nav>
     );
