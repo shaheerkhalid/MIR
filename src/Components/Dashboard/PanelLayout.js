@@ -14,6 +14,9 @@ import SellerHistory from './SellerHistory';
 import RenteeHistory from './RenteeHistory';
 import RenterHistory from './RenterHistory';
 import BuyerHistory from './BuyerHistory';
+import EnrolledCourses from './EnrolledCourse';
+import Courses from './Courses';
+import CourseDetails from './CourseDetails';
 import Account from './Account';
 import {RED, WHITE} from '../../Constants';
 
@@ -58,6 +61,12 @@ export default function ProductListing() {
         content = <RenteeHistory/>
     }else if(match==='/Dashboard/RenterHistory'){
         content = <RenterHistory/>
+    }else if(match==='/Dashboard/EnrolledCourses'){
+        content = <EnrolledCourses/>
+    }else if(match==='/Dashboard/Courses'){
+        content = <Courses/>
+    }else if(match==='/Dashboard/CourseDetails'){
+        content = <CourseDetails/>
     }else if(match==='/Dashboard/Account'){
         content = <Account/>
     }

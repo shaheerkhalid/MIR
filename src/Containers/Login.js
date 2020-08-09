@@ -96,7 +96,16 @@ export default function SignInSide() {
             if(response.success===1){
                 dispatch(jsontoken("Bearer "+response.token));
                 dispatch(isLog());
-                dispatch(userid(response.data));
+                (response.data.user_type==="instructor")?
+                    fetch('http://localhost:5000/Api/User/instructordata', requestOptions)
+                        .then(res => res.json())
+                        .catch(error => console.error('Error:', error))
+                        .then(response => {
+                            if(response.success===1){
+                                dispatch(userid(response.data));
+                            }
+                    })
+                :dispatch(userid(response.data));
                 sethelptext("");
             }else{
                 sethelptext(response.message);

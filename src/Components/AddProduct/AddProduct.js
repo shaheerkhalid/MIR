@@ -236,9 +236,10 @@ export default function AddProduct(props) {
                                 }
                             });
                         });
+                        dispatch(editProd(""));
+                        document.getElementById("addform").reset();
+                        setOpen(true);
                     }
-                    document.getElementById("addform").reset();
-                    setOpen(true);
                 });
             }else{
                 let prodid="";

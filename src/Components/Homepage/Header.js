@@ -85,7 +85,7 @@ export default function Header() {
       const handleSubmit = e => {
         e.preventDefault();
         dispatch(searchvalue(svalue));
-        document.getElementById("srch").click();
+        (stype==="Instrument")?document.getElementById("srchInstrument").click():document.getElementById("srchCourse").click();
       }
 
   return (
@@ -115,7 +115,8 @@ export default function Header() {
                     onChange={(e) => {setsvalue(e.target.value)}} 
                 />
                 <Divider className={classes.divider} orientation="vertical" />
-                <Link id="srch" to="/Products"></Link>
+                <Link id="srchInstrument" to="/Products"></Link>
+                <Link id="srchCourse" to="/Courses"></Link>
                 <IconButton type="submit" className={classes.iconButton} aria-label="search">
                     <SearchIcon />
                 </IconButton>

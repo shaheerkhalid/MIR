@@ -19,6 +19,8 @@ import Payment from './Containers/Payment';
 import AddInstructor from './Containers/AddInstructor';
 import {useSelector} from 'react-redux';
 import CreateCourse from './Containers/CreateCourse';
+import Courses from './Containers/Courses';
+import EnrollCourse from './Containers/EnrollCourse';
 
 export default function App(){
 
@@ -82,11 +84,26 @@ export default function App(){
                    <Route path="/Dashboard/BuyerHistory" exact>
                         {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
+                   <Route path="/Dashboard/Courses" exact>
+                        {isLogged ? <Userdashboard/>: <Redirect to="/" />}
+                   </Route>
+                   <Route path="/Dashboard/CourseDetails" exact>
+                        {isLogged ? <Userdashboard/>: <Redirect to="/" />}
+                   </Route>
                    <Route path="/Dashboard/Account" exact>
+                        {isLogged ? <Userdashboard/>: <Redirect to="/" />}
+                   </Route>
+                   <Route path="/Dashboard/EnrolledCourses" exact>
                         {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
                    <Route path="/AddInstructor" exact>
                         <AddInstructor/>
+                   </Route>
+                   <Route path="/Courses" exact>
+                         <Courses/>
+                   </Route>
+                   <Route path="/EnrollCourse" exact>
+                         <EnrollCourse/>
                    </Route>
                </Switch>
            </Router>

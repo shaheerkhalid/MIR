@@ -11,6 +11,9 @@ import searchReducer from './search';
 import editProductReducer from './editProduct';
 
 import instructorReducer from './instructor';
+import courseListReducer from './courseList';
+
+import coursedataReducer from './courseData';
 
 import { combineReducers } from 'redux';
 
@@ -25,7 +28,8 @@ const allReducers = combineReducers({
     searchdata: searchReducer,
     editprod: editProductReducer, 
     instructor: instructorReducer,
-    
+    courselist: courseListReducer,
+    coursedata: coursedataReducer,
 });
 
 export default allReducers;

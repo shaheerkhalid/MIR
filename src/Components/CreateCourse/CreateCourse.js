@@ -150,7 +150,7 @@ export default function CreateCourse(props) {
                 setcoursepic(response.coursepic_url);
                 setpic("");
                 const data ={
-                  "userid": userID.user_id,
+                  "instructorid": userID.instructor_id,
                   "title": title,
                   "catid": catid,
                   "description": description,
@@ -210,7 +210,7 @@ export default function CreateCourse(props) {
                         </FormControl>
                         </Grid>
                         <Grid item xs={6}>
-                            <TextField error={Apriceerr} helperText={helpAprice} type="number" min="1" step="any" id="outlined-basic" label="Price of Instrument" placeholder="00.00" variant="outlined" value={Aprice} onChange={(e) => {setAprice(e.target.value)}} onBlur={ApriceValid} style={{width: "100%"}}/>
+                            <TextField error={Apriceerr} helperText={helpAprice} type="number" min="1" step="any" id="outlined-basic" label="Price of Course" placeholder="00.00" variant="outlined" value={Aprice} onChange={(e) => {setAprice(e.target.value)}} onBlur={ApriceValid} style={{width: "100%"}}/>
                         </Grid>
                         <Grid item xs={12}>
                             <TextField error={errdescription} helperText={helpdescription} id="outlined-textarea" label="Description" multiline variant="outlined" rows="4" value={description} onChange={(e) => {setdescription(e.target.value)}}  onBlur={descriptionValid} style={{width: "100%"}}/>

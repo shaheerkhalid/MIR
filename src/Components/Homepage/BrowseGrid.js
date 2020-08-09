@@ -54,7 +54,7 @@ export default function BrowseGrid(){
                   </Link>
                   </Grid>
                   <Grid item xs={6}>
-                  <Link className='nav-link' underline='none' to="/Products">
+                  <Link className='nav-link' underline='none' to="/Courses">
                       <Button className={classes.button} style={{backgroundImage: 'url(https://i.pinimg.com/originals/db/8b/45/db8b45f4ba723634a5d78af8c67c35bc.jpg)',backgroundSize: '100%'}}>Courses</Button>
                   </Link>
                   </Grid>    
