@@ -76,3 +76,17 @@ export const instructor = (data) => {
         payload: data
     };
 };
+
+export const courselist = (data) => {
+    return {
+        type: 'COURSES',
+        payload: data
+    };
+};
+
+export const coursedata = (data) => {
+    return {
+        type: 'COURSEDATA',
+        payload: data
+    };
+};

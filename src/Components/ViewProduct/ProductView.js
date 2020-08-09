@@ -27,19 +27,19 @@ export default function ProductView() {
   const [renterdata, setrenterdata] = React.useState("");
 
   React.useEffect(()=>{
-              fetch(`http://localhost:5000/Api/USER/${proddata.renter_id}`,  {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json'
-                            }
-                        })
-                .then(res => res.json())
-                .catch(error => console.error('Error:', error))
-                .then(response => {
-                    if(response.success===1){
-                      console.log(response.data.full_name);
-                        setrenterdata(response.data);
+      fetch(`http://localhost:5000/Api/USER/${proddata.renter_id}`,  {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json'
                     }
-                });
+                })
+        .then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            if(response.success===1){
+              console.log(response.data.full_name);
+                setrenterdata(response.data);
+            }
+        });
   },[]);
 
   return (

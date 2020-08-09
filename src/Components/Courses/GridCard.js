@@ -6,7 +6,7 @@ import Rating from '@material-ui/lab/Rating';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
-import {proddata} from "../../Actions";
+import {coursedata} from "../../Actions";
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
@@ -25,25 +25,16 @@ export default function ProductCard({card_data}){
   
   const dispatch = useDispatch();
 
-  const handleRent = () => {
-      dispatch(proddata(card_data));
+  const handleCourse = () => {
+      dispatch(coursedata(card_data));
   };
 
   const header = 
   <div style={{position: 'relative'}}>
     <div style={{width: '100%'}}>
-      <img  alt="Card" src={card_data.picture_file_name} width="100%"/>
+      <img  alt="Card" src={card_data.course_pic} width="100%"/>
     </div>
-      <label style={{
-          position: 'absolute',
-          top:'5px',
-          left:'5px',
-          backgroundColor:RED,
-          color:WHITE ,
-          fontWeight:'bold',
-          padding:'2px 10px',
-          }}>Rs. {(card_data.product_type==="rent")?card_data.price_per_day +"/Day":card_data.actual_price}</label>
-          <Rating
+    <Rating
           name="read-only"
           value={value}
           readOnly
@@ -54,15 +45,15 @@ export default function ProductCard({card_data}){
   </div>
 
   const footer = <span>
-                <Link to='/ProductView'>
-                  <Button label={(card_data.product_type==="rent")?"Rent":"Buy"} icon="pi pi-check" onClick={handleRent} style={{marginRight: '.25em'}}/>
+                <Link to='/EnrollCourse'>
+                  <Button label={"Enroll"} icon="pi pi-check" onClick={handleCourse} style={{marginRight: '.25em'}}/>
                 </Link>
                </span>;
   
   
   return (
       <div style={{ padding: '.5em' }} className="p-col-12 p-xs-12 p-sm-6 p-md-4 p-lg-3">
-        <Card className={classes.cardstyle} header={header} footer={footer} subTitle={"Net Worth: Rs. "+card_data.actual_price} style={{padding:'10px'}}>
+        <Card className={classes.cardstyle} header={header} footer={footer} subTitle={"Course Price: Rs. "+card_data.price} style={{padding:'10px'}}>
         </Card>   
       </div>
   );

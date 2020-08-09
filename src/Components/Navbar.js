@@ -41,6 +41,9 @@ export default function Navbar() {
                 <li className="nav-item">
                     <Link className="nav-link" to="/Products">Instruments</Link>
                 </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/Courses">Courses</Link>
+                </li>
                 {(isLogged&&userdata.user_type!=="instructor")&&<li className="nav-item">
                     <Link className="nav-link" to="/AddInstructor">Become an Instructor</Link>
                 </li>}

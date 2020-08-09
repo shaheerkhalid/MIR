@@ -434,8 +434,8 @@ export default function History() {
                             body: JSON.stringify({
                               "userid":renterId,
                               "reviewerid":user.user_id,
-                              "rating":productRating,
-                              "comment":productReview,
+                              "rating":renterRating,
+                              "comment":renterReview,
                               "dateadded": new Date(),
                             })  
                               })

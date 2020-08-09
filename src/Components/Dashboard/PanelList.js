@@ -8,6 +8,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import {WHITE} from '../../Constants';
+import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,6 +53,7 @@ const useStyles = makeStyles(theme => ({
 
 export function PanelListL() {
   const classes = useStyles();
+  const userData = useSelector(state => state.userid);
 
   return (
     <List className={classes.root} >
@@ -76,6 +78,12 @@ export function PanelListL() {
                 <Link className={classes.links} color='primary' underline='none' to="/Dashboard/BuyerHistory">Buyer History</Link>
               </ListItem>
               <ListItem className={classes.listitem}>
+                <Link className={classes.links} color='primary' underline='none' to="/Dashboard/EnrolledCourses">Enrolled Courses</Link>
+              </ListItem>
+              {(userData.user_type==="instructor")&&<ListItem className={classes.listitem}>
+                <Link className={classes.links} color='primary' underline='none' to="/Dashboard/Courses">Courses</Link>
+              </ListItem>}
+              <ListItem className={classes.listitem}>
                 <Link className={classes.links} color='primary' underline='none' to="/Dashboard/Account">Account</Link>
            </ListItem>
           </ul>
@@ -88,7 +96,7 @@ export function PanelListS() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [tag, setTag] = React.useState('Profile Information');
-    
+    const userData = useSelector(state => state.userid);
 
     const handleClick = () => {
         setOpen(!open);
@@ -128,8 +136,14 @@ export function PanelListS() {
                   <Link className={classes.links} name='Seller History' color='primary' underline='none' to="/Dashboard/SellerHistory" onClick={handleTag}>Seller History</Link>
                 </ListItem>
                 <ListItem >
-                  <Link className={classes.links} name='Buyer History' color='primary' underline='none' to="/Dashboard/SellerHistory" onClick={handleTag}>Buyer History</Link>
+                  <Link className={classes.links} name='Buyer History' color='primary' underline='none' to="/Dashboard/BuyerHistory" onClick={handleTag}>Buyer History</Link>
                 </ListItem>
+                <ListItem >
+                  <Link className={classes.links} name='Enrolled Courses' color='primary' underline='none' to="/Dashboard/EnrolledCourses" onClick={handleTag}>Enrolled Courses</Link>
+                </ListItem>
+                {(userData.user_type==="instructor")&&<ListItem >
+                  <Link className={classes.links} name='Courses' color='primary' underline='none' to="/Dashboard/Courses" onClick={handleTag}>Courses</Link>
+                </ListItem>}
                 <ListItem >
                   <Link className={classes.links} name='Account' color='primary' underline='none' to="/Dashboard/Account"  onClick={handleTag}>Account</Link>
                 </ListItem>
