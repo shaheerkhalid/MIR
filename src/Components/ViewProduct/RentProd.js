@@ -32,7 +32,7 @@ export default function AddtoCart(props) {
                     <Typography variant="h6">Rating: &nbsp;
                     <Rating
                         name="read-only"
-                        value= {0}
+                        value= {props.rating}
                         readOnly
                         />
                     </Typography>

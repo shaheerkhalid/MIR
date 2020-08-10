@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
         height: "100vh"
     },
     image: {
-        backgroundImage: "url(https://i.picsum.photos/id/1/5616/3744.jpg)",
+        backgroundImage: "url(https://i.picsum.photos/id/1/5616/3744.jpg?hmac=kKHwwU8s46oNettHKwJ24qOlIAsWN9d2TtsXDoCWWsQ)",
         backgroundRepeat: "no-repeat",
         backgroundColor:
             theme.palette.type === "dark"

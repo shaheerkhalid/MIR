@@ -90,3 +90,10 @@ export const coursedata = (data) => {
         payload: data
     };
 };
+
+export const userlist = (data) => {
+    return {
+        type: 'USERS',
+        payload: data
+    };
+};

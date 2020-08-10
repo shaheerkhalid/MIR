@@ -27,35 +27,61 @@ const useStyles = makeStyles((theme) => ({
 export default function ProfileView() {
   const classes = useStyles();
   const proddata = useSelector(state => state.proddata);
+  const userlist = useSelector(state => state.userlist);
 
   const [renterdata, setrenterdata] = React.useState("");
+  const [reviews, setreviews] = React.useState("");
+  const [ratings, setratings] = React.useState("");
 
   React.useEffect(()=>{
-              fetch(`http://localhost:5000/Api/USER/${proddata.renter_id}`,  {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json'
-                            }
-                        })
-                .then(res => res.json())
-                .catch(error => console.error('Error:', error))
-                .then(response => {
-                    if(response.success===1){
-                      console.log(response.data.full_name);
-                        setrenterdata(response.data);
-                    }
-                });
+    fetch(`http://localhost:5000/Api/USER/${proddata.renter_id}`,  {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json'
+                  }
+              })
+      .then(res => res.json())
+      .catch(error => console.error('Error:', error))
+      .then(response => {
+          if(response.success===1){
+              setrenterdata(response.data);
+              fetch(`http://localhost:5000/Api/USER/GetRating/${proddata.renter_id}`,  {
+                  method: 'GET',
+                  headers: { 'Content-Type': 'application/json'
+                          }
+                      })
+              .then(res => res.json())
+              .catch(error => console.error('Error:', error))
+              .then(response => {
+                  if(response.success===1){
+                      setratings(response.data[0]);
+                  }
+              });
+              fetch(`http://localhost:5000/Api/USER/GetReviews/${proddata.renter_id}`,  {
+                  method: 'GET',
+                  headers: { 'Content-Type': 'application/json'
+                          }
+                      })
+              .then(res => res.json())
+              .catch(error => console.error('Error:', error))
+              .then(response => {
+                  if(response.success===1){
+                      setreviews(response.data);
+                  }
+              });
+          }
+      });
   },[]);
 
   return (
-    (renterdata!=="")?
+    (renterdata!==""&&ratings!==""&&reviews!=="")?
     <div className={classes.root}>
       <Grid className={classes.container} container justify="center" >
-        <Grid item xs={12} sm={10}>
+        <Grid item xs={12} md={10}>
             <Grid container spacing={3} >
                 <Grid item xs={12}>
                     <Paper elevation={0} style={{width: '100%',padding: '20px',backgroundColor:WHITE}}><Typography variant='h5' style={{color: 'grey'}}>Profile View</Typography></Paper>
                 </Grid>
-                <Grid item xs={12} sm={6} justify="center">
+                <Grid item xs={12} sm={6}>
                     <Avatar alt={renterdata.full_name} src={renterdata.avatar} className={classes.large} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -68,21 +94,36 @@ export default function ProfileView() {
                     <Typography variant="h6">Rating: &nbsp;
                     <Rating
                         name="read-only"
-                        value= {0}
+                        value= {ratings.rating}
                         readOnly
                         />
                     </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} >
                     <Paper elevation={0} style={{width: '100%',padding: '10px',backgroundColor:WHITE}}><Typography variant='h5' style={{color: 'grey'}}>Reviews: </Typography></Paper>
                 </Grid>
+                {reviews.map(review => <Grid style={{borderBottom: '1px solid grey'}} item xs={12}>
+                    <div style={{display: 'flex',flexDirection: 'row',justifyContent: 'space-between'}}>
+                      <div><span style={{fontWeight: 'bold'}}>{userlist.filter(user => user.user_id === review.reviewer_id)[0].full_name}</span></div>
+                      <div><span style={{fontWeight: 'bold'}}>Date: </span><span>{review.date_added}</span></div>
+                    </div>
+                    <div style={{display: 'flex',flexDirection: 'row',justifyContent: 'space-between'}}>
+                      <div><span>{review.comment}</span></div>
+                      <div><Rating
+                        name="read-only"
+                        value= {review.rating}
+                        readOnly
+                        /></div>
+                    </div>
+                </Grid>
+                )}
             </Grid>
         </Grid>
       </Grid>
     </div>:<div>
-                    <Backdrop className={classes.backdrop} open>
-                        <CircularProgress color="primary" />
-                    </Backdrop>
-                </div>
+              <Backdrop className={classes.backdrop} open>
+                  <CircularProgress color="primary" />
+              </Backdrop>
+          </div>
   );
 }

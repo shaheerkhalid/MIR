@@ -46,7 +46,6 @@ export default function ProductList() {
     const classes = useStyles();
 
     const proddata = useSelector(state => state.prodlist);
-    console.log(proddata);
     
     const prodlist = proddata.slice(0,10);
 
