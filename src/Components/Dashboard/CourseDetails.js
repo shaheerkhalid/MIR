@@ -42,6 +42,11 @@ export default function CourseDetails() {
 
   const [videos, setvideos] = React.useState("");
 
+  const userlist = useSelector(state => state.userlist);
+  
+  const [reviews, setreviews] = React.useState("");
+  const [ratings, setratings] = React.useState("");
+
   React.useEffect(() => {
     fetch(`http://localhost:5000/Api/Course/LessonByCourseId/${coursedata.course_id}`,  {
           method: 'GET',
@@ -55,7 +60,31 @@ export default function CourseDetails() {
           if(response.success===1){
             setvideos(response.data);
           }
-    })
+    });
+    fetch(`http://localhost:5000/Api/Course/GetRating/${coursedata.course_id}`,  {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json'
+                    }
+                })
+        .then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            if(response.success===1){
+                setratings(response.data[0]);
+            }
+        });
+        fetch(`http://localhost:5000/Api/Course/GetReviews/${coursedata.course_id}`,  {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json'
+                    }
+                })
+        .then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            if(response.success===1){
+                setreviews(response.data);
+            }
+        });
   }, []);
   
   const handleClickOpen = () => {
@@ -72,11 +101,12 @@ export default function CourseDetails() {
     }
 
   return (
+    (ratings!==""&&reviews!=="")?
     <div className={classes.root}>
             <form id="myform">
 
             </form>
-            <Grid container spacing={3} style={{marginTop:'20px'}}>
+            <Grid container spacing={3} style={{marginTop:'20px',marginBottom:'20px'}}>
                 <Grid item xs={12} sm={4} justify="center" style={{display: 'flex',flexDirection: 'row',justifyContent: 'center'}}>
                     <Avatar alt={""} src={coursedata.course_pic} className={classes.large} />
                 </Grid>
@@ -87,7 +117,7 @@ export default function CourseDetails() {
                     <Typography variant="h6">Rating: &nbsp;
                     <Rating
                         name="read-only"
-                        value= {0}
+                        value= {ratings.rating}
                         readOnly
                         />
                     </Typography>
@@ -111,6 +141,21 @@ export default function CourseDetails() {
                 <Grid item xs={12}>
                     <Paper elevation={0} style={{width: '100%',padding: '5px',backgroundColor:WHITE}}><Typography variant='h5' style={{color: 'grey'}}>Reviews: </Typography></Paper>
                 </Grid>
+                {reviews.map(review => <Grid style={{borderBottom: '1px solid grey'}} item xs={12}>
+                    <div style={{display: 'flex',flexDirection: 'row',justifyContent: 'space-between'}}>
+                      <div><span style={{fontWeight: 'bold'}}>{userlist.filter(user => user.user_id === review.reviewer_id)[0].full_name}</span></div>
+                      <div><span style={{fontWeight: 'bold'}}>Date: </span><span>{review.date_added}</span></div>
+                    </div>
+                    <div style={{display: 'flex',flexDirection: 'row',justifyContent: 'space-between'}}>
+                      <div><span>{review.comment}</span></div>
+                      <div><Rating
+                        name="read-only"
+                        value= {review.rating}
+                        readOnly
+                        /></div>
+                    </div>
+                </Grid>
+                )}
             </Grid>
             <div>
       <Dialog open={open} aria-labelledby="form-dialog-title">
@@ -194,6 +239,6 @@ export default function CourseDetails() {
         </DialogActions>
       </Dialog>
     </div>
-    </div>
+    </div>:<div></div>
   );
 }

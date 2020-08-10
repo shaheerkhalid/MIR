@@ -9,6 +9,8 @@ import Rating from '@material-ui/lab/Rating';
 import { useSelector } from 'react-redux';
 import {WHITE, RED} from '../../Constants';
 import Stripecheckout from 'react-stripe-checkout';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,6 +34,11 @@ export default function CourseDetails() {
   const [totalVideos, setTotalVideos] = React.useState("0");
   const REACT_APP_KEY = 'pk_test_bRO4OuFREqnyEMhkj49RKOZr00nUr3TiNj';
 
+  const userlist = useSelector(state => state.userlist);
+  
+  const [reviews, setreviews] = React.useState("");
+  const [ratings, setratings] = React.useState("");
+
   React.useEffect(()=>{
     fetch(`http://localhost:5000/Api/Course/TotalVideos/${coursedata.course_id}`,  {
           method: 'GET',
@@ -45,6 +52,30 @@ export default function CourseDetails() {
               setTotalVideos(response.data[0].totalVideos);
           }
       });
+      fetch(`http://localhost:5000/Api/Course/GetRating/${coursedata.course_id}`,  {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json'
+                }
+            })
+    .then(res => res.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+        if(response.success===1){
+            setratings(response.data[0]);
+        }
+    });
+    fetch(`http://localhost:5000/Api/Course/GetReviews/${coursedata.course_id}`,  {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json'
+                }
+            })
+    .then(res => res.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+        if(response.success===1){
+            setreviews(response.data);
+        }
+    });
 },[]);
 
 
@@ -52,7 +83,7 @@ const makePayment = token => {
     const body = {
       token,
       instrument: coursedata,
-      amount: (coursedata.price)
+      amount: (coursedata.price*100)
     }
     
     const headers = {
@@ -90,8 +121,9 @@ const makePayment = token => {
   }
 
   return (
+    (ratings!==""&&reviews!=="")?
     <div className={classes.root}>
-            <Grid container justify="center" style={{marginTop:'20px'}}>
+            <Grid container justify="center" style={{marginTop:'20px',marginBottom:'20px'}}>
                 <Grid item xs={12} md={10}>
                     <Grid container spacing={3}>
                     <Grid item xs={12}>
@@ -110,7 +142,7 @@ const makePayment = token => {
                         <Typography variant="h6">Rating: &nbsp;
                         <Rating
                             name="read-only"
-                            value= {0}
+                            value= {ratings.rating}
                             readOnly
                             />
                         </Typography>
@@ -144,9 +176,28 @@ const makePayment = token => {
                     <Grid item xs={12}>
                         <Paper elevation={0} style={{width: '100%',padding: '5px',backgroundColor:WHITE}}><Typography variant='h5' style={{color: 'grey'}}>Reviews: </Typography></Paper>
                     </Grid>
+                    {reviews.map(review => <Grid style={{borderBottom: '1px solid grey'}} item xs={12}>
+                        <div style={{display: 'flex',flexDirection: 'row',justifyContent: 'space-between'}}>
+                          <div><span style={{fontWeight: 'bold'}}>{userlist.filter(user => user.user_id === review.reviewer_id)[0].full_name}</span></div>
+                          <div><span style={{fontWeight: 'bold'}}>Date: </span><span>{review.date_added}</span></div>
+                        </div>
+                        <div style={{display: 'flex',flexDirection: 'row',justifyContent: 'space-between'}}>
+                          <div><span>{review.comment}</span></div>
+                          <div><Rating
+                            name="read-only"
+                            value= {review.rating}
+                            readOnly
+                            /></div>
+                        </div>
+                    </Grid>
+                    )}
                     </Grid>
                 </Grid>
             </Grid>
-    </div>
+    </div>:<div>
+                    <Backdrop className={classes.backdrop} open>
+                        <CircularProgress color="primary" />
+                    </Backdrop>
+                </div>
   );
 }
