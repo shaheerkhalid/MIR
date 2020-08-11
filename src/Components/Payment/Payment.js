@@ -12,7 +12,7 @@ import Radio from '@material-ui/core/Radio';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import {useSelector,useDispatch} from 'react-redux';
-import {prodlist, proddata} from "../../Actions";
+import {prodlist, proddata, message} from "../../Actions";
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import { getElementError } from "@testing-library/react";
@@ -165,11 +165,12 @@ export default function AddProduct(props) {
                             });
                             }
                         });
-                        setOpen(true);
                         setaddress("");
                         setphnbr("");
                         setdays(1);
                         dispatch(proddata(""));
+                        dispatch(message("Rented Out Successfully"));
+                        document.getElementById('home').click();
                       }
           }); 
         }else{
@@ -222,12 +223,13 @@ export default function AddProduct(props) {
                                 }
                             });
                             }
-                        });  
-                        setOpen(true);
+                        });
                         setaddress("");
                         setphnbr("");
                         setdays(1);
                         dispatch(proddata(""));
+                        dispatch(message("Product Buy Successfully"));
+                        document.getElementById('home').click();
                       }
           });
         }
@@ -304,11 +306,12 @@ export default function AddProduct(props) {
                             });
                             }
                         });
-                        setOpen(true);
                         setaddress("");
                         setphnbr("");
                         setdays(1);
                         dispatch(proddata(""));
+                        dispatch(message("Rented Out Successfully"));
+                        document.getElementById('home').click();
                       }
           }); 
         }else{
@@ -361,12 +364,13 @@ export default function AddProduct(props) {
                                 }
                             });
                             }
-                        });  
-                        setOpen(true);
+                        });
                         setaddress("");
                         setphnbr("");
                         setdays(1);
                         dispatch(proddata(""));
+                        dispatch(message("Product Buy Successfully"));
+                        document.getElementById('home').click();
                       }
           });
         }
@@ -456,6 +460,7 @@ export default function AddProduct(props) {
                     </Grid>
                               <br></br>
                               <br></br>
+                        <Link id="home" to="/"></Link>
                           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} >
                               <Alert onClose={handleClose} severity="success">
                                   Product {(productdata.product_type==='rent')?"Rent out":"Buy"} successfully

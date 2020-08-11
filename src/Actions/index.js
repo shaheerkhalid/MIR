@@ -97,3 +97,10 @@ export const userlist = (data) => {
         payload: data
     };
 };
+
+export const message = (data) => {
+    return {
+        type: 'MESSAGE',
+        payload: data
+    };
+};

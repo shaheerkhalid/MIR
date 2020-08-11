@@ -14,7 +14,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { Link } from 'react-router-dom';
 import {useSelector,useDispatch} from 'react-redux';
-import { editProd,prodlist } from "../../Actions";
+import { editProd,prodlist, message } from "../../Actions";
 
 
 const useStyles = makeStyles(theme => ({
@@ -169,8 +169,12 @@ export default function CreateCourse(props) {
                   .catch(error => console.error('Error:', error))
                   .then(response => {
                       if(response.success===1){ 
-                        console.log(response)
-                        setOpen(true);
+                        settitle("");
+                        setcatid(1);
+                        setdescription("");
+                        setAprice("");
+                        dispatch(message("Course Added Successfully"));
+                        document.getElementById('home').click();
                       }
                   });
              }           
@@ -243,6 +247,7 @@ export default function CreateCourse(props) {
                     <Button type="submit" style={{backgroundColor: RED,color: WHITE,fontSize: '18px' ,fontWeight: '700',padding: '10px',width: '200px'}}>Submit</Button>
                         <br></br>
                         <br></br>
+                        <Link id="home" to="/"></Link>
                     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                         <Alert onClose={handleClose} severity="success">
                             Course Added Successfully

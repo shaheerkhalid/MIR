@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AddtoCart(props) {
   const classes = useStyles();
   const userdata = useSelector(state => state.userid);
+  const isLogged = useSelector(state => state.isLogged);
   return (
     <div className={classes.root}>
       <Grid container spacing={2} justify="center" >
@@ -39,7 +40,7 @@ export default function AddtoCart(props) {
                 </Grid>
                 <Grid item xs={12} style={{marginTop: '10px',textAlign: 'center'}}>
                 <Link id="toPay" to="/Payment"></Link>
-                    {(props.proddata.renter_id!==userdata.user_id)?<Button onClick={()=>{document.getElementById('toPay').click()}} underline='none' style={{backgroundColor: RED,color: WHITE,fontWeight: '700',padding: '15px 30px'}}>{(props.proddata.product_type==="rent")?"Rent Instrument":"Buy Instrument"}</Button>:"You can't rent your own product!"}
+                    {(props.proddata.renter_id===userdata.user_id&&isLogged)?"You can't rent your own product!":<Button onClick={()=>{document.getElementById('toPay').click()}} underline='none' style={{backgroundColor: RED,color: WHITE,fontWeight: '700',padding: '15px 30px'}}>{(props.proddata.product_type==="rent")?"Rent Instrument":"Buy Instrument"}</Button>}
                 </Grid>
       </Grid>
     </div>
