@@ -4,14 +4,13 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
+import {Link} from "react-router-dom";
 import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import {RED, WHITE} from "../../Constants";
 import Radio from '@material-ui/core/Radio';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
 import {useSelector,useDispatch} from 'react-redux';
-import {userid,instructor} from "../../Actions";
+import {userid,instructor,message} from "../../Actions";
 
 
 const useStyles = makeStyles(theme => ({
@@ -31,9 +30,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
 
 export default function AddInstructor() {
     const classes = useStyles();
@@ -47,6 +43,10 @@ export default function AddInstructor() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const requestOptions = {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        };
         fetch('http://localhost:5000/Api/User/AddInstructor',  {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json',
@@ -76,32 +76,17 @@ export default function AddInstructor() {
                     .then(res => res.json())
                     .catch(error => console.error('Error:', error))
                     .then(response => {
+                        console.log(response);
                             if(response.success===1){
-                                fetch(`http://localhost:5000/Api/User/GetInstructor/${userID.user_id}`,{
-                                    method: 'GET',
-                                    headers: { 'Content-Type': 'application/json',
-                                                'Authorization': jsontoken,
-                                            },
-                                        })
-                                .then(res => res.json())
-                                .catch(error => console.error('Error:', error))
-                                .then(response => {
-                                    if(response.success===1){ 
-                                        dispatch(instructor(response.data));
-                                    }
-                                });
-                                fetch(`http://localhost:5000/Api/User/${userID.user_id}`,{
-                                    method: 'GET',
-                                    headers: { 'Content-Type': 'application/json',
-                                                'Authorization': jsontoken,
-                                            },
-                                        })
-                                .then(res => res.json())
-                                .catch(error => console.error('Error:', error))
-                                .then(response => {
-                                    if(response.success===1){ 
-                                        dispatch(userid(response.data));
-                                    }
+                                fetch(`http://localhost:5000/Api/User/GetInstructor/${userID.user_id}`, requestOptions)
+                                    .then(res => res.json())
+                                    .catch(error => console.error('Error:', error))
+                                    .then(response => {
+                                        if(response.success===1){
+                                            dispatch(userid(response.data));
+                                            dispatch(message("You Become an Instructor Successfully"));
+                                            document.getElementById('home').click();
+                                        }
                                 });
                             }
                     });
@@ -136,6 +121,7 @@ export default function AddInstructor() {
                     </Grid>
                     <br></br>
                 </form>
+                <Link id="home" to="/"></Link>
             </div>
         </Container>
     );

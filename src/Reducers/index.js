@@ -17,6 +17,8 @@ import coursedataReducer from './courseData';
 
 import userlistReducer from './userList';
 
+import messageReducer from './message';
+
 import { combineReducers } from 'redux';
 
 const allReducers = combineReducers({
@@ -33,6 +35,7 @@ const allReducers = combineReducers({
     courselist: courseListReducer,
     coursedata: coursedataReducer,
     userlist: userlistReducer,
+    message: messageReducer,
 });
 
 export default allReducers;

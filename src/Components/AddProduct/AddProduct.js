@@ -12,9 +12,9 @@ import {RED, WHITE} from "../../Constants";
 import Radio from '@material-ui/core/Radio';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {useSelector,useDispatch} from 'react-redux';
-import { editProd,prodlist } from "../../Actions";
+import { editProd,prodlist,message } from "../../Actions";
 
 
 const useStyles = makeStyles(theme => ({
@@ -228,17 +228,38 @@ export default function AddProduct(props) {
                                     .catch(error => console.error('Error:', error))
                                     .then(response => {
                                             if(response.success===1){
-                                                console.log(response);
+                                                fetch('http://localhost:5000/Api/Product',  {
+                                            method: 'GET',
+                                            headers: { 'Content-Type': 'application/json' ,
+                                                        'Authorization': jsontoken
+                                                    }
+                                                })
+                                        .then(res => res.json())
+                                        .catch(error => console.error('Error:', error))
+                                        .then(response => {
+                                            if(response.success===1){
+                                                dispatch(editProd(""));
+                                                dispatch(prodlist(response.data));
                                             }
-                                            dispatch(editProd(""));
+                                        });
+                                            }
                                     });
                                     ismain=0;
                                 }
                             });
                         });
                         dispatch(editProd(""));
-                        document.getElementById("addform").reset();
-                        setOpen(true);
+                        setpic("");
+                        setfiles("");
+                        settitle("");
+                        setdescription("");
+                        setcatid(1);
+                        setbrandid(1);
+                        setAprice("");
+                        setDprice("");
+                        setSelectedValue("rent");
+                        dispatch(message("Product Updated Successfully"));
+                        document.getElementById('home').click();
                     }
                 });
             }else{
@@ -305,6 +326,15 @@ export default function AddProduct(props) {
                                         .then(response => {
                                             if(response.success===1){
                                                 dispatch(prodlist(response.data));
+                                                setpic("");
+                                                setfiles("");
+                                                settitle("");
+                                                setdescription("");
+                                                setcatid(1);
+                                                setbrandid(1);
+                                                setAprice("");
+                                                setDprice("");
+                                                setSelectedValue("rent");
                                             }
                                         });
                                 })
@@ -312,18 +342,18 @@ export default function AddProduct(props) {
                             }
                         });
                     });
+                    setpic("");
+                    setfiles("");
+                    settitle("");
+                    setdescription("");
+                    setcatid(1);
+                    setbrandid(1);
+                    setAprice("");
+                    setDprice("");
+                    setSelectedValue("rent");
+                    dispatch(message("Product Added Successfully"));
+                    document.getElementById('home').click();
                 }
-                document.getElementById("addform").reset();
-                setpic("");
-                setfiles("");
-                settitle("");
-                setdescription("");
-                setcatid(1);
-                setbrandid(1);
-                setAprice("");
-                setDprice("");
-                setSelectedValue("rent");
-                setOpen(true);
             });
             }
         }
@@ -446,7 +476,8 @@ export default function AddProduct(props) {
                         } style={{backgroundColor: WHITE,fontSize: '18px' ,fontWeight: '700',padding: '10px',width: '200px'}}>Cancel</Button>:""}
                         <br></br>
                         <br></br>
-                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                        <Link id="home" to="/"></Link>
+                    <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
                         <Alert onClose={handleClose} severity="success">
                             Product Added Successfully
                         </Alert>

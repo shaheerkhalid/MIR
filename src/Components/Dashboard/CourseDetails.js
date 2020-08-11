@@ -107,7 +107,7 @@ export default function CourseDetails() {
 
             </form>
             <Grid container spacing={3} style={{marginTop:'20px',marginBottom:'20px'}}>
-                <Grid item xs={12} sm={4} justify="center" style={{display: 'flex',flexDirection: 'row',justifyContent: 'center'}}>
+                <Grid item xs={12} sm={4} style={{display: 'flex',flexDirection: 'row',justifyContent: 'center'}}>
                     <Avatar alt={""} src={coursedata.course_pic} className={classes.large} />
                 </Grid>
                 <Grid item xs={12} sm={8}>
@@ -128,20 +128,54 @@ export default function CourseDetails() {
                 </Grid>
                 <Grid item xs={12}>
                   <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap',}}>
-                    {(videos!=="")?videos.map(vid =>
+                    {(videos[0])?videos.map(vid =>
                       <div style={{padding: '0px 15px 0px 15px'}}> 
                         <video width={200} height={150} controls>
                           <source src={vid.video_file_name} type="video/mp4" />
                         </video>
-                        <p style={{fontSize: '16px'}}>{vid.title}</p>
+                        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between',width: '200px'}}>
+                          <p style={{fontSize: '16px', fontWeight: 'bold'}}>{vid.title}</p>
+                          <Button style={{height:'22px', fontSize: '11px'}} size="small" color="secondary" variant="contained" onClick={()=>{
+                            fetch(`http://localhost:5000/Api/Course/ByLessonID`,  {
+                              method: 'PATCH',
+                              headers: { 'Content-Type': 'application/json' ,
+                                          'Authorization': jsontoken
+                                      },
+                              body: JSON.stringify({
+                                "status":0,
+                                "lessonid":vid.lesson_id,
+                              })  
+                                  })
+                            
+                          .then(res => res.json())
+                          .catch(error => console.error('Error:', error))
+                          .then(response => {
+                              if(response.success===1){
+                                fetch(`http://localhost:5000/Api/Course/LessonByCourseId/${coursedata.course_id}`,  {
+                                      method: 'GET',
+                                      headers: { 'Content-Type': 'application/json' ,
+                                                  'Authorization': jsontoken
+                                              }
+                                          })
+                                  .then(res => res.json())
+                                  .catch(error => console.error('Error:', error))
+                                  .then(response => {
+                                      if(response.success===1){
+                                        setvideos(response.data);
+                                      }
+                                });
+                              }
+                          });
+                          }}>Delete</Button>
+                        </div>
                       </div>
-                    ):null}
+                    ):<div><span>There is no video lesson in this course!</span></div>}
                   </div>
                 </Grid>
                 <Grid item xs={12}>
                     <Paper elevation={0} style={{width: '100%',padding: '5px',backgroundColor:WHITE}}><Typography variant='h5' style={{color: 'grey'}}>Reviews: </Typography></Paper>
                 </Grid>
-                {reviews.map(review => <Grid style={{borderBottom: '1px solid grey'}} item xs={12}>
+                {(reviews[0])?reviews.map(review => <Grid style={{borderBottom: '1px solid grey'}} item xs={12}>
                     <div style={{display: 'flex',flexDirection: 'row',justifyContent: 'space-between'}}>
                       <div><span style={{fontWeight: 'bold'}}>{userlist.filter(user => user.user_id === review.reviewer_id)[0].full_name}</span></div>
                       <div><span style={{fontWeight: 'bold'}}>Date: </span><span>{review.date_added}</span></div>
@@ -155,7 +189,9 @@ export default function CourseDetails() {
                         /></div>
                     </div>
                 </Grid>
-                )}
+                ):<Grid item xs={12}>
+                    <div><span>There are no reviews!</span></div>
+                  </Grid>}
             </Grid>
             <div>
       <Dialog open={open} aria-labelledby="form-dialog-title">
@@ -225,6 +261,9 @@ export default function CourseDetails() {
                                 .then(response => {
                                     if(response.success===1){
                                       setvideos(response.data);
+                                      settitle("");
+                                      setvideofile("");
+                                      setfilename("");
                                     }
                               })
                               setOpen(false);

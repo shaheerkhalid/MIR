@@ -87,7 +87,7 @@ export default function ProductView() {
                 <Grid item xs={12}>
                     <Paper elevation={0} style={{width: '100%',padding: '10px',backgroundColor:WHITE}}><Typography variant='h5' style={{color: 'grey'}}>Reviews: </Typography></Paper>
                 </Grid>
-                {reviews.map(review => <Grid style={{borderBottom: '1px solid grey'}} item xs={12}>
+                {(reviews[0])?reviews.map(review => <Grid style={{borderBottom: '1px solid grey'}} item xs={12}>
                     <div style={{display: 'flex',flexDirection: 'row',justifyContent: 'space-between'}}>
                       <div><span style={{fontWeight: 'bold'}}>{userlist.filter(user => user.user_id === review.rentee_id)[0].full_name}</span></div>
                       <div><span style={{fontWeight: 'bold'}}>Date: </span><span>{review.date_added}</span></div>
@@ -101,7 +101,9 @@ export default function ProductView() {
                         /></div>
                     </div>
                 </Grid>
-                )}
+                ):<Grid item xs={12}>
+                <div><span>There are no reviews!</span></div>
+              </Grid>}
             </Grid>
         </Grid>
       </Grid>
