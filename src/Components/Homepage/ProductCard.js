@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
 import {proddata} from "../../Actions";
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
   cardstyle: {
@@ -21,7 +22,22 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProductCard({card_data}){
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [ratings, setratings] = React.useState({rating:0});
+  
+  React.useEffect(() => {
+    fetch(`http://localhost:5000/Api/Product/GetRating/${card_data.product_id}`,  {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json'
+                }
+            })
+      .then(res => res.json())
+      .catch(error => console.error('Error:', error))
+      .then(response => {
+          if(response.success===1){
+              setratings(response.data[0]);
+          }
+      });  
+  }, [ratings]);
   
   const dispatch = useDispatch();
 
@@ -45,9 +61,12 @@ export default function ProductCard({card_data}){
           }}>Rs. {(card_data.product_type==="rent")?card_data.price_per_day +"/Day":card_data.actual_price}</label>
           <Rating
           name="read-only"
-          value={value}
+          value={ratings.rating}
           readOnly
         />
+        <div style={{height: '60px', overflow: 'hidden'}}>
+          <Typography variant="h5">{card_data.title}</Typography>
+        </div>
   </div>
 
   const footer = <span>
@@ -58,7 +77,7 @@ export default function ProductCard({card_data}){
   
   
   return (
-        <Card className={classes.cardstyle} header={header} footer={footer} title={card_data.title} subTitle={"Net Worth: Rs. "+card_data.actual_price} style={{padding:'10px'}}>
+        <Card className={classes.cardstyle} header={header} footer={footer} subTitle={"Net Worth: Rs. "+card_data.actual_price} style={{padding:'10px'}}>
         </Card>   
   );
 }

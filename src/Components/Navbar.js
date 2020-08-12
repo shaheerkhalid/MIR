@@ -44,7 +44,7 @@ export default function Navbar() {
                 <li className="nav-item">
                     <Link className="nav-link" to="/Courses">Courses</Link>
                 </li>
-                {(isLogged&&userdata.user_type!=="instructor")&&<li className="nav-item">
+                {(isLogged&&(userdata.user_type!=="instructor"&&userdata.user_type!=="admin"))&&<li className="nav-item">
                     <Link className="nav-link" to="/AddInstructor">Become an Instructor</Link>
                 </li>}
                 <li className="nav-item">
@@ -77,7 +77,7 @@ export default function Navbar() {
                 </span>
                 }
                 
-                {(isLogged&&userdata.user_type==="instructor")?<span className="navbar-text">
+                {(isLogged&&(userdata.user_type==="instructor"||userdata.user_type==="admin"))?<span className="navbar-text">
                 <div className="dropdown" style={{marginRight: '10px'}}>
                     <Button style={{backgroundColor: RED,color: WHITE,fontWeight: '700',padding: '7px 30px'}} id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Post +</Button>
                     <div className="dropdown-menu" style={{position:'realtive', left: '-50px', top: '50px'}} aria-labelledby="dropdownMenuLink">

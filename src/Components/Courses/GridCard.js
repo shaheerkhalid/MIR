@@ -21,7 +21,22 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProductCard({card_data}){
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [ratings, setratings] = React.useState({rating:0});
+  
+  React.useEffect(() => {
+    fetch(`http://localhost:5000/Api/Course/GetRating/${card_data.course_id}`,  {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json'
+                }
+            })
+      .then(res => res.json())
+      .catch(error => console.error('Error:', error))
+      .then(response => {
+          if(response.success===1){
+              setratings(response.data[0]);
+          }
+      });  
+  }, [ratings]);
   
   const dispatch = useDispatch();
 
@@ -36,7 +51,7 @@ export default function ProductCard({card_data}){
     </div>
     <Rating
           name="read-only"
-          value={value}
+          value={ratings.rating}
           readOnly
         />
         <div style={{height: '60px', overflow: 'hidden'}}>
