@@ -201,6 +201,17 @@ export default function AddProduct(props) {
                     if(response.success===1){
                         prodid=edit.productid;
                         var form = document.getElementById("myform");
+                        files[0]&& fetch(`http://localhost:5000/Api/Product/DeletePics/${prodid}`,  {
+                            method: 'DELETE',
+                            headers: { 'Content-Type': 'application/json',
+                                        'Authorization': jsontoken,
+                                    }
+                                })
+                            .then(res => res.json())
+                            .catch(error => console.error('Error:', error))
+                            .then(response => {
+
+                            });
                         Array.from(files).forEach(f => {
                             var formData = new FormData(form);
                             formData.append('product', f);
@@ -217,8 +228,8 @@ export default function AddProduct(props) {
                                         "picname" : response.product_url,
                                         "ismain" : ismain
                                     }
-                                    fetch('http://localhost:5000/Api/Product/UpdatePicture',  {
-                                        method: 'PATCH',
+                                    fetch('http://localhost:5000/Api/Product/Picture',  {
+                                        method: 'POST',
                                         headers: { 'Content-Type': 'application/json',
                                                     'Authorization': jsontoken,
                                                 },
@@ -227,39 +238,47 @@ export default function AddProduct(props) {
                                     .then(res => res.json())
                                     .catch(error => console.error('Error:', error))
                                     .then(response => {
-                                            if(response.success===1){
-                                                fetch('http://localhost:5000/Api/Product',  {
-                                            method: 'GET',
-                                            headers: { 'Content-Type': 'application/json' ,
-                                                        'Authorization': jsontoken
-                                                    }
-                                                })
-                                        .then(res => res.json())
-                                        .catch(error => console.error('Error:', error))
-                                        .then(response => {
-                                            if(response.success===1){
-                                                dispatch(editProd(""));
-                                                dispatch(prodlist(response.data));
-                                            }
-                                        });
-                                            }
-                                    });
+                                            fetch('http://localhost:5000/Api/Product',  {
+                                                method: 'GET',
+                                                headers: { 'Content-Type': 'application/json' ,
+                                                            'Authorization': jsontoken
+                                                        }
+                                                    })
+                                            .then(res => res.json())
+                                            .catch(error => console.error('Error:', error))
+                                            .then(response => {
+                                                if(response.success===1){
+                                                    dispatch(editProd(""));
+                                                    dispatch(prodlist(response.data));
+                                                    setpic("");
+                                                    setfiles("");
+                                                    settitle("");
+                                                    setdescription("");
+                                                    setcatid(1);
+                                                    setbrandid(1);
+                                                    setAprice("");
+                                                    setDprice("");
+                                                    setSelectedValue("rent");
+                                                }
+                                            });
+                                    })
                                     ismain=0;
                                 }
                             });
                         });
-                        dispatch(editProd(""));
-                        setpic("");
-                        setfiles("");
-                        settitle("");
-                        setdescription("");
-                        setcatid(1);
-                        setbrandid(1);
-                        setAprice("");
-                        setDprice("");
-                        setSelectedValue("rent");
-                        dispatch(message("Product Updated Successfully"));
-                        document.getElementById('home').click();
+                    
+                    dispatch(editProd(""));
+                    setpic("");
+                    setfiles("");
+                    settitle("");
+                    setdescription("");
+                    setcatid(1);
+                    setbrandid(1);
+                    setAprice("");
+                    setDprice("");
+                    setSelectedValue("rent");
+                    dispatch(message("Product Updated Successfully"));
+                    document.getElementById('home').click();
                     }
                 });
             }else{

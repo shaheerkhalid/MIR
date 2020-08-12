@@ -9,6 +9,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import {useSelector,useDispatch} from 'react-redux';
 import {courselist,coursedata} from "../../Actions";
 import {Link} from 'react-router-dom';
@@ -34,7 +39,9 @@ export default function Courses() {
   const allcourses = useSelector(state => state.courselist);
   const jsontoken = useSelector(state => state.jsontoken);
   const user = useSelector(state => state.userid);
-  // const edit = useSelector(state => state.editprod);
+  
+  const [open, setOpen] = React.useState(false);
+  const [courseID, setcourseID] = React.useState("");
 
   let rows = allcourses.filter(course => user.instructor_id === course.instructor_id);
   
@@ -47,6 +54,14 @@ export default function Courses() {
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
 
@@ -95,37 +110,8 @@ export default function Courses() {
                             dispatch(coursedata(rows.filter(course => course.course_id === row.course_id)[0]));
                             document.getElementById('courselink').click();
                         }}>View</Button> <Button size="small" color="secondary" variant="contained" onClick={()=>{
-                            fetch(`http://localhost:5000/Api/Course/ByCourseID`,  {
-                              method: 'PATCH',
-                              headers: { 'Content-Type': 'application/json' ,
-                                          'Authorization': jsontoken
-                                      },
-                              body: JSON.stringify({
-                                "status":0,
-                                "courseid":row.course_id
-                              })  
-                                  })
-                            
-                          .then(res => res.json())
-                          .catch(error => console.error('Error:', error))
-                          .then(response => {
-                              if(response.success===1){
-                                fetch('http://localhost:5000/Api/Course',  {
-                                  method: 'GET',
-                                  headers: { 'Content-Type': 'application/json' ,
-                                              'Authorization': jsontoken
-                                          }
-                                      })
-                              .then(res => res.json())
-                              .catch(error => console.error('Error:', error))
-                              .then(response => {
-                                  if(response.success===1){
-                                      dispatch(courselist(response.data));
-                                  }
-                              });
-                              }
-                          });
-            
+                          setcourseID(row.course_id);
+                          setOpen(true);
                           }}> Delete</Button>
 
                       </TableCell>
@@ -145,6 +131,51 @@ export default function Courses() {
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
     </Paper>
+    <div>
+      <Dialog open={open} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Do you really want to delete this item?</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={()=>{
+              fetch(`http://localhost:5000/Api/Course/ByCourseID`,  {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' ,
+                            'Authorization': jsontoken
+                        },
+                body: JSON.stringify({
+                  "status":0,
+                  "courseid":courseID
+                })  
+                    })
+              
+            .then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                if(response.success===1){
+                  fetch('http://localhost:5000/Api/Course',  {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' ,
+                                'Authorization': jsontoken
+                            }
+                        })
+                .then(res => res.json())
+                .catch(error => console.error('Error:', error))
+                .then(response => {
+                    if(response.success===1){
+                        dispatch(courselist(response.data));
+                        setOpen(false);
+                    }
+                });
+                }
+            });
+          }} color="primary">
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
     </div>:<div></div>
   );
 }

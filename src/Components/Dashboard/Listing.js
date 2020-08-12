@@ -9,6 +9,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import {useSelector,useDispatch} from 'react-redux';
 import {prodlist,editProd} from "../../Actions";
 import {Link} from 'react-router-dom';
@@ -36,7 +41,8 @@ export default function Listing() {
   const allproducts = useSelector(state => state.prodlist);
   const jsontoken = useSelector(state => state.jsontoken);
   const user = useSelector(state => state.userid);
-  // const edit = useSelector(state => state.editprod);
+  const [open, setOpen] = React.useState(false);
+  const [prodid, setprodid] = React.useState("");
 
   let rows = allproducts.filter(prod => user.user_id === prod.renter_id);
   
@@ -51,6 +57,13 @@ export default function Listing() {
     setPage(0);
   };
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     (rows !== null)?
@@ -97,37 +110,8 @@ export default function Listing() {
                             dispatch(editProd(rows.filter(prod => prod.product_id === row.product_id)[0]));
                             document.getElementById('editlink').click();
                         }}>Edit</Button> <Button size="small" color="secondary" variant="contained" onClick={()=>{
-                          fetch(`http://localhost:5000/Api/Product/ByUserID`,  {
-                            method: 'PATCH',
-                            headers: { 'Content-Type': 'application/json' ,
-                                        'Authorization': jsontoken
-                                    },
-                            body: JSON.stringify({
-                              "status":0,
-                              "productid":row.product_id
-                            })  
-                                })
-                          
-                        .then(res => res.json())
-                        .catch(error => console.error('Error:', error))
-                        .then(response => {
-                            if(response.success===1){
-                              fetch('http://localhost:5000/Api/Product',  {
-                                method: 'GET',
-                                headers: { 'Content-Type': 'application/json' ,
-                                            'Authorization': jsontoken
-                                        }
-                                    })
-                            .then(res => res.json())
-                            .catch(error => console.error('Error:', error))
-                            .then(response => {
-                                if(response.success===1){
-                                    dispatch(prodlist(response.data));
-                                }
-                            });
-                            }
-                        });
-          
+                          setprodid(row.product_id);
+                          setOpen(true);
                         }}> Delete</Button>
                         
                       </TableCell>
@@ -147,6 +131,51 @@ export default function Listing() {
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
     </Paper>
+    <div>
+      <Dialog open={open} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Do you really want to delete this item?</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={()=>{
+              fetch(`http://localhost:5000/Api/Product/ByUserID`,  {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' ,
+                            'Authorization': jsontoken
+                        },
+                body: JSON.stringify({
+                  "status":0,
+                  "productid":prodid
+                })  
+                    })
+              
+            .then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                if(response.success===1){
+                  fetch('http://localhost:5000/Api/Product',  {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' ,
+                                'Authorization': jsontoken
+                            }
+                        })
+                .then(res => res.json())
+                .catch(error => console.error('Error:', error))
+                .then(response => {
+                    if(response.success===1){
+                        dispatch(prodlist(response.data));
+                        handleClose();
+                    }
+                });
+                }
+            });
+          }} color="primary">
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
     </div>:<div></div>
   );
 }

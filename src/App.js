@@ -69,6 +69,12 @@ export default function App(){
                    <Route path="/ProfileView" exact>
                          <ProfileView/>
                    </Route>
+                   <Route path="/Dashboard/AllProducts" exact>
+                        {isLogged ? <Userdashboard/>: <Redirect to="/" />}
+                   </Route>
+                   <Route path="/Dashboard/AllCourses" exact>
+                        {isLogged ? <Userdashboard/>: <Redirect to="/" />}
+                   </Route>
                    <Route path="/Dashboard/Listing" exact>
                         {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>

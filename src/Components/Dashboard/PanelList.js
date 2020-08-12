@@ -62,6 +62,12 @@ export function PanelListL() {
               <ListItem className={classes.listitem}>
                   <Link className={classes.links} color='primary' underline='none' to="/Dashboard">Profile Information</Link>
               </ListItem>
+              {(userData.user_type==="admin")&&<ListItem className={classes.listitem}>
+                <Link className={classes.links} color='primary' underline='none' to="/Dashboard/AllProducts">All Products</Link>
+              </ListItem>}
+              {(userData.user_type==="admin")&&<ListItem className={classes.listitem}>
+                <Link className={classes.links} color='primary' underline='none' to="/Dashboard/AllCourses">All Courses</Link>
+              </ListItem>}
               <ListItem className={classes.listitem}>
                 <Link className={classes.links} color='primary' underline='none' to="/Dashboard/Listing">Products Listing</Link>
               </ListItem>
@@ -80,7 +86,7 @@ export function PanelListL() {
               <ListItem className={classes.listitem}>
                 <Link className={classes.links} color='primary' underline='none' to="/Dashboard/EnrolledCourses">Enrolled Courses</Link>
               </ListItem>
-              {(userData.user_type==="instructor")&&<ListItem className={classes.listitem}>
+              {(userData.user_type==="instructor"||userData.user_type==="admin")&&<ListItem className={classes.listitem}>
                 <Link className={classes.links} color='primary' underline='none' to="/Dashboard/Courses">Courses</Link>
               </ListItem>}
               <ListItem className={classes.listitem}>
@@ -123,6 +129,12 @@ export function PanelListS() {
                 <ListItem >
                   <Link className={classes.links} name='Profile Information' color='primary' underline='none' to="/Dashboard" onClick={handleTag}>Profile Information</Link>
                 </ListItem>
+                {(userData.user_type==="admin")&&<ListItem >
+                  <Link className={classes.links} name='All Products' color='primary' underline='none' to="/Dashboard/AllProducts" onClick={handleTag}>All Products</Link>
+                </ListItem>}
+                {(userData.user_type==="admin")&&<ListItem >
+                  <Link className={classes.links} name='All Courses' color='primary' underline='none' to="/Dashboard/AllCourses" onClick={handleTag}>All Courses</Link>
+                </ListItem>}
                 <ListItem >
                   <Link className={classes.links} name='Product Listing' color='primary' underline='none' to="/Dashboard/Listing" onClick={handleTag}>Product Listing</Link>
                 </ListItem>
@@ -141,7 +153,7 @@ export function PanelListS() {
                 <ListItem >
                   <Link className={classes.links} name='Enrolled Courses' color='primary' underline='none' to="/Dashboard/EnrolledCourses" onClick={handleTag}>Enrolled Courses</Link>
                 </ListItem>
-                {(userData.user_type==="instructor")&&<ListItem >
+                {(userData.user_type==="instructor"||userData.user_type==="admin")&&<ListItem >
                   <Link className={classes.links} name='Courses' color='primary' underline='none' to="/Dashboard/Courses" onClick={handleTag}>Courses</Link>
                 </ListItem>}
                 <ListItem >

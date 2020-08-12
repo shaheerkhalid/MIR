@@ -96,7 +96,7 @@ export default function SignInSide() {
             if(response.success===1){
                 dispatch(jsontoken("Bearer "+response.token));
                 dispatch(isLog());
-                (response.data.user_type==="instructor")?
+                (response.data.user_type==="instructor"||response.data.user_type==="admin")?
                     fetch('http://localhost:5000/Api/User/instructordata', requestOptions)
                         .then(res => res.json())
                         .catch(error => console.error('Error:', error))

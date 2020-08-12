@@ -9,6 +9,8 @@ import Grid from '@material-ui/core/Grid';
 import {PanelListL ,PanelListS} from './PanelList';
 import ProfileInfo from './ProfileInfo';
 import ProfileInformation from './ProfileInformation';
+import AllProducts from './AllProducts';
+import AllCourses from './AllCourses';
 import Listing from './Listing';
 import SellerHistory from './SellerHistory';
 import RenteeHistory from './RenteeHistory';
@@ -51,6 +53,10 @@ export default function ProductListing() {
        content = <ProfileInformation/>
     }else if(match==='/Dashboard/EditProfile'){
         content = <ProfileInfo/>
+    }else if(match==='/Dashboard/AllProducts'){
+        content = <AllProducts/>
+    }else if(match==='/Dashboard/AllCourses'){
+        content = <AllCourses/>
     }else if(match==='/Dashboard/Listing'){
        content = <Listing/>
     }else if(match==='/Dashboard/SellerHistory'){

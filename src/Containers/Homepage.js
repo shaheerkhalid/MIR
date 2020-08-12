@@ -3,7 +3,7 @@ import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import Header from '../Components/Homepage/Header';
 import Info from '../Components/Homepage/Info';
-import {prodlist,userlist,message} from "../Actions";
+import {prodlist,userlist,message,courselist} from "../Actions";
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 import ProductList from '../Components/Homepage/ProductList';
@@ -56,6 +56,19 @@ export default function Home() {
                 .then(response => {
                     if(response.success===1){
                         dispatch(userlist(response.data));
+                    }
+        });
+        fetch('http://localhost:5000/Api/Course',  {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' ,
+                                'Authorization': jsontoken
+                            }
+                        })
+                .then(res => res.json())
+                .catch(error => console.error('Error:', error))
+                .then(response => {
+                    if(response.success===1){
+                        dispatch(courselist(response.data));
                     }
         });
     },[]);

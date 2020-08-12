@@ -39,6 +39,9 @@ export default function CourseDetails() {
   const [videofile, setvideofile] = React.useState("");
   const [filename, setfilename] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  
+  const [open1, setOpen1] = React.useState(false);
+  const [lessid, setlessid] = React.useState("");
 
   const [videos, setvideos] = React.useState("");
 
@@ -95,6 +98,14 @@ export default function CourseDetails() {
     setOpen(false);
   };
 
+  const handleClickOpen1 = () => {
+    setOpen1(true);
+  }
+
+  const handleClose1 = () => {
+    setOpen1(false);
+  };
+
   const newVideo = e => {
     setvideofile(e.target.files[0]);
     setfilename(e.target.files[0].name);
@@ -136,36 +147,8 @@ export default function CourseDetails() {
                         <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between',width: '200px'}}>
                           <p style={{fontSize: '16px', fontWeight: 'bold'}}>{vid.title}</p>
                           <Button style={{height:'22px', fontSize: '11px'}} size="small" color="secondary" variant="contained" onClick={()=>{
-                            fetch(`http://localhost:5000/Api/Course/ByLessonID`,  {
-                              method: 'PATCH',
-                              headers: { 'Content-Type': 'application/json' ,
-                                          'Authorization': jsontoken
-                                      },
-                              body: JSON.stringify({
-                                "status":0,
-                                "lessonid":vid.lesson_id,
-                              })  
-                                  })
-                            
-                          .then(res => res.json())
-                          .catch(error => console.error('Error:', error))
-                          .then(response => {
-                              if(response.success===1){
-                                fetch(`http://localhost:5000/Api/Course/LessonByCourseId/${coursedata.course_id}`,  {
-                                      method: 'GET',
-                                      headers: { 'Content-Type': 'application/json' ,
-                                                  'Authorization': jsontoken
-                                              }
-                                          })
-                                  .then(res => res.json())
-                                  .catch(error => console.error('Error:', error))
-                                  .then(response => {
-                                      if(response.success===1){
-                                        setvideos(response.data);
-                                      }
-                                });
-                              }
-                          });
+                            setlessid(vid.lesson_id);
+                            setOpen1(true)
                           }}>Delete</Button>
                         </div>
                       </div>
@@ -274,6 +257,51 @@ export default function CourseDetails() {
               }
           }} color="primary">
             Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+    <div>
+      <Dialog open={open1} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Do you really want to delete this video?</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleClose1} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={()=>{
+              fetch(`http://localhost:5000/Api/Course/ByLessonID`,  {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' ,
+                            'Authorization': jsontoken
+                        },
+                body: JSON.stringify({
+                  "status":0,
+                  "lessonid":lessid,
+                })  
+                    })
+              
+            .then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                if(response.success===1){
+                  fetch(`http://localhost:5000/Api/Course/LessonByCourseId/${coursedata.course_id}`,  {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' ,
+                                    'Authorization': jsontoken
+                                }
+                            })
+                    .then(res => res.json())
+                    .catch(error => console.error('Error:', error))
+                    .then(response => {
+                        if(response.success===1){
+                          setvideos(response.data);
+                          handleClose1();
+                        }
+                  });
+                }
+            });
+          }} color="primary">
+            Confirm
           </Button>
         </DialogActions>
       </Dialog>
