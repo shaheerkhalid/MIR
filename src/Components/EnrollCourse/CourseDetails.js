@@ -154,6 +154,7 @@ const makePayment = token => {
                     </Grid>
                     <Grid item xs={12} sm={2}></Grid>
                     <Grid item xs={12} sm={6}>
+                        <Link to="/InstructorProfile">See Profile</Link>
                         <Typography style={{marginTop: '10px'}} variant="h5">Title: <span style={{fontSize: '16px'}}>{coursedata.title}</span></Typography>
                         <Typography variant="h6">Description: <span style={{fontSize: '16px'}}>{coursedata.description}</span></Typography>
                         

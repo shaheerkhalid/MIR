@@ -18,6 +18,7 @@ import coursedataReducer from './courseData';
 import userlistReducer from './userList';
 
 import messageReducer from './message';
+import emailReducer from './email';
 
 import { combineReducers } from 'redux';
 
@@ -36,6 +37,7 @@ const allReducers = combineReducers({
     coursedata: coursedataReducer,
     userlist: userlistReducer,
     message: messageReducer,
+    email: emailReducer,
 });
 
 export default allReducers;

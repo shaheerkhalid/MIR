@@ -15,12 +15,15 @@ import Contact from './Containers/Contact';
 import AddProduct from './Containers/AddProduct';
 import ProductView from './Containers/ProductView';
 import ProfileView from './Containers/ProfileView';
+import InstructorProfile from './Containers/InstructorProfile';
 import Payment from './Containers/Payment';
 import AddInstructor from './Containers/AddInstructor';
 import {useSelector} from 'react-redux';
 import CreateCourse from './Containers/CreateCourse';
 import Courses from './Containers/Courses';
 import EnrollCourse from './Containers/EnrollCourse';
+import ForgotPassword from './Containers/ForgotPassword';
+import ResetPassword from './Containers/ResetPassword';
 
 export default function App(){
 
@@ -69,6 +72,9 @@ export default function App(){
                    <Route path="/ProfileView" exact>
                          <ProfileView/>
                    </Route>
+                   <Route path="/InstructorProfile" exact>
+                         <InstructorProfile/>
+                   </Route>
                    <Route path="/Dashboard/AllProducts" exact>
                         {isLogged ? <Userdashboard/>: <Redirect to="/" />}
                    </Route>
@@ -110,6 +116,12 @@ export default function App(){
                    </Route>
                    <Route path="/EnrollCourse" exact>
                          <EnrollCourse/>
+                   </Route>
+                   <Route path="/ForgotPassword" exact>
+                         <ForgotPassword/>
+                   </Route>
+                   <Route path="/ResetPassword" exact>
+                         <ResetPassword/>
                    </Route>
                </Switch>
            </Router>

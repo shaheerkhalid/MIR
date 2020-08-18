@@ -13,8 +13,12 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import {RED} from "../Constants"
 import { makeStyles } from "@material-ui/core/styles";
-import {isLog, jsontoken, userid} from "../Actions";
-import {useDispatch} from 'react-redux';
+import {isLog, jsontoken, userid, message} from "../Actions";
+import {useDispatch, useSelector} from 'react-redux';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -68,6 +72,20 @@ export default function SignInSide() {
     const [email, setemail] = React.useState(null);
     const [pass, setpass] = React.useState(null);
     const [helptext, sethelptext] = React.useState("");
+    const messagepop = useSelector(state => state.message);
+    const [open, setOpen] = React.useState(messagepop!==""?true:false);
+
+    function Alert(props) {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        dispatch(message(""));
+        setOpen(false);
+    };
 
     const handleEmail = e => {
         setemail(e.target.value);
@@ -179,7 +197,7 @@ export default function SignInSide() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link to="" variant="body2">
+                                <Link to="/ForgotPassword" variant="body2">
                                     Forgot password?
                                 </Link>
                             </Grid>
@@ -195,6 +213,13 @@ export default function SignInSide() {
                     </form>
                 </div>
             </Grid>
+            <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+                {messagepop==="Password Changed Successfully"?<Alert onClose={handleClose} severity="success">
+                    Password Changed Successfully
+                </Alert>:messagepop==="Mail Sent! Check Your Mail"&&<Alert onClose={handleClose} severity="success">
+                    Mail Sent! Check Your Mail
+                </Alert>}
+            </Snackbar>
         </Grid>
     );
 }

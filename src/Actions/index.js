@@ -104,3 +104,10 @@ export const message = (data) => {
         payload: data
     };
 };
+
+export const Email = (data) => {
+    return {
+        type: 'EMAIL',
+        payload: data
+    };
+};

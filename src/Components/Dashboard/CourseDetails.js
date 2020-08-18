@@ -139,6 +139,7 @@ export default function CourseDetails() {
                 </Grid>
                 <Grid item xs={12}>
                   <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap',}}>
+                    {console.log(videos)}
                     {(videos[0])?videos.map(vid =>
                       <div style={{padding: '0px 15px 0px 15px'}}> 
                         <video width={200} height={150} controls>

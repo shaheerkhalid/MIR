@@ -71,7 +71,9 @@ export default function ProfileInformation() {
                     <Typography variant="h6">Email Address: <span style={{fontSize: '16px'}}>{userdata.email}</span></Typography>
                     <Typography variant="h6">Phone: <span style={{fontSize: '16px'}}>{userdata.phone}</span></Typography>
                     <Typography variant="h6">Address: <span style={{fontSize: '16px'}}>{userdata.address}</span></Typography> 
-                    
+                    {(userdata.user_type==="instructor"||userdata.user_type==="admin")&&<Typography variant="h6">Expertise: <span style={{fontSize: '16px'}}>{userdata.expertise}</span></Typography>}
+                    {(userdata.user_type==="instructor"||userdata.user_type==="admin")&&<Typography variant="h6">Experience: <span style={{fontSize: '16px'}}>{userdata.experience}</span></Typography>}
+                    {(userdata.user_type==="instructor"||userdata.user_type==="admin")&&<Typography variant="h6">Description: <span style={{fontSize: '16px'}}>{userdata.description}</span></Typography>}
                     <Typography variant="h6">About: </Typography>
                     <span >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
                       {userdata.about}    
